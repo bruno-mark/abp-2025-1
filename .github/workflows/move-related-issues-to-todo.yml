@@ -1,0 +1,59 @@
+name: Move Related Issues to TODO
+
+on:
+  issues:
+    types: [edited]
+
+jobs:
+  move-parent-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Atualizar Issues Relacionadas para TODO
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const github = require('@actions/github');
+
+            // Define o nome da coluna que representa TODO
+            const TODO_LABEL = "TODO";
+
+            // Se a issue não tem o label TODO, não faz nada
+            if (!issue.labels.some(label => label.name === TODO_LABEL)) {
+              console.log("A issue não foi movida para TODO, então nada será feito.");
+              return;
+            }
+
+            // Busca todas as issues do repositório
+            const { data: allIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open"
+            });
+
+            // Filtra para encontrar issues que fazem referência a essa Task
+            const parentIssues = allIssues.filter(parentIssue =>
+              parentIssue.body.includes(`#${issue.number}`) &&
+              parentIssue.number !== issue.number
+            );
+
+            console.log(`Foram encontradas ${parentIssues.length} User Stories ou Epics relacionadas.`);
+
+            // Atualiza cada User Story ou Epic para TODO
+            for (const parent of parentIssues) {
+              const existingLabels = parent.labels.map(label => label.name);
+              
+              if (!existingLabels.includes(TODO_LABEL)) {
+                existingLabels.push(TODO_LABEL);
+                
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: parent.number,
+                  labels: existingLabels
+                });
+
+                console.log(`Movida para TODO: #${parent.number}`);
+              }
+            }
