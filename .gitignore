@@ -1,0 +1,9 @@
+# Ignorar node_modules para backend e frontend
+backend/node_modules/
+frontend/node_modules/
+
+# Ignorar variáveis de ambiente
+.env
+
+# Ignorar volumes do Docker
+postgres_data/
