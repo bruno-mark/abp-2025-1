@@ -16,7 +16,7 @@ db.connect()
   .catch(err => console.error('❌ Erro ao conectar:', err));
 
 app.get('/', (req, res) => {
-  res.send('🚀 API rodando com sucesso!');
+  res.send('🚀 API rodando com sucesso e com deploy automático!');
 });
 
 app.listen(port, () => {
