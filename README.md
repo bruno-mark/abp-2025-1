@@ -14,20 +14,53 @@
 
 ## REQUISITOS FUNCIONAIS
 
-<p>
-RF01 – Fazer a ingestão de dados no sistema a partir de uma fonte tal como um arquivo CSV; <br>
-RF02 – (opcional) Fazer o gerenciamento dos dados do sistema (CRUD) através da interface da
-aplicação, permitindo que a secretaria acadêmica/coordenação altere os dados por meio de uma
-tela da aplicação; <br>
-RF03 – Garantir que o cadastro ou a ingestão de dados satisfaça as regras básicas de alocação da
-faculdade (ex.: duas turmas diferentes não podem ser alocadas na mesma sala, e um professor
-não pode ter duas turmas no mesmo horário); <br>
-RF04 – Permitir que o sistema exporte relatórios/mapas de ambientes e horários em formato PDF; <br>
-RF05 – Permitir consultas no sistema (ex.: por turma, turno, professor, data) para apoiar a gestão
-da faculdade.
-</p>
+<ul>
+ <li>
+  RF01 – Fazer a ingestão de dados no sistema a partir de uma fonte tal como um arquivo CSV;
+ </li>
+ <li>
+  RF02 – (opcional) Fazer o gerenciamento dos dados do sistema (CRUD) através da interface da
+  aplicação, permitindo que a secretaria acadêmica/coordenação altere os dados por meio de uma
+  tela da aplicação;
+ </li>
+ <li>
+  RF03 – Garantir que o cadastro ou a ingestão de dados satisfaça as regras básicas de alocação da
+  faculdade (ex.: duas turmas diferentes não podem ser alocadas na mesma sala, e um professor
+  não pode ter duas turmas no mesmo horário);
+ </li>
+ <li>
+  RF04 – Permitir que o sistema exporte relatórios/mapas de ambientes e horários em formato PDF;
+ </li>
+ <li>
+  RF05 – Permitir consultas no sistema (ex.: por turma, turno, professor, data) para apoiar a gestão
+  da faculdade.
+ </li>
+</ul>
 
 ## REQUISITOS NÃO FUNCIONAIS
+
+<ul>
+ <li>
+  RNF01 – Requisito de interface: exibir um mapa de salas com a opção interativa de clicar e
+  visualizar a situação do ambiente (ex. aulas alocadas ao longo dos turnos do dia);
+ </li>
+ <li>
+  RNF02 – Garantir que o sistema seja responsivo, mantendo um layout consistente em dispositivos
+  móveis e preservando a arquitetura de informação da interface.
+ </li>
+</ul>
+
+## Calendário
+
+<br>
+
+| Período  | Datas                   |
+| -------- | ----------------------- |
+| Sprint 1 | 24.03.2025 - 15.04.2025 |
+| Sprint 2 | 16.04.2025 - 15.05.2025 |
+| Sprint 3 | 16.05.2025 - 11.06.2025 |
+
+<br>
 
 ## EQUIPE💻
 
@@ -45,3 +78,31 @@ da faculdade.
 | Wesley Alves      | Dev. Team     | [Wesleycoptero](https://github.com/Wesleycoptero)         |
  
 <br>
+
+## RESTRIÇÕES DE PROJETO
+
+<ul>
+ <li>
+  RP01 – O sistema deve ser prototipado e validado utilizando o Figma;
+ </li>
+ <li>
+  RP02 – O sistema deve seguir o catálogo de tecnologias do semestre:
+ </li>
+ <ul>
+  <li>
+   Ser codificado usando HTML, CSS e JavaScript;
+  </li>
+  <li>
+   Utilizar o SGBD PostgreSQL;
+  </li>
+  <li>
+   Implementar o servidor utilizando JavaScript;
+  </li>
+  <li>
+   Manter a documentação e artefatos de programação em um repositório público do GitHub;
+  </li>
+  <li>
+   Utilizar alguma ferramenta de controle de tarefas (ex.: GitHub Projects, Trello).
+  </li>
+ </ul>
+</ul>
