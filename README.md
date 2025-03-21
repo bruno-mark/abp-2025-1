@@ -6,13 +6,13 @@
  <img src=imagensREADME/Logo.jpeg height=320px alt="Logo CrimsonCode.">
 </div>
 
-## SOBRE O PROJETO
+## SOBRE O PROJETO 📕
 
 <p>
 <strong>Fatreck</strong> é uma aplicação web, desenvolvida para auxiliar o corpo docente da FATEC Jacareí a disponibilizar os horários de aula de cada curso e em qual sala sera ministrada a respectiva aula de acordo com os cursos. Os alunos podem acessar essa página web e utiliza-lo para localização dentro da unidade e checar os horários de aula.
 </p>
 
-## REQUISITOS FUNCIONAIS
+## REQUISITOS FUNCIONAIS 💡
 
 <ul>
  <li>
@@ -50,15 +50,15 @@
  </li>
 </ul>
 
-## Calendário
+## CALENDÁRIO 🕐
 
 <br>
 
-| Período  | Datas                   |
-| -------- | ----------------------- |
-| Sprint 1 | 24.03.2025 - 15.04.2025 |
-| Sprint 2 | 16.04.2025 - 15.05.2025 |
-| Sprint 3 | 16.05.2025 - 11.06.2025 |
+| Período     | Datas                   |
+| ------------| ----------------------- |
+| Sprint 1 ▶ | 24.03.2025 - 15.04.2025 |
+| Sprint 2 ▶ | 16.04.2025 - 15.05.2025 |
+| Sprint 3 ▶ | 16.05.2025 - 11.06.2025 |
 
 <br>
 
@@ -79,7 +79,7 @@
  
 <br>
 
-## RESTRIÇÕES DE PROJETO
+## RESTRIÇÕES DE PROJETO 🛑
 
 <ul>
  <li>
