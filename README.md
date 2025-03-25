@@ -3,7 +3,7 @@
 # CRIMSONCODE. 🟥
 
 <div align=center>
- <img src=imagensREADME/Logo.jpeg height=320px alt="Logo CrimsonCode.">
+ <img src=assets/Logo.jpeg height=320px alt="Logo CrimsonCode.">
 </div>
 
 ## SOBRE O PROJETO 📕
@@ -50,6 +50,34 @@
  </li>
 </ul>
 
+## RESTRIÇÕES DE PROJETO 🛑
+
+<ul>
+ <li>
+  RP01 – O sistema deve ser prototipado e validado utilizando o Figma;
+ </li>
+ <li>
+  RP02 – O sistema deve seguir o catálogo de tecnologias do semestre:
+ </li>
+ <ul>
+  <li>
+   Ser codificado usando HTML, CSS e JavaScript;
+  </li>
+  <li>
+   Utilizar o SGBD PostgreSQL;
+  </li>
+  <li>
+   Implementar o servidor utilizando JavaScript;
+  </li>
+  <li>
+   Manter a documentação e artefatos de programação em um repositório público do GitHub;
+  </li>
+  <li>
+   Utilizar alguma ferramenta de controle de tarefas (ex.: GitHub Projects, Trello).
+  </li>
+ </ul>
+</ul>
+
 ## CALENDÁRIO 🕐
 
 <br>
@@ -79,30 +107,4 @@
  
 <br>
 
-## RESTRIÇÕES DE PROJETO 🛑
-
-<ul>
- <li>
-  RP01 – O sistema deve ser prototipado e validado utilizando o Figma;
- </li>
- <li>
-  RP02 – O sistema deve seguir o catálogo de tecnologias do semestre:
- </li>
- <ul>
-  <li>
-   Ser codificado usando HTML, CSS e JavaScript;
-  </li>
-  <li>
-   Utilizar o SGBD PostgreSQL;
-  </li>
-  <li>
-   Implementar o servidor utilizando JavaScript;
-  </li>
-  <li>
-   Manter a documentação e artefatos de programação em um repositório público do GitHub;
-  </li>
-  <li>
-   Utilizar alguma ferramenta de controle de tarefas (ex.: GitHub Projects, Trello).
-  </li>
- </ul>
-</ul>
+## FATRECK📍
