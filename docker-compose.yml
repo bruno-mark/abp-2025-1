@@ -14,8 +14,6 @@ services:
       - ./nginx_letsencrypt:/etc/letsencrypt
     environment:
       DB_SQLITE_FILE: "/data/database.sqlite"
-    networks:
-      - external_net
 
   backend:
     image: meu-backend:latest
@@ -29,8 +27,8 @@ services:
       - DB_NAME=meubanco
     depends_on:
       - db
-    networks:
-      - internal_net
+    ports:
+      - "3000:3000" # Exemplo: porta 3000 exposta para o backend
 
   db:
     image: postgres:15
@@ -40,10 +38,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: meubanco
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - internal_net
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -53,20 +51,11 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - "5050:80"
+      - "5050:80" # O pgAdmin estará acessível na porta 5050
     depends_on:
       - db
-    networks:
-      - internal_net
 
 volumes:
   postgres_data:
   nginx_data:
   nginx_letsencrypt:
-
-networks:
-  external_net:
-    driver: bridge
-  internal_net:
-    driver: bridge
-    internal: true
