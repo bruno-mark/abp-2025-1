@@ -6,14 +6,16 @@ services:
     container_name: nginx_proxy
     restart: unless-stopped
     ports:
-      - "80:80" # Porta HTTP
-      - "443:443" # Porta HTTPS
+      - "80:80" # HTTP
+      - "443:443" # HTTPS
       - "81:81" # Painel de administração do Proxy
     volumes:
       - ./nginx_data:/data
       - ./nginx_letsencrypt:/etc/letsencrypt
     environment:
       DB_SQLITE_FILE: "/data/database.sqlite"
+    networks:
+      - external_net
 
   backend:
     image: meu-backend:latest
@@ -27,6 +29,8 @@ services:
       - DB_NAME=meubanco
     depends_on:
       - db
+    networks:
+      - internal_net
 
   db:
     image: postgres:15
@@ -36,12 +40,33 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: meubanco
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal_net
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - internal_net
 
 volumes:
   postgres_data:
   nginx_data:
   nginx_letsencrypt:
+
+networks:
+  external_net:
+    driver: bridge
+  internal_net:
+    driver: bridge
+    internal: true

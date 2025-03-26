@@ -1,0 +1,87 @@
+name: Move Related Issues to TODO
+
+on:
+  project_card:
+    types: [moved]
+
+jobs:
+  move-parent-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Atualizar status das User Stories/Epics para TODO
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const github = require('@actions/github');
+
+            const projectBoardId = "<ID_DO_SEU_PROJETO>";
+            const TODO_STATUS_ID = "<ID_DO_STATUS_TODO>";
+
+            const issueId = context.payload.project_card.content_id;
+
+            // Obtém detalhes da issue movida
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueId
+            });
+
+            console.log(`A Issue #${issueId} foi movida para TODO`);
+
+            // Busca todas as issues do repositório
+            const { data: allIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open"
+            });
+
+            // Filtra User Stories/Epics que mencionam essa Task no corpo da issue
+            const parentIssues = allIssues.filter(parentIssue =>
+              parentIssue.body.includes(`#${issue.number}`) &&
+              parentIssue.number !== issue.number
+            );
+
+            console.log(`Foram encontradas ${parentIssues.length} User Stories/Epics relacionadas.`);
+
+            // Atualiza o status de cada User Story/Epic no GitHub Projects
+            for (const parent of parentIssues) {
+              const { data: projectItems } = await github.graphql(`
+                query {
+                  repository(owner: "${context.repo.owner}", name: "${context.repo.repo}") {
+                    issue(number: ${parent.number}) {
+                      projectItems(first: 1) {
+                        nodes {
+                          id
+                        }
+                      }
+                    }
+                  }
+                }
+              `);
+
+              const projectItemId = projectItems.repository.issue.projectItems.nodes[0]?.id;
+              if (!projectItemId) {
+                console.log(`Nenhum item de projeto encontrado para #${parent.number}, pulando.`);
+                continue;
+              }
+
+              await github.graphql(`
+                mutation {
+                  updateProjectV2ItemFieldValue(
+                    input: {
+                      projectId: "${projectBoardId}",
+                      itemId: "${projectItemId}",
+                      fieldId: "${TODO_STATUS_ID}",
+                      value: { singleSelectOptionId: "${TODO_STATUS_ID}" }
+                    }
+                  ) {
+                    projectV2Item {
+                      id
+                    }
+                  }
+                }
+              `);
+
+              console.log(`Movida para TODO: #${parent.number}`);
+            }
