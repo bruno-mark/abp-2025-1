@@ -108,3 +108,13 @@
 <br>
 
 ## FATRECK📍
+
+<h3>Paleta de Cores</h3>
+
+<div align=center>
+ <img src=assets/paletaFatrek.jpeg height=320px alt="Logo CrimsonCode.">
+</div>
+
+<p>
+ Cor de paleta baseada na identidade visual do Centro Paula Souza, para manter a consistência e familiaridade da aplicação com funcionários e alunos. Principla ferramenta utilizada para criação da paleta foi o Adobe Color.
+</p>
