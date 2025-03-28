@@ -109,7 +109,7 @@
 
 ## FATRECK📍
 
-<h3>Paleta de Cores</h3>
+<h3>Paleta de Cores 🟥</h3>
 
 <div align=center>
  <img src=assets/paletaFatrek.jpeg height=320px alt="Logo CrimsonCode.">
