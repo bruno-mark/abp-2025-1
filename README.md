@@ -109,6 +109,10 @@
 
 ## FATRECK📍
 
+<div align=center>
+    <img src=assets/logoFatrek.png height=320px alt="Logo Fatrek">
+</div>
+
 <h3>Paleta de Cores 🟥</h3>
 
 <div align=center>
