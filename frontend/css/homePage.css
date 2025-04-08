@@ -1,0 +1,144 @@
+/* Variáveis Globais para Fontes */
+:root {
+    --font-roboto: 'Roboto', sans-serif;
+    --font-roboto-slab: 'Roboto Slab', serif;
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 80rem;
+    margin: auto; 
+    background-color: #f8f8f8;
+}
+
+/*div, section {  APENAS PARA VISUALIZAÇÃO 
+    border: 1px solid blue;
+}*/
+
+/* ============================= */
+/* Header - Uso de Elementos Semânticos */
+/* ============================= */
+.header {
+    display: flex;
+    align-items: center;
+    margin: 1rem;
+    font-family: var(--font-roboto);
+}
+
+.header__container {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-roboto-slab);
+    font-size: 1.5rem;
+    border: 1px solid black;
+    height: 5rem;
+    width: 8rem;
+}
+
+.header__welcome {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.header__title {
+    font-size: 3rem;
+    font-family: var(--font-roboto-slab);
+    vertical-align: middle;
+}
+
+.header__alternate-modes {
+    display: flex;
+    align-items: center;
+    width: 6rem;
+    height: 100%;
+}
+
+.header__icon {
+    display: flex;
+    align-items: center;
+} 
+
+.header__icon:hover {
+    cursor: pointer;
+}
+
+.header__icon > img {
+    width: 2rem;
+}
+
+.header__icon--dark {
+    display: none;
+}
+
+/* ============================= */
+/* Carrossel */
+/* ============================= */
+.carousel {
+    height: 12rem;
+    margin: 1rem;
+    background-color: #b8d5d9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Espaço reservado para a exibição do carrossel */
+}
+
+/* ============================= */
+/* Cards - Estrutura de Menus */
+/* ============================= */
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #fff;
+}
+
+.cards__menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 15rem;
+    height: 15rem;
+    border: 1px solid #ccc;
+    border-radius: 0.75rem;
+    font-family: var(--font-roboto);
+}
+
+.cards__menu:hover {
+    width: 18rem;
+    height: 18rem;
+    cursor: pointer;
+}
+
+.cards__menu-title {
+    font-size: 1.5rem;
+    font-family: var(--font-roboto-slab);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.cards__menu-icon { /* Os ícones dos cards foram extraídos do endereço: https://icons8.com.br/icons */
+    width: 50px;
+    margin-top: 1rem;
+}
+
+/* Possíveis modificadores para diferenciar os tipos de menu */
+.cards__menu--search { /* Customizações para o menu de busca */ }
+.cards__menu--courses { /* Customizações para o menu de cursos */ }
+.cards__menu--map { /* Customizações para o menu de mapa */ }
