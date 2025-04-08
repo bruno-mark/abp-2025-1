@@ -1,0 +1,80 @@
+CREATE TABLE Curso (
+    id_curso INTEGER PRIMARY KEY,
+    nome_curso VARCHAR(100) NOT NULL
+);
+ 
+CREATE TABLE Disciplina (
+    id_disciplina INTEGER PRIMARY KEY,
+    id_curso INTEGER NOT NULL,
+    nome_disciplina VARCHAR(100) NOT NULL,
+    FOREIGN KEY (id_curso) REFERENCES Curso(id_curso)
+);
+ 
+CREATE TABLE Turma (
+    id_turma INTEGER PRIMARY KEY,
+    nome_turma CHAR(3) NOT NULL,
+    nivel INTEGER NOT NULL
+);
+ 
+CREATE TABLE Disciplina_Turma (
+    id_disciplina INTEGER,
+    id_turma INTEGER,
+    PRIMARY KEY (id_disciplina, id_turma),
+    FOREIGN KEY (id_disciplina) REFERENCES Disciplina(id_disciplina),
+    FOREIGN KEY (id_turma) REFERENCES Turma(id_turma)
+);
+ 
+CREATE TABLE Professor (
+    id_professor INTEGER PRIMARY KEY,
+    nome_professor VARCHAR(100) NOT NULL,
+    email_professor VARCHAR(100) UNIQUE NOT NULL
+);
+ 
+CREATE TABLE Turma_Professor (
+    id_turma INTEGER,
+    id_professor INTEGER,
+    PRIMARY KEY (id_turma, id_professor),
+    FOREIGN KEY (id_turma) REFERENCES Turma(id_turma),
+    FOREIGN KEY (id_professor) REFERENCES Professor(id_professor)
+);
+ 
+CREATE TABLE Alocacao_Horario (
+    id_alocacao INTEGER PRIMARY KEY,
+    id_professor INTEGER NOT NULL,
+    FOREIGN KEY (id_professor) REFERENCES Professor(id_professor)
+);
+ 
+CREATE TABLE Ambiente (
+    id_ambiente INTEGER PRIMARY KEY,
+    nome_ambiente VARCHAR(100) NOT NULL,
+    capacidade INTEGER NOT NULL
+);
+ 
+CREATE TABLE Horario (
+    id_horario INTEGER PRIMARY KEY,
+    id_alocacao INTEGER NOT NULL,
+    id_ambiente INTEGER NOT NULL,
+    dia_semana VARCHAR(20) NOT NULL,
+    hora_inicio TIME NOT NULL,
+    hora_fim TIME NOT NULL,
+    FOREIGN KEY (id_alocacao) REFERENCES Alocacao_Horario(id_alocacao),
+    FOREIGN KEY (id_ambiente) REFERENCES Ambiente(id_ambiente)
+);
+ 
+INSERT INTO Curso () VALUES ();
+ 
+INSERT INTO Disciplina () VALUES ();
+ 
+INSERT INTO Turma () VALUES ();
+ 
+INSERT INTO Disciplina_Turma () VALUES ();
+ 
+INSERT INTO Professor () VALUES ();
+ 
+INSERT INTO Turma_Professor () VALUES ();
+ 
+INSERT INTO Alocacao_Horario () VALUES ();
+ 
+INSERT INTO Ambiente () VALUES ();
+ 
+INSERT INTO Horario () VALUES ();
