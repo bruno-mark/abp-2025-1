@@ -4,22 +4,11 @@
     --font-roboto-slab: 'Roboto Slab', serif;
 }
 
-/* Reset Básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     max-width: 80rem;
     margin: auto; 
     background-color: #f8f8f8;
 }
-
-/*div, section {  APENAS PARA VISUALIZAÇÃO 
-    border: 1px solid blue;
-}*/
 
 /* ============================= */
 /* Header - Uso de Elementos Semânticos */
