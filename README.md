@@ -107,18 +107,33 @@
  
 <br>
 
-## FATRECK📍
+## SPRINT 1 🔁
 
-<div align=center>
-    <img src=assets/logoFatrek.png height=320px alt="Logo Fatrek">
-</div>
+<h3>SPRINT BACKLOG 📜</h3>
 
-<h3>Paleta de Cores 🟥</h3>
+<p>Para o primeiro ciclo de desenvolvimento, definimos que seriam entregues as seguintes atividades:</p>
 
-<div align=center>
- <img src=assets/paletaFatrek.jpeg height=320px alt="Logo CrimsonCode.">
-</div>
+<ul>
+ <li>
+   Definições de Design
+ </li>
+ <li>
+   Criação do Banco de dados
+ </li>
+ <li>
+   Definição das tabelas inicias
+ </li>
+ <li>
+   Integração com o Banco de Dados
+ </li>
+ <li>
+  Criar a página Home
+ </li>
+ <li>
+  Criar a página de consulta
+ </li>
+</ul>
 
-<p>
- Cor de paleta baseada na identidade visual do Centro Paula Souza, para manter a consistência e familiaridade da aplicação com funcionários e alunos. Principla ferramenta utilizada para criação da paleta foi o Adobe Color.
-</p>
+<h3>Burndown 🔥</h3>
+
+<h3>Retrospectiva de Sprint 🗣️</h3>
