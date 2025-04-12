@@ -34,13 +34,6 @@ body {
   border: 1px solid black;
 }
 
-/* Estilização botão de busca */
-
-.search__input__button{
-  
-  border: 1px solid black;
-}
-
 /* Estilização contéudo da página */
 .info__container{
   display: flex;
