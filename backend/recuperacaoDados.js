@@ -2,6 +2,7 @@
 
 // Realizar alteração do nome da tabela e nome das colunas 
 // Estudar funcionalidade do codigo
+module.exports = (app, db) => {
 app.get('/horarios', async (req, res) => {
     try {
       const query = `
@@ -26,3 +27,4 @@ app.get('/horarios', async (req, res) => {
       res.status(500).json({ erro: 'Erro ao recuperar dados do banco' });
     }
   });
+}
