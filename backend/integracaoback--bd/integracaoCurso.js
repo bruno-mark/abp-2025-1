@@ -31,3 +31,50 @@ async function inserirCurso(id, nome) {
 inserirCurso(1, 'DSM');
 inserirCurso(2,'Geoprocessamento Matutino');
 inserirCurso(3, 'Meio ambiente Noturno');
+
+async function consultarCurso() {
+    try {
+        const res = await client.query(
+            'SELECT * FROM curso'
+        );
+        console.log("Cursos:", res.rows);
+    } catch (err) {
+        console.error("Erro ao buscar Cursos:", err);
+    }
+}
+
+async function alterarIdCurso(id, id_novo) {
+    try {
+        const res = await client.query(
+            'UPDATE curso SET id_curso = $1 WHERE id = $2 RETURNING *',
+            [id, id_novo]
+        );
+        console.log("Curso alterado:", res.rows[0]);
+    } catch (err) {
+        console.error("Erro ao alterar Curso:", err);
+    }
+}
+
+async function alterarNomeCurso(nome, nome_novo) {
+    try {
+        const res = await client.query(
+            'UPDADTE curso  SET  nome_curso = $1 WHERE nome_curso $2 RETURNING *',
+            [id, nome]
+        );
+        console.log("Curso alterado:", res.rows[0]);
+    } catch (err) {
+        console.error("Erro ao alterar Curso:", err);
+    }
+}
+
+async function deletarCurso(id, nome) {
+    try {
+        const res = await client.query(
+            'DELETE FROM curso WHERE id_curso = $1 RETURNING *',
+            [id, nome]
+        );
+        console.log("Curso excluido:", res.rows[0]);
+    } catch (err) {
+        console.error("Erro ao excluir Curso:", err);
+    }
+}
