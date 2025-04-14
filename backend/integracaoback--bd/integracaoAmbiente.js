@@ -33,3 +33,68 @@ client.connect()
    inserirAmbiente(1, 'Térreo', 100);
    inserirAmbiente(2, '1º Andar', 50);
    inserirAmbiente(3, '2º Andar', 100);
+
+   async function consultarAmbiente() {
+    try{
+        const res = await client.query(
+        'SELECT * FROM ambiente'
+    );
+    console.log('AmbienteS:', res.rows);
+    } 
+    catch (err) {
+        console.error('Erro ao bucsar ambientes:', err);
+    }
+   } 
+   consultarAmbiente();
+
+   async function alterarIdAmbiente(id, id_novo) {
+    try{
+        const res = await client.query(
+        'UPDATE ambiente SET id_ambiente = $1, WHERE id_ambiente = $2 RETURNING *',
+        [id_novo, id]
+    );
+    console.log('Ambiente alterado:', res.rows[0]);
+    } 
+    catch (err) {
+        console.error('Erro ao alterar id_ambiente:', err);
+    }
+   } 
+
+   async function alterarNomeAmbiente(nome, nome_novo) {
+    try{
+        const res = await client.query(
+        'UPDATE ambiente SET nome_ambiente = $1 nome_ambiente = $2 RETURNING *',
+        [nome_novo, nome]
+    );
+    console.log('Ambiente alterado:', res.rows[0]);
+    } 
+    catch (err) {
+        console.error('Erro ao alterar nome_ambiente:', err);
+    }
+   } 
+
+   async function alterarCapacidadeAmbiente(capacidade, capacidade_novo) {
+    try{
+        const res = await client.query(
+        'UPDATE ambiente SET capacidade = $1 capacidade = $2 RETURNING *',
+        [capacidade_novo, capacidade]
+    );
+    console.log('Ambiente alterado:', res.rows[0]);
+    } 
+    catch (err) {
+        console.error('Erro ao alterar ambiente:', err);
+    }
+   } 
+
+   async function deletarAmbiente(id) {
+    try{
+        const res = await client.query(
+        'DELETE FROM ambiente WHERE id_ambiente = $1 RETURNING *',
+        [id]
+    );
+    console.log('Ambiente deletado:', res.rows[0]);
+    } 
+    catch (err) {
+        console.error('Erro ao deletar ambiente:', err);
+    }
+   } 
