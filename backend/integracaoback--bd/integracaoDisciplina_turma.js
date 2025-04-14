@@ -17,7 +17,7 @@ client.connect()
     // Fechar a conexão ao finalizar
     // client.end();
 
-    async function inserirDisciplina_turma(id, disciplina) {
+    async function inserirDisciplina_turma(id, turma) {
         try{
             const res= await client.query(
                 'INSERT INTO disciplina_turma (id_disciplina, id_turma) VALUES ($1, $2) RETURNING *',
@@ -53,4 +53,51 @@ client.connect()
     inserirDisciplina_turma(23, 3);
     inserirDisciplina_turma(24, 3);
 
-    
+    async function consultaDisciplina_turma() {
+        try{
+            const res= await client.query(
+                'SELECT * FROM disciplina_turma'
+                
+            );
+            console.log('Disciplinas:', res.rows);
+        } catch (err) {
+            console.error('Erro ao inserir disciplina:', err);
+        }
+    }
+
+    async function alterarIdDisciplina_turma(id, id_novo) {
+        try{
+            const res= await client.query(
+                'UPDATE disciplina_turma SET id_turma = $2 WHERE id_turma = $1 RETURNING *',
+                [id, id_novo]
+            );
+            console.log('Disciplina alterada:', res.rows[0]);
+        } catch (err) {
+            console.error('Erro ao alterar disciplina:', err);
+        }
+    }
+
+    async function alterarDisciplinaDisciplina_turma(disciplina, disciplina_novo) {
+        try{
+            const res= await client.query(
+                'UPDATE disciplina_turma SET id_disciplina = $1 WHERE id_disciplina = $2 RETURNING *',
+                [disciplina_novo, disciplina]
+            );
+            console.log('Disciplina alterada:', res.rows[0]);
+        } catch (err) {
+            console.error('Erro ao alterar disciplina:', err);
+        }
+    }
+
+    async function consultaDisciplina_turma(id) {
+        try{
+            const res= await client.query(
+                'DELET FROM disciplina_turma WHERE id_turma = $1 RETURNING *',
+                [id]
+                
+            );
+            console.log('Disciplinas:', res.rows);
+        } catch (err) {
+            console.error('Erro ao inserir disciplina:', err);
+        }
+    }
