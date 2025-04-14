@@ -14,7 +14,11 @@
     <div class="search__input">
         <!-- <input type="text" placeholder="Buscar"> -->
          <label for="select">Selecione
-          <select name="tabelas" id=""></select>
+          <select name="tabelas" id="">
+            <option value="DSM">DSM</option>
+            <option value="Geoprocessamento matutino">Geoprocessamento</option>
+            <option value="Meio ambiente Noturno">Meio Ambiente</option>
+          </select>
         </label>
         <input type="text" placeholder="Buscar">
         <a class="search__input__button">
@@ -25,29 +29,20 @@
       <div class="side-bar">
         <div class="andar">
           <li class="sem-marcador"><strong>Andar</strong></li>
-          <strong>Andar</strong>
           <ul>
             <li>DSM</li>
             <li>Geoprocessamento</li>
             <li>Meio ambiente e recursos hídricos</li>
           </ul>
           <div class="andar"></div>
-<<<<<<< HEAD
           <li class="sem-marcador"><strong>Andar</strong></li>
-=======
-          <strong>Andar</strong>
->>>>>>> 5cef5876b27752174e059178dd097311ec691fb4
           <ul>
             <li>DSM</li>
             <li>Geoprocessamento</li>
             <li>Meio ambiente e recursos hídricos</li>
           </ul>
-<<<<<<< HEAD
           <li class="sem-marcador"><strong>Andar</strong></li>
-=======
           <div class="andar"></div>
-          <strong>Andar</strong>
->>>>>>> 5cef5876b27752174e059178dd097311ec691fb4
           <ul>
             <li>DSM</li>
             <li>Geoprocessamento</li>
@@ -57,33 +52,24 @@
       </div>
       <div class="pesquisa"></div> <!--conteudo da pesquisa-->
       <div class="downloads">
-<<<<<<< HEAD
           <div class="lista-escondida">
             <button onclick="toggleListaCursos()">📁 Cursos</button>
             <ul id="minhaLista" style="display: none;">
               <li>DSM</li>
                 <button onclick="toggleListaHorariosDSM()">📁 Horarios</button>
                   <ul id="horariosDsm" style="display: none;">
-                    <li><a href="arquivos/horario-a.pdf" download>Horário Turma A (.pdf)</a></li>
-                    <li><a href="arquivos/horario-b.xlsx" download>Horário Turma B (.xlsx)</a></li>
-                    <li><a href="arquivos/horario-c.docx" download>Horário Turma C (.docx)</a></li>
-                    <li><a href="arquivos/horarios.zip" download>Todos os horários (.zip)</a></li>
+                    <li><a href="arquivos/horario-dsm.pdf" download>Horários DSM  (.pdf)</a></li>
                   </ul>
               <li>Geoprocessamento</li>
                 <button onclick="toggleListaHorariosGEO()">📁 Horarios</button>
                   <ul id="horariosGeo" style="display: none;">
-                    <li><a href="arquivos/geo-horario-a.pdf" download>Horário Turma A (.pdf)</a></li>
-                    <li><a href="arquivos/geo-horario-b.xlsx" download>Horário Turma B (.xlsx)</a></li>
-                    <li><a href="arquivos/geo-horario-c.docx" download>Horário Turma C (.docx)</a></li>
-                    <li><a href="arquivos/geo-horarios.zip" download>Todos os horários (.zip)</a></li>
+                    <li><a href="arquivos/horario-geo.pdf" download>Horários Geoprocessamento (.pdf)</a></li>
                   </ul>
               <li>Meio Ambiente</li>
                 <button onclick="toggleListaHorariosMA()">📁 Horarios</button>
                   <ul id="horariosMA" style="display: none;">
-                    <li><a href="arquivos/meio-horario-a.pdf" download>Horário Turma A (.pdf)</a></li>
-                    <li><a href="arquivos/meio-horario-b.xlsx" download>Horário Turma B (.xlsx)</a></li>
-                    <li><a href="arquivos/meio-horario-c.docx" download>Horário Turma C (.docx)</a></li>
-                    <li><a href="arquivos/meio-horarios.zip" download>Todos os horários (.zip)</a></li>
+                    <li><a href="arquivos/horario-meio-ambiente-matutino.pdf" download>Horário Geoprocessamento Manhã (.pdf)</a></li>
+                    <li><a href="arquivos/horario-meio-ambiente-noturno.pdf" download>Horário Geoprocessamento Noite (.pdf)</a></li>
                   </ul>
             </ul>
           </div>
@@ -91,16 +77,7 @@
       </div>
     </div>
     <script src="../Js/searchPage.js"></script>
-=======
-        <strong>Downloads</strong>
-        <ul>
-            <li>Horario 1</li>
-            <li>Horario 2</li>
-            <li>Horario 3</li>
-            <li>Horario 4</li>
-        </ul>
       </div>
     </div>
->>>>>>> 5cef5876b27752174e059178dd097311ec691fb4
   </body>
 </html>
