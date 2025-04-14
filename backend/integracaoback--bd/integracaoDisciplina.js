@@ -51,3 +51,63 @@ inserirDisciplina(21, 3, 'Sociologia Ambiental');
 inserirDisciplina(22, 3, 'Biologia');
 inserirDisciplina(23, 3, 'Matemática Aplicada');
 inserirDisciplina(24, 3, 'Geociência Ambiental');
+
+async function consultarDisciplina(id, curso, disciplina) {
+    try{
+        const res= await client.query(
+            'SELECT * FROM disciplina',
+            [id]
+        );
+        console.log('Disciplinas:', res.rows);
+    } catch (err) {
+        console.error('Erro ao buscar disciplinas:', err);
+    }
+}
+
+async function alterarIdDisciplina(id, id_novo) {
+    try{
+        const res= await client.query(
+            ' UPDATE disciplina SET id_disciplina = $1 WHERE id_disciplina = $2 RETURNING *',
+            [id_novo, id]
+        );
+        console.log('Disciplina alterada:', res.rows[0]);
+    } catch (err) {
+        console.error('Erro ao alterar disciplina:', err);
+    }
+}
+
+async function alterarIdCursoDisciplina(id, id_novo) {
+    try{
+        const res= await client.query(
+            ' UPDATE disciplina SET id_curso = $2 WHERE id_curso = $1 RETURNING *',
+            [id, id_novo]
+        );
+        console.log('Disciplina alterada:', res.rows[0]);
+    } catch (err) {
+        console.error('Erro ao alterar disciplina:', err);
+    }
+}
+
+async function alterarNomeDisciplina(nome, nome_novo) {
+    try{
+        const res= await client.query(
+            ' UPDATE disciplina SET nome_disciplina = $1 WHERE nome_disciplina = $2 RETURNING *',
+            [id, curso, disciplina]
+        );
+        console.log('Disciplina alterada:', res.rows[0]);
+    } catch (err) {
+        console.error('Erro ao alterar disciplina:', err);
+    }
+}
+
+async function deletarDisciplina(id) {
+    try{
+        const res= await client.query(
+            ' DELETE FROM disciplina WHERE id = $1 RETURNING *',
+            [id]
+        );
+        console.log('Disciplina deletada:', res.rows[0]);
+    } catch (err) {
+        console.error('Erro ao deletar disciplina:', err);
+    }
+}
