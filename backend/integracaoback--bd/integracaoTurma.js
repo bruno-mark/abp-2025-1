@@ -47,3 +47,62 @@ inserirTurma(15, 'MA', 3);
 inserirTurma(16, 'MA', 4);
 inserirTurma(17, 'MA', 5);
 inserirTurma(18, 'MA', 6);
+
+async function consultarTurma() {
+    try{
+        const res= await client.query(
+            'SELECT * FROM turma'
+        );
+        console.log('Turmas:', res.rows);
+    } catch (err) {
+        console.error('Erro ao buscar turma:', err);
+    }
+}
+
+async function alterarIdTurma(id, id_novo) {
+    try{
+        const res= await client.query(
+            'UPDATE turma SET id_turma $1 WHERE id_turma = $2 RETURNING *',
+            [id_novo, id]
+        );
+        console.log('Turma alterada:', res.rows[0]);
+    } catch (err) {
+        console.error('Erro ao alterar turma:', err);
+    }
+}
+
+async function alterarNomeTurma(nome, nome_novo) {
+    try{
+        const res= await client.query(
+            'UPDATE turma SET nome_turma $1 WHERE nome_turma = $2 RETURNING *',
+            [nome_novo, nome]
+        );
+        console.log('Turma alterada:', res.rows[0]);
+    } catch (err) {
+        console.error('Erro ao alterar turma:', err);
+    }
+}
+
+async function alterarNivelTurma(nivel, nivel_novo) {
+    try{
+        const res= await client.query(
+            'UPDATE turma SET nivel $1 WHERE nivel = $2 RETURNING *',
+            [nivel_novo, nivel]
+        );
+        console.log('Turma alterada:', res.rows[0]);
+    } catch (err) {
+        console.error('Erro ao alterar turma:', err);
+    }
+}
+
+async function deletarTurma(id) {
+    try{
+        const res= await client.query(
+            'DELETE turma WHERE id_turma = $1 RETURNING *',
+            [id]
+        );
+        console.log('Turma deletada:', res.rows[0]);
+    } catch (err) {
+        console.error('Erro ao deletar turma:', err);
+    }
+}
