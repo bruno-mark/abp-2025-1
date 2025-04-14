@@ -1,4 +1,3 @@
-// tests/integridade.test.js
 const { Client } = require("pg");
 require('dotenv').config({ path: '../.env' });
 
@@ -14,7 +13,7 @@ const db = new Client({
 beforeAll(() => db.connect());
 afterAll(() => db.end());
 
-// 🧪 TESTE 1: Horários sem professor
+//  TESTE 1: Horários sem professor
 test("Todos os horários devem estar vinculados a um professor", async () => {
   const res = await db.query(`
     SELECT h.id_horario
@@ -25,7 +24,7 @@ test("Todos os horários devem estar vinculados a um professor", async () => {
   expect(res.rowCount).toBe(0);
 });
 
-// 🧪 TESTE 2: Disciplinas devem estar vinculadas a pelo menos uma turma
+//  TESTE 2: Disciplinas devem estar vinculadas a pelo menos uma turma
 test("Todas as disciplinas devem estar associadas a alguma turma", async () => {
   const res = await db.query(`
     SELECT d.id_disciplina
@@ -36,7 +35,7 @@ test("Todas as disciplinas devem estar associadas a alguma turma", async () => {
   expect(res.rowCount).toBe(0);
 });
 
-// 🧪 TESTE 3: Hora de início deve ser menor que hora de fim
+//  TESTE 3: Hora de início deve ser menor que hora de fim
 test("Hora de início deve ser menor que hora de fim", async () => {
   const res = await db.query(`
     SELECT id_horario
@@ -46,7 +45,7 @@ test("Hora de início deve ser menor que hora de fim", async () => {
   expect(res.rowCount).toBe(0);
 });
 
-// 🧪 TESTE 4: Professores não podem ter sobreposição de horários
+//  TESTE 4: Professores não podem ter sobreposição de horários
 test("Professores não devem ter conflitos de horário", async () => {
   const res = await db.query(`
     SELECT h1.id_horario AS horario1, h2.id_horario AS horario2
