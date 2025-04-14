@@ -56,4 +56,105 @@ client.connect()
    inserirAmbiente(24, 24, 2, 'Sexta', '21:25', '22:15');
    inserirAmbiente(25, 25, 2, 'Sexta', '21:25', '23:05');
    
+   async function consultarAmbiente() {
+    try{
+        const res = await client.query(
+        'SELECT * FROM horaio'
+    );
+    console.log('Horários:', res.rows);
+    } 
+    catch (err) {
+        console.error('Erro ao buscar Horários:', err);
+    }
+   } 
 
+   async function alterarIdHorarioAmbiente(idHorario, idHorario_novo) {
+    try{
+        const res = await client.query(
+        'UPDATE horario SET id_horario = $ 1 WHERE id_horario = $2 RETURNING *',
+        [idHorario_novo, idHorario]
+    );
+    console.log('Horário alterado:', res.rows[0]);
+    } 
+    catch (err) {
+        console.error('Erro ao alterar Horário:', err);
+    }
+   } 
+
+    async function alterarIdAlocacaoAmbiente(idAlocacao, idAlocacao_novo) {
+     try{
+          const res = await client.query(
+          'UPDATE horario SET id_alocacao = $1 WHERE id_alocacao = $2 RETURNING *',
+          [idAlocacao_novo, idAlocacao]
+     );
+     console.log('Horário alterado:', res.rows[0]);
+     } 
+     catch (err) {
+          console.error('Erro ao alterar Horário:', err);
+     }
+    }
+
+    async function alterarIdAmbienteAmbiente(idAmbiente, idAmbiente_novo) {
+     try{
+          const res = await client.query(
+          'UPDATE horario SET id_ambiente = $1 WHERE id_ambiente = $2 RETURNING *',
+          [idAmbiente_novo, idAmbiente]
+     );
+     console.log('Horário alterado:', res.rows[0]);
+     } 
+     catch (err) {
+          console.error('Erro ao alterar Horário:', err);
+     }
+    }
+
+    async function alterarDiaSemanaAmbiente(diaSemana, diaSemana_novo) {
+     try{
+          const res = await client.query(
+          'UPDATE horario SET dia_semana = $1 WHERE dia_semana = $2 RETURNING *',
+          [diaSemana_novo, diaSemana]
+     );
+     console.log('Horário alterado:', res.rows[0]);
+     } 
+     catch (err) {
+          console.error('Erro ao alterar Horário:', err);
+     }
+    }
+
+    async function alterarHoraInicioAmbiente(horaInicio, horaInicio_novo) {
+     try{
+          const res = await client.query(
+          'UPDATE horario SET hora_inicio = $1 WHERE hora_inicio = $2 RETURNING *',
+          [horaInicio_novo, horaInicio]
+     );
+     console.log('Horário alterado:', res.rows[0]);
+     } 
+     catch (err) {
+          console.error('Erro ao alterar Horário:', err);
+     }
+    }
+
+    async function alterarHoraFimAmbiente(horaFim, horaFim_novo) {
+     try{
+          const res = await client.query(
+          'UPDATE horario SET hora_fim = $1 WHERE hora_fim = $2 RETURNING *',
+          [horaFim_novo, horaFim]
+     );
+     console.log('Horário alterado:', res.rows[0]);
+     } 
+     catch (err) {
+          console.error('Erro ao alterar Horário:', err);
+     }
+    }
+
+    async function deletarAmbiente(idHorario) {
+     try{
+          const res = await client.query(
+          'DELETE FROM horario WHERE id_horario = $1 RETURNING *',
+          [idHorario]
+     );
+     console.log('Horário deletado:', res.rows[0]);
+     } 
+     catch (err) {
+          console.error('Erro ao deletar Horário:', err);
+     }
+    }
