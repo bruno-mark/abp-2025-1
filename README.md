@@ -137,6 +137,7 @@
  </li>
  <li>
   Acesso online ao sistema (deploy do front-end na nuvem)✅
+  https://cheerful-frangipane-82c853.netlify.app
  </li>
  <li>
   Consultar horários por turma✅
