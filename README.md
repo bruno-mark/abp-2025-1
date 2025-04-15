@@ -84,9 +84,9 @@
 
 | Período     | Datas                   |
 | ------------| ----------------------- |
-| Sprint 1 ▶ | 24.03.2025 - 15.04.2025 |
-| Sprint 2 ▶ | 16.04.2025 - 15.05.2025 |
-| Sprint 3 ▶ | 16.05.2025 - 11.06.2025 |
+| Sprint 1 ✅ | 24.03.2025 - 15.04.2025 |
+| Sprint 2 ▶️ | 16.04.2025 - 15.05.2025 |
+| Sprint 3 ▶️ | 16.05.2025 - 11.06.2025 |
 
 <br>
 
@@ -107,18 +107,72 @@
  
 <br>
 
-## FATRECK📍
+## SPRINT 1 🔁
 
-<div align=center>
-    <img src=assets/logoFatrek.png height=320px alt="Logo Fatrek">
+<h3>SPRINT BACKLOG 📜</h3>
+
+<p>Para o primeiro ciclo de desenvolvimento, definimos que seriam entregues as seguintes USs:</p>
+
+<ul>
+ <li>
+   Integrar com o Banco de Dados✅
+ </li>
+ <li>
+   Definição de Design✅
+ </li>
+ <li>
+   Criação do Banco de Dados✅
+ </li>
+ <li>
+   Definição das Tabelas Iniciais✅
+ </li>
+ <li>
+  Acesso e Segurança das Informações✅
+ </li>
+ <li>
+  Proteção das Informações do Sistema
+ </li>
+ <li>
+  Disponibilizar o Sitema Online (deploy do back-end na nuvem)
+ </li>
+ <li>
+  Acesso online ao sistema (deploy do front-end na nuvem)✅
+  https://cheerful-frangipane-82c853.netlify.app
+ </li>
+ <li>
+  Consultar horários por turma✅
+ </li>
+ <li>
+  Página home para aplicação✅
+ </li>
+ <li>
+  Garantia de que o sistema continua funcionando após atualizações;
+ </li>
+ <li>
+  Garantir integridade dos dados armazenados;
+ </li>
+</ul>
+
+<h3>BURNDOWN 🔥</h3>
+
+<div>
+ <img src=assets/Burndown1.jpeg> 
 </div>
 
-<h3>Paleta de Cores 🟥</h3>
+<h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
 
-<div align=center>
- <img src=assets/paletaFatrek.jpeg height=320px alt="Logo CrimsonCode.">
-</div>
+<p>A primeira sprint começamos com um ritmo muito lento. Por conta disso demoramos a definir as tasks e iniciar o desenvolvimento de fato. Definimos uma régua muito alta e mesmo com dificuldades o grupo evoluí muito. Ao decorrer da sprint engrenamos em um ritmo bem melhor do que o ritmo o qual iniciamos.</p>
 
-<p>
- Cor de paleta baseada na identidade visual do Centro Paula Souza, para manter a consistência e familiaridade da aplicação com funcionários e alunos. Principla ferramenta utilizada para criação da paleta foi o Adobe Color.
-</p>
+<p><strong>DIFICULDADES</strong></p>
+
+<ul>
+ <li>
+  Dificuldade em definir tasks.
+ </li>
+ <li>
+  Entender a definição de algumas US.
+ </li>
+ <li>
+  Engrenar em um ritmo constante.
+ </li>
+</ul>
