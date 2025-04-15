@@ -111,29 +111,67 @@
 
 <h3>SPRINT BACKLOG 📜</h3>
 
-<p>Para o primeiro ciclo de desenvolvimento, definimos que seriam entregues as seguintes atividades:</p>
+<p>Para o primeiro ciclo de desenvolvimento, definimos que seriam entregues as seguintes USs:</p>
 
 <ul>
  <li>
-   Definições de Design
+   Integrar com o Banco de Dados✅
  </li>
  <li>
-   Criação do Banco de dados
+   Definição de Design✅
  </li>
  <li>
-   Definição das tabelas inicias
+   Criação do Banco de Dados✅
  </li>
  <li>
-   Integração com o Banco de Dados
+   Definição das Tabelas Iniciais✅
  </li>
  <li>
-  Criar a página Home
+  Acesso e Segurança das Informações✅
  </li>
  <li>
-  Criar a página de consulta
+  Proteção das Informações do Sistema
+ </li>
+ <li>
+  Disponibilizar o Sitema Online (deploy do back-end na nuvem)
+ </li>
+ <li>
+  Acesso online ao sistema (deploy do front-end na nuvem)✅
+ </li>
+ <li>
+  Consultar horários por turma✅
+ </li>
+ <li>
+  Página home para aplicação✅
+ </li>
+ <li>
+  Garantia de que o sistema continua funcionando após atualizações;
+ </li>
+ <li>
+  Garantir integridade dos dados armazenados;
  </li>
 </ul>
 
-<h3>Burndown 🔥</h3>
+<h3>BURNDOWN 🔥</h3>
 
-<h3>Retrospectiva de Sprint 🗣️</h3>
+<div>
+ <img src=assets/Burndown1.jpeg> 
+</div>
+
+<h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
+
+<p>A primeira sprint começamos com um ritmo muito lento. Por conta disso demoramos a definir as tasks e iniciar o desenvolvimento de fato. Definimos uma régua muito alta e mesmo com dificuldades o grupo evoluí muito. Ao decorrer da sprint engrenamos em um ritmo bem melhor do que o ritmo o qual iniciamos.</p>
+
+<p><strong>DIFICULDADES</strong></p>
+
+<ul>
+ <li>
+  Dificuldade em definir tasks.
+ </li>
+ <li>
+  Entender a definição de algumas US.
+ </li>
+ <li>
+  Engrenar em um ritmo constante.
+ </li>
+</ul>
