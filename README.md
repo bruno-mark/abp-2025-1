@@ -115,41 +115,41 @@
 
 <ul>
  <li>
-   Integrar com o Banco de Dados✅
+   Integrar com o Banco de Dados✅;
  </li>
  <li>
-   Definição de Design✅
+   Definição de Design✅;
  </li>
  <li>
-   Criação do Banco de Dados✅
+   Criação do Banco de Dados✅;
  </li>
  <li>
-   Definição das Tabelas Iniciais✅
+   Definição das Tabelas Iniciais✅;
  </li>
  <li>
-  Acesso e Segurança das Informações✅
+  Acesso e Segurança das Informações✅;
  </li>
  <li>
-  Proteção das Informações do Sistema
+  Proteção das Informações do Sistema;
  </li>
  <li>
-  Disponibilizar o Sitema Online (deploy do back-end na nuvem)
+  Disponibilizar o Sitema Online (deploy do back-end na nuvem);
  </li>
  <li>
-  Acesso online ao sistema (deploy do front-end na nuvem)✅
+  Acesso online ao sistema (deploy do front-end na nuvem)✅;
   https://cheerful-frangipane-82c853.netlify.app
  </li>
  <li>
-  Consultar horários por turma✅
+  Consultar horários por turma✅;
  </li>
  <li>
-  Página home para aplicação✅
+  Página home para aplicação✅;
  </li>
  <li>
   Garantia de que o sistema continua funcionando após atualizações;
  </li>
  <li>
-  Garantir integridade dos dados armazenados;
+  Garantir integridade dos dados armazenados.
  </li>
 </ul>
 
@@ -176,3 +176,27 @@
   Engrenar em um ritmo constante.
  </li>
 </ul>
+
+## SPRINT 2 🔁
+
+<h3> SPRINT BACKLOG 📜</h3>
+
+<ul>
+ <li>
+  Prototipagem no Figma;
+ </li>
+ <li>
+  Desenvolver o Front-End;
+ </li>
+ <li>
+  Finalizar desenvolvimento do Back-End;
+ </li>
+ <li>
+  Trabalhar no Banco Dados.
+ </li>
+</ul>
+
+
+<h3>BURNDOWN 🔥</h3>
+
+<h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
