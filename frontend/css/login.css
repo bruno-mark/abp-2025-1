@@ -1,0 +1,78 @@
+body {
+    background: url('/assets/fatec_02.jpg') ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.cabecalho {
+    display: flex;
+    background-color: #bf0606;
+    font-family: "Roboto Slab", serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    height: 130px;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 5%;
+}
+
+#fatec {
+    margin-right: 30px;
+}
+
+.login__container {
+    background-color: #076873;
+    padding: 40px;
+    width: 500px;
+    height: 550px;
+    margin: 100px auto;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    text-align: center;
+    
+}
+
+form {
+    margin-top: 100px;
+}
+
+input {
+    display: block;
+    background-color: white;
+    color: #076873;
+    font-family: "Roboto Slab", serif;
+    font-weight: lighter;
+    width: 265px;
+    height: 60px;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 10px auto;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+label {
+    font-family: "Roboto Slab", serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+}
+
+input::placeholder {
+    color: #076873;
+}
+
+button {
+    background-color: #8c0404;
+    width: 175px;
+    height: 45px;
+    font-family: "Roboto Slab", serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    border-radius: 20px;
+    margin-top: 80px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
