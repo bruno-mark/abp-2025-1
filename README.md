@@ -161,21 +161,12 @@
 
 <h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
 
-<p>A primeira sprint começamos com um ritmo muito lento. Por conta disso demoramos a definir as tasks e iniciar o desenvolvimento de fato. Definimos uma régua muito alta e mesmo com dificuldades o grupo evoluí muito. Ao decorrer da sprint engrenamos em um ritmo bem melhor do que o ritmo o qual iniciamos.</p>
+<p><strong>O QUE DEU CERTO?:</strong> Durante a sprint a equipe conseguiu desenvolver uma autonomia para o desenvolvimento conseguindo superar as dificuldades e obstáculos.</p>
 
-<p><strong>DIFICULDADES</strong></p>
+<p><strong>O QUE DEU ERRADO?:</strong> Durante a sprint tivemos alguns pontos críticos, como a falta de dailys para gerenciar o trabalho concluído e oque está em andamento e a 
+dificuldade de entender as US's e Taks definidas pelo P.O.</p>
 
-<ul>
- <li>
-  Dificuldade em definir tasks.
- </li>
- <li>
-  Entender a definição de algumas US.
- </li>
- <li>
-  Engrenar em um ritmo constante.
- </li>
-</ul>
+<p><strong>O QUE PODEMOS MELHORAR?:</strong> Para a próxima sprint iremos criar constância na realização das dailys e iremos redefinir as US's e Tasks para simplificar a compreensão pelo Dev. Team.</p>
 
 ## SPRINT 2 🔁
 
