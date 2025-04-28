@@ -84,9 +84,9 @@
 
 | Período     | Datas                   |
 | ------------| ----------------------- |
-| Sprint 1 ▶ | 24.03.2025 - 15.04.2025 |
-| Sprint 2 ▶ | 16.04.2025 - 15.05.2025 |
-| Sprint 3 ▶ | 16.05.2025 - 11.06.2025 |
+| Sprint 1 ✅ | 24.03.2025 - 15.04.2025 |
+| Sprint 2 ▶️ | 16.04.2025 - 15.05.2025 |
+| Sprint 3 ▶️ | 16.05.2025 - 11.06.2025 |
 
 <br>
 
@@ -107,14 +107,87 @@
  
 <br>
 
-## FATRECK📍
+## SPRINT 1 🔁
 
-<h3>Paleta de Cores 🟥</h3>
+<h3>SPRINT BACKLOG 📜</h3>
 
-<div align=center>
- <img src=assets/paletaFatrek.jpeg height=320px alt="Logo CrimsonCode.">
+<p>Para o primeiro ciclo de desenvolvimento, definimos que seriam entregues as seguintes USs:</p>
+
+<ul>
+ <li>
+   Integrar com o Banco de Dados✅;
+ </li>
+ <li>
+   Definição de Design✅;
+ </li>
+ <li>
+   Criação do Banco de Dados✅;
+ </li>
+ <li>
+   Definição das Tabelas Iniciais✅;
+ </li>
+ <li>
+  Acesso e Segurança das Informações✅;
+ </li>
+ <li>
+  Proteção das Informações do Sistema;
+ </li>
+ <li>
+  Disponibilizar o Sitema Online (deploy do back-end na nuvem);
+ </li>
+ <li>
+  Acesso online ao sistema (deploy do front-end na nuvem)✅;
+  https://cheerful-frangipane-82c853.netlify.app
+ </li>
+ <li>
+  Consultar horários por turma✅;
+ </li>
+ <li>
+  Página home para aplicação✅;
+ </li>
+ <li>
+  Garantia de que o sistema continua funcionando após atualizações;
+ </li>
+ <li>
+  Garantir integridade dos dados armazenados.
+ </li>
+</ul>
+
+<h3>BURNDOWN 🔥</h3>
+
+<div>
+ <img src=assets/Burndown1.jpeg> 
 </div>
 
-<p>
- Cor de paleta baseada na identidade visual do Centro Paula Souza, para manter a consistência e familiaridade da aplicação com funcionários e alunos. Principla ferramenta utilizada para criação da paleta foi o Adobe Color.
-</p>
+<h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
+
+<p><strong>O QUE DEU CERTO?:</strong> Durante a sprint a equipe conseguiu desenvolver uma autonomia para o desenvolvimento conseguindo superar as dificuldades e obstáculos.</p>
+
+<p><strong>O QUE DEU ERRADO?:</strong> Durante a sprint tivemos alguns pontos críticos, como a falta de dailys para gerenciar o trabalho concluído e oque está em andamento e a 
+dificuldade de entender as US's e Taks definidas pelo P.O.</p>
+
+<p><strong>O QUE PODEMOS MELHORAR?:</strong> Para a próxima sprint iremos criar constância na realização das dailys e iremos redefinir as US's e Tasks para simplificar a compreensão pelo Dev. Team.</p>
+
+## SPRINT 2 🔁
+
+<h3> SPRINT BACKLOG 📜</h3>
+
+<ul>
+ <li>
+  Prototipagem no Figma;
+ </li>
+ <li>
+  Desenvolver o Front-End;
+ </li>
+ <li>
+  Finalizar desenvolvimento do Back-End;
+ </li>
+ <li>
+  Trabalhar no Banco Dados.
+ </li>
+</ul>
+
+
+<h3>BURNDOWN 🔥</h3>
+
+<h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
