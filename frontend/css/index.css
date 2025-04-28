@@ -1,133 +1,112 @@
 /* Variáveis Globais para Fontes */
 :root {
-    --font-roboto: 'Roboto', sans-serif;
-    --font-roboto-slab: 'Roboto Slab', serif;
+    --font-text: 'Roboto', sans-serif;
+    --font-title: 'Roboto Slab', serif;
+    --color-1: #076873;
+    --color-2: #5b9ea6;
+    --color-3: #b8d5d9;
+    --color-4: #bf0606;
+    --color-5: #8c0404;
 }
 
 body {
-    max-width: 80rem;
-    margin: auto; 
-    background-color: #f8f8f8;
-}
-
-/* ============================= */
-/* Header - Uso de Elementos Semânticos */
-/* ============================= */
-.header {
-    display: flex;
-    align-items: center;
-    margin: 1rem;
-    font-family: var(--font-roboto);
-}
-
-.header__container {
-    display: flex;
-    align-items: center;
-    width: 100vw;
-}
-
-.header__logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-roboto-slab);
-    font-size: 1.5rem;
-    border: 1px solid black;
-    height: 5rem;
-    width: 8rem;
-}
-
-.header__welcome {
-    flex-grow: 1;
-    text-align: center;
-}
-
-.header__title {
-    font-size: 3rem;
-    font-family: var(--font-roboto-slab);
-    vertical-align: middle;
-}
-
-.header__alternate-modes {
-    display: flex;
-    align-items: center;
-    width: 6rem;
+    background: url('../../assets/fatec_02.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: scroll;
     height: 100%;
 }
 
-.header__icon {
+/* Bloco header */
+.header {
     display: flex;
+    background-color: var(--color-4);
+    font-family: var(--font-title);
+    font-size: 32px;
+    font-weight: 800;
+    color: white;
+    height: 130px;
+    justify-content: flex-end;
     align-items: center;
-} 
-
-.header__icon:hover {
-    cursor: pointer;
+    padding-right: 5%;
 }
 
-.header__icon > img {
-    width: 2rem;
+.header__link {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    transition: all 0.3s ease;
+}
+.header__link:hover { /* Efeito de aumento da fonte e geração de sombra */
+    transition: 500ms;
+    font-size: 35px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.600);
 }
 
-.header__icon--dark {
-    display: none;
+.header__link--logo { 
+    margin-right: 15px;
+}
+.header__link--logo:hover {
+    margin-right: 8px; /* Correção da margem direita para elemento não ser empurrado ao aumentar o tamanho */
+}
+.header__link--siga:hover {
+    margin-left: 11px; /* Correção das margens laterais para elemento não ser empurrado nem empurrar elemento contígui ao aumentar o tamanho */
+    margin-right: -3px;
 }
 
-/* ============================= */
-/* Carrossel */
-/* ============================= */
 .carousel {
-    height: 12rem;
-    margin: 1rem;
-    background-color: #b8d5d9;
+    height: 347px;
+    width: 966px;
+    margin: 116px auto 0 auto;
+    background-color: white;
+}
+
+.menu {
     display: flex;
     justify-content: center;
-    align-items: center;
-    /* Espaço reservado para a exibição do carrossel */
 }
 
-/* ============================= */
-/* Cards - Estrutura de Menus */
-/* ============================= */
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 2rem;
-    padding: 2rem;
-    background-color: #fff;
-}
-
-.cards__menu {
+.menu__button {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 15rem;
-    height: 15rem;
-    border: 1px solid #ccc;
-    border-radius: 0.75rem;
-    font-family: var(--font-roboto);
+    height: 279px;
+    min-width: 375px;
+    background-color: #076873;
+    margin: 73px  30px 80px 30px;
+    border-radius: 20px;
+    box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.600); 
+    transition: all 200ms ease;
 }
-
-.cards__menu:hover {
-    width: 18rem;
-    height: 18rem;
+.menu__button:hover {
+    transition: 500ms;
     cursor: pointer;
+    height: 293px;
+    min-width: 385px;
+    margin: 66px 25px 45px 25px;
+    box-shadow: 0px 2px 10px 5px rgba(0, 0, 0, 0.600);
 }
 
-.cards__menu-title {
-    font-size: 1.5rem;
-    font-family: var(--font-roboto-slab);
-    margin-bottom: 0.5rem;
-    text-align: center;
+
+.menu__button > img {
+    height: 130px;
+    width: 130px;
+    transition: all 0.3s ease; /* Transição aplicada no estado base */
+}
+.menu__button:hover > img {
+    height: 140px;
+    width: 140px;
 }
 
-.cards__menu-icon { /* Os ícones dos cards foram extraídos do endereço: https://icons8.com.br/icons */
-    width: 50px;
-    margin-top: 1rem;
+.menu__button > p {
+    color: white;
+    font-family: var(--font-title);
+    font-size: 32px;
+    margin-top: 15px;
+    transition: all 0.3s ease;
 }
-
-/* Possíveis modificadores para diferenciar os tipos de menu */
-.cards__menu--search { /* Customizações para o menu de busca */ }
-.cards__menu--courses { /* Customizações para o menu de cursos */ }
-.cards__menu--map { /* Customizações para o menu de mapa */ }
+.menu__button:hover > p {
+    font-size: 34px;
+}
