@@ -1,7 +1,0 @@
-{
-  "name": "meu-projeto",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "cp -r frontend/css frontend/html && find frontend/html -type f -name \"*.html\" -exec sed -i 's|\\.\\.\\/css/|css/|g' {} +"
-  }
-}
