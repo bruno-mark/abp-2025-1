@@ -82,11 +82,11 @@
 
 <br>
 
-| Período     | Datas                   |
-| ------------| ----------------------- |
-| Sprint 1 ✅ | 24.03.2025 - 15.04.2025 |
-| Sprint 2 ▶️ | 16.04.2025 - 15.05.2025 |
-| Sprint 3 ▶️ | 16.05.2025 - 11.06.2025 |
+| Período     | Datas                   | Vídeo                                     |
+| ------------| ----------------------- | ----------------------------------------- |
+| Sprint 1 ✅ | 24.03.2025 - 15.04.2025 | [Vídeo-SP1](https://youtu.be/x5jLbeKv5kI) |
+| Sprint 2 ▶️ | 16.04.2025 - 15.05.2025 |                                           |
+| Sprint 3 ▶️ | 16.05.2025 - 11.06.2025 |                                           |
 
 <br>
 
@@ -174,16 +174,16 @@ dificuldade de entender as US's e Taks definidas pelo P.O.</p>
 
 <ul>
  <li>
-  Prototipagem no Figma;
+  Prototipagem no Figma: Desenvolver prótotipo de design final da aplicação;
  </li>
  <li>
-  Desenvolver o Front-End;
+  Desenvolver o Front-End: Desenvolver as páginas de acordo com o protótipo do FIGMA, utilizando HTML, CSS e JS;
  </li>
  <li>
-  Finalizar desenvolvimento do Back-End;
+  Finalizar desenvolvimento do Back-End: Desenvolver script das páginas restantes;
  </li>
  <li>
-  Trabalhar no Banco Dados.
+  Trabalhar no Banco Dados: Remodelar o Banco de Dados para atender os requisitos do cliente.
  </li>
 </ul>
 
