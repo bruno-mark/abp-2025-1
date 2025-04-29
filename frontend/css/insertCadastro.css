@@ -1,5 +1,5 @@
 body {
-  background: url('/assets/fatec_02.jpg');
+  background: url('../../assets/fatec_02.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -129,4 +129,8 @@ table.tabela_horario th {
 
 .exportar_btn:hover{
   background-color: #6a0303;
+}
+
+label {
+  color: white;
 }
