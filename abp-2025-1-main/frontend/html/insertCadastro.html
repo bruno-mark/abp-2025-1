@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horário</title>
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/insertCadastro.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="cabecalho">
+    <a href="./index.html" id="fatec">FATEC - Jacareí</a>
+    <a href="https://siga.cps.sp.gov.br/" id="siga">SIGA</a>
+    <a href="./index.html">HOME</a>
+  </div>
+
+  <div class="horario__container">
+    <h2>Horário do Curso</h2>
+
+    <div class="selects">
+      <div class="select_group">
+        <label for="periodo">Período</label>
+        <select id="periodo">
+          <option value="diurno">Diurno</option>
+          <option value="noturno">Noturno</option>
+        </select>
+      </div>
+
+      <div class="select_group">
+        <label for="semestre">Semestre</label>
+        <select id="semestre">
+          <option value="1">1º</option>
+          <option value="2">2º</option>
+          <option value="3">3º</option>
+          <option value="4">4º</option>
+          <option value="5">5º</option>
+          <option value="6">6º</option>
+        </select>
+      </div>
+    </div>
+
+    <table class="tabela_horario">
+      <thead>
+        <tr>
+          <th>Horários</th>
+          <th>Segunda</th>
+          <th>Terça</th>
+          <th>Quarta</th>
+          <th>Quinta</th>
+          <th>Sexta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>18:45 às 19:35</td>
+          <td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td>19:35 às 20:25</td>
+          <td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td>20:25 às 21:15</td>
+          <td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td>21:25 às 22:15</td>
+          <td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td>22:15 às 23:05</td>
+          <td></td><td></td><td></td><td></td><td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="docentes">
+      <h3>Docentes:</h3>
+      <ul>
+        <li>Prof. Me. Antonio Egidio São Thiago Graça</li>
+        <li>Prof. Dr. Arley Ferreira de Souza</li>
+        <li>A definir</li>
+        <li>Prof. Esp. Marcelo Augusto Sudo</li>
+      </ul>
+    </div>
+
+    <button class="exportar_btn">Exportar</button>
+  </div>
+</body>
+</html>
