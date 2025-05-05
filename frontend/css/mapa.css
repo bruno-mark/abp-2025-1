@@ -1,0 +1,80 @@
+.mapa__container {
+    padding: 40px;
+    width: 977px;
+    height: 661px;
+    margin: 100px auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.mapa__titulo {
+    font-family: var(--font-primary);
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.mapa__subtitulo {
+    font-family: var(--font-primary);
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.mapa__imagem-container {
+    background-color: #d9d9d9;
+    margin-top: 20px;
+    height: 464px;
+    width: 887px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.mapa__menu {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.mapa__menu-botao {
+    font-family: var(--font-primary);
+    text-decoration: underline;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: var(--color-4);
+    width: 136px;
+    height: 33px;
+    text-align: center;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.mapa__menu-botao:hover {
+    background: var(--color-4);
+}
+
+.mapa__menu-opcoes {
+    display: none; /* Utilizei para as opções ficarem escondidas */
+    gap: 10px;
+}
+
+.mapa__menu-opcoes.show {
+    display: flex;  /* Mostrar quando clicar  */
+}
+
+.mapa__menu-opcao {
+    background-color: var(--color-3);
+    border: none;
+    color: var(--color-5);
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 100%;
+    font-weight: bold;
+    cursor: pointer;
+}

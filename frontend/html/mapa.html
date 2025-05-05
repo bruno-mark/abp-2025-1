@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/mapa.css">
+</head>
+<body>
+  <!-- Skip link para pular direto ao conteúdo principal -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+  <header class="header">
+    <a href="https://fatecjacarei.cps.sp.gov.br/"
+       class="header__link header__link--fatec-jac"
+       aria-label="Ir para a página inicial da FATEC Jacareí"
+       target="_blank"
+       rel="noopener noreferrer">
+      FATEC – Jacareí
+    </a>
+    <a href="https://siga.cps.sp.gov.br/"
+       class="header__link header__link--siga"
+       aria-label="Ir para a página do SIGA"
+       target="_blank"
+       rel="noopener noreferrer">
+      SIGA
+    </a>
+    <a href="./index.html"
+       class="header__link header__link--home">
+      HOME
+    </a>
+  </header>
+
+  <main class="mapa">
+    <section class="mapa__container card-box">
+      <form class="mapa__form">
+        <div class="mapa__texto">
+          <h1 class="mapa__titulo">Mapa Interativo</h1>
+          <p class="mapa__subtitulo">Selecione o Ambiente</p>
+        </div>
+  
+        <div class="mapa__menu" id="menu-container">
+          <button class="mapa__menu-botao" id="btn-opcoes">Opções</button>
+          <div class="mapa__menu-opcoes" id="menu-opcoes">
+            <button class="mapa__menu-opcao">T</button>
+            <button class="mapa__menu-opcao">1º</button>
+            <button class="mapa__menu-opcao">2º</button>
+          </div>
+        </div>
+  
+        <div class="mapa__imagem-container">
+          <img
+            src="../../assets/"
+            alt="mapa-img"
+            width="464px"
+            height="887px"
+            class="mapa__imagem"
+          />
+        </div>
+      </form>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="container-footer">
+      © 2025 FATEC Jacareí – Desenvolvido por
+      <a href="https://github.com/CRIMS0NC0DE"
+         aria-label="Ir para o GitHub da equipe CrimsonCode"
+         target="_blank"
+         rel="noopener noreferrer">
+         <strong>Crims0nc0de</strong>
+      </a>
+      – Todos os direitos reservados.
+    </div>
+  </footer>
+  <script src="../js/mapa.js">
+  </script>
+</body>
+</html>
+
+
+<!-- 
+
+<main>
+      <div class="mapa-container">
+        <form>
+          <div class="text-mapa">
+            <h1>Mapa Interativo</h1>
+            <p>Selecione o Ambiente</p>
+          </div>
+          <div class="menu" id="menu-container">
+            <button id="btn-opcoes">Opções</button>
+            <div class="buttons-mapa" id="menu-opcoes">
+              <button>T</button>
+              <button>1º</button>
+              <button>2º</button>
+            </div>
+          </div>
+          <div class="mapa-interativ">
+            <img
+              src="../../assets/"
+              alt="mapa-img"
+              width="464px"
+              height="887px"
+            />
+          </div>
+        </form>
+      </div>
+    </main>
+    <footer>
+        <div class="container_rodape">
+            © 2025 FATEC Jacareí - Desenvolvolvido por Crims0nc0de - Todos os direitos reservados.
+        </div>
+    </footer>
+    <script>
+      const btnOpcoes = document.getElementById("btn-opcoes");
+      const menuOpcoes = document.getElementById("menu-opcoes");
+
+      btnOpcoes.addEventListener("click", (e) => {
+        e.stopPropagation(); // impede que o clique no botão feche o menu
+        menuOpcoes.classList.toggle("show");
+      });
+
+      // Se quiser que o menu feche ao clicar fora dele:
+      document.addEventListener("click", (e) => {
+        if (!btnOpcoes.contains(e.target) && !menuOpcoes.contains(e.target)) {
+          menuOpcoes.classList.remove("show");
+        }
+      });
+    </script>
+-->
