@@ -1,48 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cursos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filtro Cadastro</title>
   <link rel="stylesheet" href="../css/reset.css">
-  <link rel="stylesheet" href="../css/filtroCursos.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/filtroCadastro.css">
 </head>
-
 <body>
-  <div class="cabecalho">
-    <a href="./index.html" id="fatec">FATEC - Jacareí</a>
-    <a href="https://siga.cps.sp.gov.br/">SIGA</a>
-  </div>
-  <div class="login__container">
-    <h2 class="titulo_curso">Cursos</h2>
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
 
-    <div class="cursos_container">
+  <header class="header">
+    <a href="https://fatecjacarei.cps.sp.gov.br/"
+       class="header__link header__link--fatec-jac"
+       aria-label="Ir para a página inicial da FATEC Jacareí"
+       target="_blank"
+       rel="noopener noreferrer">
+      FATEC – Jacareí
+    </a>
+    <a href="https://siga.cps.sp.gov.br/"
+       class="header__link header__link--siga"
+       aria-label="Ir para a página do SIGA"
+       target="_blank"
+       rel="noopener noreferrer">
+      SIGA
+    </a>
+    <a href="./index.html"
+       class="header__link header__link--home">
+      HOME
+    </a>
+  </header>
 
-      <a href="horario_cursos.html">
-        <div class="curso_card">
-          <img src="../../assets/foto dsm.jpg" alt="Desenvolvimento">
-          <p>Desenvolvimento de Software Multiplataforma</p>
-        </div>
-      </a>
-
-      <a href="horario_cursos.html">
-        <div class="curso_card">
-          <img src="../../assets/foto geo.jpg" alt="Geoprocessamento">
-          <p>Geoprocessamento</p>
-        </div>
-      </a>
-
-      <a href="horario_cursos.html">
-        <div class="curso_card">
-          <img src="../../assets/foto MARH.jpg" alt="Meio Ambiente">
-          <p>Meio Ambiente e Recursos Hídricos</p>
-        </div>
-      </a>
-
+  <main class="login">
+    <div class="login__container card-box">
+      <h2 class="login__title">Cursos</h2>
+      <div class="login__courses">
+        <a href="horario_cursos.html" class="login__course-link">
+          <div class="login__course-card">
+            <img src="../../assets/fotodsm.jpg" alt="Desenvolvimento" class="login__course-image">
+            <p class="login__course-text">Desenvolvimento de Software Multiplataforma</p>
+          </div>
+        </a>
+        <a href="horario_cursos.html" class="login__course-link">
+          <div class="login__course-card">
+            <img src="../../assets/fotogeo.jpg" alt="Geoprocessamento" class="login__course-image">
+            <p class="login__course-text">Geoprocessamento</p>
+          </div>
+        </a>
+        <a href="horario_cursos.html" class="login__course-link">
+          <div class="login__course-card">
+            <img src="../../assets/" alt="Meio Ambiente" class="login__course-image">
+            <p class="login__course-text">Meio Ambiente e Recursos Hídricos</p>
+          </div>
+        </a>
+      </div>
     </div>
-</body>
+  </main>
 
+    <footer>
+      <div class="container-footer">
+        © 2025 FATEC Jacareí – Desenvolvido por
+        <a href="https://github.com/CRIMS0NC0DE"
+           aria-label="Ir para o GitHub da equipe CrimsonCode"
+           target="_blank"
+           rel="noopener noreferrer">
+           <strong>Crims0nc0de</strong>
+        </a>
+        – Todos os direitos reservados.
+      </div>
+    </footer>
+</body>
 </html>

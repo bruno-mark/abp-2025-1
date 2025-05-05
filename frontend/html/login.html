@@ -1,27 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
-    <div class="cabecalho">
-        <a href="./index.html" id="fatec">FATEC - Jacareí</a>
-        <a href="https://siga.cps.sp.gov.br/">SIGA</a>
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+  <header class="header">
+    <a href="https://fatecjacarei.cps.sp.gov.br/"
+       class="header__link header__link--fatec-jac"
+       aria-label="Ir para a página inicial da FATEC Jacareí"
+       target="_blank"
+       rel="noopener noreferrer">
+      FATEC – Jacareí
+    </a>
+    <a href="https://siga.cps.sp.gov.br/"
+       class="header__link header__link--siga"
+       aria-label="Ir para a página do SIGA"
+       target="_blank"
+       rel="noopener noreferrer">
+      SIGA
+    </a>
+    <a href="./index.html"
+       class="header__link header__link--home">
+      HOME
+    </a>
+  </header>
+
+  <main class="login">
+    <section class="login__container card-box">
+      <form class="login__form" onsubmit="realizarLogin(); return false;">
+        <div class="login__field">
+          <label for="username" class="login__label">Usuário:</label>
+          <input
+            type="text"
+            id="username"
+            class="login__input"
+            placeholder="Entrar com usuário"
+            required
+          />
+        </div>
+        <div class="login__field">
+          <label for="password" class="login__label">Senha:</label>
+          <input
+            type="password"
+            id="password"
+            class="login__input"
+            placeholder="Entrar com senha"
+            required
+          />
+        </div>
+        <button type="submit" class="login__button">Entrar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container-footer">
+      © 2025 FATEC Jacareí – Desenvolvido por
+      <a href="https://github.com/CRIMS0NC0DE"
+         aria-label="Ir para o GitHub da equipe CrimsonCode"
+         target="_blank"
+         rel="noopener noreferrer">
+         <strong>Crims0nc0de</strong>
+      </a>
+      – Todos os direitos reservados.
     </div>
-    <div class="login__container">
-        <form>
-            <label for="username">usuário:</label>
-            <input type="text" placeholder="Entrar com usuário" id="username" required>
-            <label for="password">senha:</label>
-            <input type="password" placeholder="Entrar com senha" id="password" required>
-            <button onclick="realizarLogin()">entrar</button>
-        </form>
-    </div>
+  </footer>
 </body>
 </html>
