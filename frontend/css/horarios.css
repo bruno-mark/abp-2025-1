@@ -1,98 +1,78 @@
-body {
-  background: url('../../assets/fatec_02.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  font-family: "Roboto Slab", serif;
-}
-
-.cabecalho {
-  display: flex;
-  background-color: #bf0606;
-  font-size: 24px;
-  font-weight: 800;
-  color: white;
-  height: 130px;
-  justify-content: flex-end;
-  align-items: center;
-  padding-right: 5%;
-}
-
-#fatec {
-  margin-right: 30px;
-}
-
-#siga{
-  margin-right: 30px;
-}
-
+/* Bloco principal */
 .horario__container {
-  background-color: #076873;
   padding: 40px;
   width: 900px;
   margin: 50px auto;
-  border-radius: 20px;
-  box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
   text-align: center;
 }
 
-h2 {
+.horario__title {
   font-size: 36px;
   color: white;
   margin-bottom: 20px;
+  font-family: var(--font-primary);
 }
 
-.selects {
+.horario__selects {
   display: flex;
   justify-content: center;
   gap: 30px;
   margin-bottom: 30px;
 }
 
-.select_group {
+.horario__select-group {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 }
 
-select {
-  background-color: #bf0606;
+.horario__label {
+  font-family: var(--font-primary);
+  font-weight: bold;
+  color: white;
+}
+
+.horario__select {
+  background-color: var(--color-4);
   border: none;
   width: 150px;
   height: 40px;
   border-radius: 10px;
   margin-top: 10px;
-  font-family: "Roboto Slab", serif;
+  font-family: var(--font-primary);
   font-weight: bold;
   color: white;
   text-align: center;
+  transition: all 0.3s ease;
+}
+.horario__select:hover {
+  background-color: var(--color-5);
 }
 
-option {
+.horario__select option {
   background-color: white;
   color: black;
 }
 
-table.tabela_horario {
+.horario__tabela {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 30px;
   background-color: white;
 }
 
-table.tabela_horario th,
-table.tabela_horario td {
+.horario__tabela th,
+.horario__tabela td {
   border: 1px solid #ccc;
   padding: 10px;
 }
 
-table.tabela_horario th {
+.horario__tabela th {
   background-color: #ccc;
   color: #000;
 }
 
-.docentes {
+.horario__docentes {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -100,23 +80,25 @@ table.tabela_horario th {
   text-align: left;
 }
 
-.docentes h3 {
-  color: #076873;
+.horario__docentes-titulo {
+  color: var(--color-1);
   margin-bottom: 10px;
+  font-family: var(--font-primary);
 }
 
-.docentes ul {
+.horario__docentes-lista {
   list-style: none;
   padding: 0;
 }
 
-.docentes li {
+.horario__docente {
   margin-bottom: 5px;
   color: #000;
+  font-family: var(--font-secondary);
 }
 
-.exportar_btn {
-  background-color: #bf0606;
+.horario__botao-exportar {
+  background-color: var(--color-4);
   color: white;
   font-size: 20px;
   font-weight: 800;
@@ -124,9 +106,10 @@ table.tabela_horario th {
   border-radius: 20px;
   padding: 10px 30px;
   cursor: pointer;
-  transition: backgroun-color 0.3 ease
+  transition: all 0.3s ease;
+  font-family: var(--font-primary);
 }
 
-.exportar_btn:hover{
-  background-color: #6a0303;
+.horario__botao-exportar:hover {
+  background-color: var(--color-5);
 }
