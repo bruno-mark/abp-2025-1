@@ -1,0 +1,115 @@
+/* Bloco principal */
+.horario__container {
+  padding: 40px;
+  width: 900px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.horario__title {
+  font-size: 36px;
+  color: white;
+  margin-bottom: 20px;
+  font-family: var(--font-primary);
+}
+
+.horario__selects {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.horario__select-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.horario__label {
+  font-family: var(--font-primary);
+  font-weight: bold;
+  color: white;
+}
+
+.horario__select {
+  background-color: var(--color-4);
+  border: none;
+  width: 150px;
+  height: 40px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-family: var(--font-primary);
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.horario__select:hover {
+  background-color: var(--color-5);
+}
+
+.horario__select option {
+  background-color: white;
+  color: black;
+}
+
+.horario__tabela {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+  background-color: white;
+}
+
+.horario__tabela th,
+.horario__tabela td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.horario__tabela th {
+  background-color: #ccc;
+  color: #000;
+}
+
+.horario__docentes {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.horario__docentes-titulo {
+  color: var(--color-1);
+  margin-bottom: 10px;
+  font-family: var(--font-primary);
+}
+
+.horario__docentes-lista {
+  list-style: none;
+  padding: 0;
+}
+
+.horario__docente {
+  margin-bottom: 5px;
+  color: #000;
+  font-family: var(--font-secondary);
+}
+
+.horario__botao-exportar {
+  background-color: var(--color-4);
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-primary);
+}
+
+.horario__botao-exportar:hover {
+  background-color: var(--color-5);
+}

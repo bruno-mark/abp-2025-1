@@ -6,7 +6,7 @@
   <title>Home Page</title>
   <link rel="stylesheet" href="../css/reset.css">
   <link rel="stylesheet" href="../css/global.css">
-  <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="../css/mapa.css">
 </head>
 <body>
   <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
@@ -32,34 +32,36 @@
     </a>
   </header>
 
-  <main class="login">
-    <section class="login__container card-box">
-      <form class="login__form" onsubmit="realizarLogin(); return false;">
-        <div class="login__field">
-          <label for="username" class="login__label">Usuário:</label>
-          <input
-            type="text"
-            id="username"
-            class="login__input"
-            placeholder="Entrar com usuário"
-            required
+  <main class="mapa">
+    <section class="mapa__container card-box">
+      <form class="mapa__form">
+        <div class="mapa__texto">
+          <h1 class="mapa__titulo">Mapa Interativo</h1>
+          <p class="mapa__subtitulo">Selecione o Ambiente</p>
+        </div>
+  
+        <div class="mapa__menu" id="menu-container">
+          <button class="mapa__menu-botao" id="btn-opcoes">Opções</button>
+          <div class="mapa__menu-opcoes" id="menu-opcoes">
+            <button class="mapa__menu-opcao">T</button>
+            <button class="mapa__menu-opcao">1º</button>
+            <button class="mapa__menu-opcao">2º</button>
+          </div>
+        </div>
+  
+        <div class="mapa__imagem-container">
+          <img
+            src="../../assets/"
+            alt="mapa-img"
+            width="464px"
+            height="887px"
+            class="mapa__imagem"
           />
         </div>
-        <div class="login__field">
-          <label for="password" class="login__label">Senha:</label>
-          <input
-            type="password"
-            id="password"
-            class="login__input"
-            placeholder="Entrar com senha"
-            required
-          />
-        </div>
-        <button type="submit" class="login__button">Entrar</button>
       </form>
     </section>
   </main>
-
+  
   <footer>
     <div class="container-footer">
       © 2025 FATEC Jacareí – Desenvolvido por
@@ -72,5 +74,7 @@
       – Todos os direitos reservados.
     </div>
   </footer>
+  <script src="../js/mapa.js">
+  </script>
 </body>
 </html>
