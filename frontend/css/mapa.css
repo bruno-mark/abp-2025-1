@@ -1,5 +1,4 @@
-
-.mapa-container {
+.mapa__container {
     padding: 40px;
     width: 977px;
     height: 661px;
@@ -44,7 +43,6 @@
 
 .mapa__menu-botao {
     font-family: var(--font-primary);
-    text-decoration: underline;
     font-size: 16px;
     font-weight: bold;
     background-color: var(--color-4);
@@ -54,6 +52,14 @@
     color: white;
     border-radius: 20px;
     cursor: pointer;
+}
+.mapa__menu-botao:hover {
+    background: var(--color-5);
+}
+
+.mapa__menu-opcoes {
+    display: none; /* Utilizei para as opções ficarem escondidas */
+    gap: 10px;
 }
 
 .mapa__menu-opcoes.show {
