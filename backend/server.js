@@ -19,10 +19,13 @@ app.get('/', (req, res) => {
   res.send('🚀 API rodando com sucesso e com deploy automático! hahahahaha');
 });
 
-require('./dataRecovery')(app, db);
-
 app.listen(port, () => {
   console.log(`🚀 Servidor rodando na porta ${port}`);
 });
+
+
+require('./dataRecovery')(app, db);
+require('./csvInsertion')(app, db);
+
 
 
