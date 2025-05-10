@@ -1,63 +1,90 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inserção CSV</title>
-  <link rel="stylesheet" href="../css/reset.css">
-  <link rel="stylesheet" href="../css/global.css">
-  <link rel="stylesheet" href="../css/csvInsertion.css">
-</head>
-<body>
-  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inserção CSV</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/csvInsertion.css" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link"
+      >Pular para o conteúdo principal</a
+    >
 
-  <header class="header">
-    <a href="https://fatecjacarei.cps.sp.gov.br/"
-       class="header__link header__link--fatec-jac"
-       aria-label="Ir para a página inicial da FATEC Jacareí"
-       target="_blank"
-       rel="noopener noreferrer">
-      FATEC – Jacareí
-    </a>
-    <a href="https://siga.cps.sp.gov.br/"
-       class="header__link header__link--siga"
-       aria-label="Ir para a página do SIGA"
-       target="_blank"
-       rel="noopener noreferrer">
-      SIGA
-    </a>
-    <a href="./index.html"
-       class="header__link header__link--home">
-      HOME
-    </a>
-  </header>
-
-  <main class="insercao">
-    <div class="insercao__container card-box">
-      <h1 class="insercao__title">Inserção CSV</h1>
-      <form class="insercao__form">
-        <input id="file-upload" type="file" accept=".csv" multiple class="insercao__input-file" />
-        <div class="insercao__drop-area">
-          Clique ou arraste seus arquivos aqui
-        </div>
-        <button type="submit" class="insercao__button">Enviar arquivos</button>
-      </form>
-    </div>
-  </main>
-
-  <footer>
-    <div class="container-footer">
-      © 2025 FATEC Jacareí – Desenvolvido por
-      <a href="https://github.com/CRIMS0NC0DE"
-         aria-label="Ir para o GitHub da equipe CrimsonCode"
-         target="_blank"
-         rel="noopener noreferrer">
-         <strong>Crims0nc0de</strong>
+    <header class="header">
+      <a
+        href="https://fatecjacarei.cps.sp.gov.br/"
+        class="header__link header__link--fatec-jac"
+        aria-label="Ir para a página inicial da FATEC Jacareí"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        FATEC – Jacareí
       </a>
-      – Todos os direitos reservados.
-    </div>
-  </footer>
-  <script src="../../backend/csvInsertion.js">
-  </script>
-</body>
+      <a
+        href="https://siga.cps.sp.gov.br/"
+        class="header__link header__link--siga"
+        aria-label="Ir para a página do SIGA"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        SIGA
+      </a>
+      <a href="./index.html" class="header__link header__link--home"> HOME </a>
+    </header>
+
+    <main class="insercao">
+      <div class="insercao__container card-box">
+        <h1 class="insercao__title">Inserção CSV</h1>
+        <form class="insercao__form">
+          <input
+            id="file-upload"
+            type="file"
+            accept=".csv"
+            class="insercao__input-file"
+          />
+
+          <!-- DROPZONE INICIAL -->
+          <div id="drop-section">
+            <div class="insercao__drop-area" id="drop-area">
+              Clique ou arraste seus arquivos aqui
+            </div>
+          </div>
+
+          <!-- ARQUIVO SELECIONADO -->
+          <div id="file-section" class="insercao__file-selected hidden">
+            <p id="selected-filename">📄 nome.csv</p>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <button type="button" id="remove-file" class="insercao__button">
+              Remover arquivo
+            </button>
+          </div>
+
+          <button type="submit" class="insercao__button">
+            Enviar arquivos
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container-footer">
+        © 2025 FATEC Jacareí – Desenvolvido por
+        <a
+          href="https://github.com/CRIMS0NC0DE"
+          aria-label="Ir para o GitHub da equipe CrimsonCode"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <strong>Crims0nc0de</strong>
+        </a>
+        – Todos os direitos reservados.
+      </div>
+    </footer>
+    <script src="../../backend/csvInsertion.js"></script>
+  </body>
 </html>

@@ -66,3 +66,45 @@
 .insercao__button:hover {
   background-color: var(--color-5);
 }
+
+.insercao__file-list {
+  color: white;
+  font-family: var(--font-primary);
+  margin-top: 20px;
+  text-align: left;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  word-wrap: break-word;
+}
+
+.insercao__file-selected {
+  margin-top: 30px;
+  color: white;
+  text-align: center;
+  font-family: var(--font-primary);
+}
+
+.hidden {
+  display: none;
+}
+
+.progress-bar {
+  width: 80%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background-color: #4a8b92;
+  transition: width 2s ease;
+}
