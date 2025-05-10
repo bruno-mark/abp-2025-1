@@ -11,6 +11,7 @@ function showSelectedFile(file) {
   dropSection.classList.add("hidden");
   fileSection.classList.remove("hidden");
   simulateProgressBar();
+  readCSVandConvertToJSON(file);
 }
 
 function resetToInitialState() {
@@ -24,7 +25,27 @@ function simulateProgressBar() {
   progressFill.style.width = "0%";
   setTimeout(() => {
     progressFill.style.width = "100%";
-  }, 100); 
+  }, 100);
+}
+
+function readCSVandConvertToJSON(file) {
+  const reader = new FileReader();
+  reader.onload = function (event) {
+    const text = event.target.result;
+    const lines = text.trim().split("\n");
+    const headers = lines[0].split(",").map((h) => h.trim());
+
+    const jsonData = lines.slice(1).map((line) => {
+      const values = line.split(",").map((v) => v.trim());
+      return headers.reduce((obj, header, i) => {
+        obj[header] = values[i] || "";
+        return obj;
+      }, {});
+    });
+
+    console.log("JSON gerado do CSV:", jsonData); // Aqui você vê o resultado
+  };
+  reader.readAsText(file);
 }
 
 dropArea.addEventListener("click", () => fileInput.click());
