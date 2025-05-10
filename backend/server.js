@@ -3,6 +3,7 @@ const { Client } = require('pg');
 
 const app = express();
 const port = 3000;
+const cors = require('cors');
 
 const db = new Client({
   host: process.env.DB_HOST,
