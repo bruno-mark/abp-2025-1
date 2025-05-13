@@ -80,7 +80,9 @@
 
 ## Aplicação: FATREK 📍
 
-
+<div align=center>
+  <img src=assets/design.jpeg height=370px alt="Design Fatrek">
+</div>
 
 ## CALENDÁRIO 🕐
 
@@ -141,7 +143,6 @@
  </li>
  <li>
   Acesso online ao sistema (deploy do front-end na nuvem)✅;
-  https://cheerful-frangipane-82c853.netlify.app
  </li>
  <li>
   Consultar horários por turma✅;
@@ -195,3 +196,9 @@ dificuldade de entender as US's e Taks definidas pelo P.O.</p>
 <h3>BURNDOWN 🔥</h3>
 
 <h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
+
+<p><strong>O QUE DEU CERTO?:</strong></p>
+
+<p><strong>O QUE DEU ERRADO?:</strong></p>
+
+<p><strong>O QUE PODEMOS MELHORAR?:</strong></p>
