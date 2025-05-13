@@ -19,6 +19,8 @@ function resetToInitialState() {
   dropSection.classList.remove("hidden");
   fileSection.classList.add("hidden");
   progressFill.style.width = "0%";
+  esconderMensagemDeErro();
+  esconderResumoValidacao();
 }
 
 function simulateProgressBar() {
@@ -26,17 +28,6 @@ function simulateProgressBar() {
   setTimeout(() => {
     progressFill.style.width = "100%";
   }, 100);
-}
-function exibirMensagemDeErro(mensagem) {
-  const errorDiv = document.getElementById("error-messages");
-  errorDiv.textContent = mensagem;
-  errorDiv.classList.remove("hidden");
-}
-
-function esconderMensagensDeErro() {
-  const errorDiv = document.getElementById("error-messages");
-  errorDiv.textContent = "";
-  errorDiv.classList.add("hidden");
 }
 
 function readCSVandConvertToJSON(file) {
@@ -53,7 +44,6 @@ function readCSVandConvertToJSON(file) {
       "dia_semana",
       "horario",
     ];
-
     const missingHeaders = requiredHeaders.filter(
       (req) => !headers.includes(req)
     );
@@ -64,10 +54,11 @@ function readCSVandConvertToJSON(file) {
           ", "
         )}. Corrija antes de prosseguir.`
       );
+      esconderResumoValidacao();
       return;
     }
 
-    esconderMensagensDeErro(); // caso tudo esteja certo
+    esconderMensagemDeErro();
 
     const jsonData = [];
     const erros = [];
@@ -79,35 +70,29 @@ function readCSVandConvertToJSON(file) {
         return obj;
       }, {});
 
-      // Validação por linha
       const linhaErros = [];
 
-      // dia_semana: deve estar entre 1 e 5
       const dia = parseInt(registro["dia_semana"], 10);
       if (isNaN(dia) || dia < 1 || dia > 5) {
         linhaErros.push(
-          `Linha ${index + 2}: valor inválido em 'dia_semana' (${
+          `• Linha ${index + 2}: valor inválido em 'dia_semana' → "${
             registro["dia_semana"]
-          })`
+          }"`
         );
       }
 
-      // horario: deve estar no formato HH:MM-HH:MM
       const horarioRegex = /^\d{2}:\d{2}-\d{2}:\d{2}$/;
       if (!horarioRegex.test(registro["horario"])) {
         linhaErros.push(
-          `Linha ${index + 2}: formato inválido de 'horario' (${
+          `• Linha ${index + 2}: formato inválido de 'horario' → "${
             registro["horario"]
-          })`
+          }"`
         );
       }
 
-      // Outros campos obrigatórios não podem estar vazios
       ["turma", "disciplina", "professor"].forEach((campo) => {
         if (!registro[campo]) {
-          linhaErros.push(
-            `Linha ${index + 2}: campo obrigatório '${campo}' está vazio`
-          );
+          linhaErros.push(`• Linha ${index + 2}: campo '${campo}' está vazio`);
         }
       });
 
@@ -119,18 +104,43 @@ function readCSVandConvertToJSON(file) {
     });
 
     if (erros.length > 0) {
-      exibirMensagemDeErro(
-        "⚠️ Problemas encontrados no arquivo:\n\n" + erros.join("\n")
-      );
+      exibirResumoValidacao(jsonData.length, erros.length, erros);
     } else {
-      esconderMensagensDeErro();
+      esconderResumoValidacao();
       console.log("✅ Dados válidos:", jsonData);
-      // Aqui segue para o próximo passo, como exibir ou salvar
     }
-
-    // Aqui você pode continuar o processamento, validação de linhas, etc.
   };
+
   reader.readAsText(file);
+}
+
+function exibirMensagemDeErro(mensagem) {
+  const errorDiv = document.getElementById("error-messages");
+  errorDiv.textContent = mensagem;
+  errorDiv.classList.remove("hidden");
+}
+
+function esconderMensagemDeErro() {
+  const errorDiv = document.getElementById("error-messages");
+  errorDiv.textContent = "";
+  errorDiv.classList.add("hidden");
+}
+
+function exibirResumoValidacao(validos, invalidos, erros) {
+  const summaryDiv = document.getElementById("validation-summary");
+  summaryDiv.innerHTML = `
+    <p><strong>✅ Registros válidos:</strong> ${validos}</p>
+    <p><strong>❌ Registros com erro:</strong> ${invalidos}</p>
+    <p><strong>Detalhes:</strong></p>
+    <ul>${erros.map((e) => `<li>${e}</li>`).join("")}</ul>
+  `;
+  summaryDiv.classList.remove("hidden");
+}
+
+function esconderResumoValidacao() {
+  const summaryDiv = document.getElementById("validation-summary");
+  summaryDiv.innerHTML = "";
+  summaryDiv.classList.add("hidden");
 }
 
 dropArea.addEventListener("click", () => fileInput.click());
