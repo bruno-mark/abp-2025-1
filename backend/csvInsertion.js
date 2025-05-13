@@ -27,23 +27,108 @@ function simulateProgressBar() {
     progressFill.style.width = "100%";
   }, 100);
 }
+function exibirMensagemDeErro(mensagem) {
+  const errorDiv = document.getElementById("error-messages");
+  errorDiv.textContent = mensagem;
+  errorDiv.classList.remove("hidden");
+}
+
+function esconderMensagensDeErro() {
+  const errorDiv = document.getElementById("error-messages");
+  errorDiv.textContent = "";
+  errorDiv.classList.add("hidden");
+}
 
 function readCSVandConvertToJSON(file) {
   const reader = new FileReader();
   reader.onload = function (event) {
     const text = event.target.result;
     const lines = text.trim().split("\n");
-    const headers = lines[0].split(",").map((h) => h.trim());
 
-    const jsonData = lines.slice(1).map((line) => {
+    const headers = lines[0].split(",").map((h) => h.trim());
+    const requiredHeaders = [
+      "turma",
+      "disciplina",
+      "professor",
+      "dia_semana",
+      "horario",
+    ];
+
+    const missingHeaders = requiredHeaders.filter(
+      (req) => !headers.includes(req)
+    );
+
+    if (missingHeaders.length > 0) {
+      exibirMensagemDeErro(
+        `❌ O arquivo está com colunas faltando: ${missingHeaders.join(
+          ", "
+        )}. Corrija antes de prosseguir.`
+      );
+      return;
+    }
+
+    esconderMensagensDeErro(); // caso tudo esteja certo
+
+    const jsonData = [];
+    const erros = [];
+
+    lines.slice(1).forEach((line, index) => {
       const values = line.split(",").map((v) => v.trim());
-      return headers.reduce((obj, header, i) => {
+      const registro = headers.reduce((obj, header, i) => {
         obj[header] = values[i] || "";
         return obj;
       }, {});
+
+      // Validação por linha
+      const linhaErros = [];
+
+      // dia_semana: deve estar entre 1 e 5
+      const dia = parseInt(registro["dia_semana"], 10);
+      if (isNaN(dia) || dia < 1 || dia > 5) {
+        linhaErros.push(
+          `Linha ${index + 2}: valor inválido em 'dia_semana' (${
+            registro["dia_semana"]
+          })`
+        );
+      }
+
+      // horario: deve estar no formato HH:MM-HH:MM
+      const horarioRegex = /^\d{2}:\d{2}-\d{2}:\d{2}$/;
+      if (!horarioRegex.test(registro["horario"])) {
+        linhaErros.push(
+          `Linha ${index + 2}: formato inválido de 'horario' (${
+            registro["horario"]
+          })`
+        );
+      }
+
+      // Outros campos obrigatórios não podem estar vazios
+      ["turma", "disciplina", "professor"].forEach((campo) => {
+        if (!registro[campo]) {
+          linhaErros.push(
+            `Linha ${index + 2}: campo obrigatório '${campo}' está vazio`
+          );
+        }
+      });
+
+      if (linhaErros.length > 0) {
+        erros.push(...linhaErros);
+      } else {
+        jsonData.push(registro);
+      }
     });
 
-    console.log("JSON gerado do CSV:", jsonData); // Aqui você vê o resultado
+    if (erros.length > 0) {
+      exibirMensagemDeErro(
+        "⚠️ Problemas encontrados no arquivo:\n\n" + erros.join("\n")
+      );
+    } else {
+      esconderMensagensDeErro();
+      console.log("✅ Dados válidos:", jsonData);
+      // Aqui segue para o próximo passo, como exibir ou salvar
+    }
+
+    // Aqui você pode continuar o processamento, validação de linhas, etc.
   };
   reader.readAsText(file);
 }
