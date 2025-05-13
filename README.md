@@ -78,7 +78,7 @@
  </ul>
 </ul>
 
-## Aplicação: FATREK 📍
+## APLICAÇÃO: FATREK 📍
 
 <div align=center>
   <img src=assets/design.jpeg height=370px alt="Design Fatrek">
