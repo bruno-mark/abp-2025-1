@@ -12,6 +12,7 @@ function showSelectedFile(file) {
   fileSection.classList.remove("hidden");
   simulateProgressBar();
   readCSVandConvertToJSON(file);
+  removeFileButton.classList.remove("hidden");
 }
 
 function resetToInitialState() {
@@ -21,6 +22,7 @@ function resetToInitialState() {
   progressFill.style.width = "0%";
   esconderMensagemDeErro();
   esconderResumoValidacao();
+  removeFileButton.classList.add("hidden");
 }
 
 function simulateProgressBar() {
