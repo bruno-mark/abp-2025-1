@@ -30,6 +30,15 @@ function simulateProgressBar() {
   }, 100);
 }
 
+function capitalizarNome(nome) {
+  return nome
+    .toLowerCase()
+    .split(" ")
+    .filter(Boolean)
+    .map((palavra) => palavra[0].toUpperCase() + palavra.slice(1))
+    .join(" ");
+}
+
 function readCSVandConvertToJSON(file) {
   const reader = new FileReader();
   reader.onload = function (event) {
@@ -62,13 +71,24 @@ function readCSVandConvertToJSON(file) {
 
     const jsonData = [];
     const erros = [];
+    let correcoes = 0;
 
     lines.slice(1).forEach((line, index) => {
       const values = line.split(",").map((v) => v.trim());
-      const registro = headers.reduce((obj, header, i) => {
+      let registro = headers.reduce((obj, header, i) => {
         obj[header] = values[i] || "";
         return obj;
       }, {});
+
+      // Correções automáticas
+      ["turma", "disciplina", "professor"].forEach((campo) => {
+        const original = registro[campo];
+        const corrigido = capitalizarNome(original.trim());
+        if (original !== corrigido) {
+          registro[campo] = corrigido;
+          correcoes++;
+        }
+      });
 
       const linhaErros = [];
 
@@ -103,12 +123,8 @@ function readCSVandConvertToJSON(file) {
       }
     });
 
-    if (erros.length > 0) {
-      exibirResumoValidacao(jsonData.length, erros.length, erros);
-    } else {
-      esconderResumoValidacao();
-      console.log("✅ Dados válidos:", jsonData);
-    }
+    exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
+    console.log("✅ Dados válidos:", jsonData);
   };
 
   reader.readAsText(file);
@@ -126,13 +142,23 @@ function esconderMensagemDeErro() {
   errorDiv.classList.add("hidden");
 }
 
-function exibirResumoValidacao(validos, invalidos, erros) {
+function exibirResumoValidacao(validos, invalidos, erros, correcoes = 0) {
   const summaryDiv = document.getElementById("validation-summary");
   summaryDiv.innerHTML = `
     <p><strong>✅ Registros válidos:</strong> ${validos}</p>
     <p><strong>❌ Registros com erro:</strong> ${invalidos}</p>
-    <p><strong>Detalhes:</strong></p>
-    <ul>${erros.map((e) => `<li>${e}</li>`).join("")}</ul>
+    ${
+      correcoes > 0
+        ? `<p><strong>🛠 Correções automáticas aplicadas:</strong> ${correcoes}</p>`
+        : ""
+    }
+    ${
+      erros.length > 0
+        ? `<p><strong>Detalhes:</strong></p><ul>${erros
+            .map((e) => `<li>${e}</li>`)
+            .join("")}</ul>`
+        : ""
+    }
   `;
   summaryDiv.classList.remove("hidden");
 }
