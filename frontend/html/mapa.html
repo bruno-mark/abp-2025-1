@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Page</title>
+  <title>Mapa Interativo</title>
   <link rel="stylesheet" href="../css/reset.css">
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/mapa.css">
-  <link rel="script" href="/backend/mapa.js">
 </head>
 <body>
   <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
@@ -43,17 +42,18 @@
   
         <div class="mapa__menu" id="menu-container">
           <button class="mapa__menu-botao" id="btn-opcoes">Opções</button>
-          <div class="mapa__menu-opcoes show" id="menu-opcoes">
-            <button class="mapa__menu-opcao active">T</button>
-            <button class="mapa__menu-opcao">1º</button>
-            <button class="mapa__menu-opcao">2º</button>
+          <div class="mapa__menu-opcoes" id="menu-opcoes">
+            <button type="button" class="mapa__menu-opcao active" andar="terreo">T</button>
+            <button type="button" class="mapa__menu-opcao" andar="primeiro-andar">1º</button>
+            <button type="button" class="mapa__menu-opcao" andar="segundo-andar">2º</button>
           </div>
         </div>
+
   
         <div class="mapa__imagem-container">
-         <img class="mapa-andar" type="button" andar="terreo" id="terreo" src="/assets/terreo.svg" alt="Térreo"/>
-      <img class="mapa-andar" type="button" andar="primeiro-andar" id="primeiro-andar" src="/assets/primeiro-andar.svg" alt="Primeiro Andar" style="display: none;"/>
-      <img class="mapa-andar" type="button" andar="segundo-andar" id="segundo-andar" src="/assets/segundo-andar.svg" alt="Segundo Andar" style="display: none;"/>
+         <img class="mapa-andar" id="terreo" src="/assets/terreo.svg" alt="Térreo"/>
+      <img class="mapa-andar" id="primeiro-andar" src="/assets/primeiro-andar.svg" alt="Primeiro Andar" style="display: none;"/>
+      <img class="mapa-andar" id="segundo-andar" src="/assets/segundo-andar.svg" alt="Segundo Andar" style="display: none;"/>
         </div>
       </form>
     </section>
