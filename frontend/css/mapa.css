@@ -1,7 +1,7 @@
 .mapa__container {
     padding: 40px;
     width: 977px;
-    height: 661px;
+    height: 600px;
     margin: 100px auto;
     text-align: center;
     display: flex;
@@ -26,8 +26,8 @@
 
 .mapa__imagem-container {
     background-color: #d9d9d9;
-    margin-top: 20px;
-    height: 464px;
+    margin-top: 30px;
+    height: 360px;
     width: 887px;
     border-radius: 10px;
     position: relative;
