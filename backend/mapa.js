@@ -1,14 +1,15 @@
-const btnOpcoes = document.getElementById("btn-opcoes");
-      const menuOpcoes = document.getElementById("menu-opcoes");
+  const btn = document.getElementById('btn-opcoes');
+  const menu = document.getElementById('menu-opcoes');
+  const opcoes = document.querySelectorAll('.mapa__menu-opcao');
 
-      btnOpcoes.addEventListener("click", (e) => {
-        e.stopPropagation(); // impede que o clique no botão feche o menu
-        menuOpcoes.classList.toggle("show");
-      });
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    menu.classList.toggle('show');
+  });
 
-      // Se quiser que o menu feche ao clicar fora dele:
-      document.addEventListener("click", (e) => {
-        if (!btnOpcoes.contains(e.target) && !menuOpcoes.contains(e.target)) {
-          menuOpcoes.classList.remove("show");
-        }
-      });
+  opcoes.forEach((opcao) => {
+    opcao.addEventListener('click', () => {
+      opcoes.forEach(o => o.classList.remove('active'));
+      opcao.classList.add('active');
+    });
+  });

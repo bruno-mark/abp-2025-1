@@ -1,8 +1,49 @@
-.carousel {
-    height: 347px;
-    width: 966px;
-    margin: 116px auto 0 auto;
-    background-color: white;
+.carousel-container {
+  position: relative;
+  width: 966px;
+  margin: 40px auto; /* dá espaçamento em cima */
+}
+
+.carousel-slide-wrapper {
+  overflow: hidden;
+  width: 966px;
+  height: 347px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.carousel-slide {
+  display: flex;
+  width: calc(966px * 3); /* ou número de imagens */
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide img {
+  width: 966px;
+  height: 347px;
+  object-fit: cover;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+}
+
+.carousel-btn.voltar {
+  left: 10px;
+}
+
+.carousel-btn.avancar {
+  right: 10px;
 }
 
 .menu {
@@ -48,3 +89,4 @@
 .menu__button:hover > p {
     font-size: 34px;
 }
+
