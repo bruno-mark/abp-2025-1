@@ -83,6 +83,12 @@
 <div align=center>
   <img src=assets/design.jpeg height=370px alt="Design Fatrek">
 </div>
+<div> 
+   <h3>
+    <a href=https://www.figma.com/design/lQgwcWDEa8HCt3YKGYpLHq/Fatreck?node-id=0-1&t=YakGwtQgjSrKHSxQ-1 text-decoration=none >PROTÓTIPO FIGMA🧩</a>
+   </h3>
+  <p>Link acima, com acesso ao protótipo desenvolvido no Figma com o conceito final do design da aplicação.</p>
+</div>
 
 ## CALENDÁRIO 🕐
 
