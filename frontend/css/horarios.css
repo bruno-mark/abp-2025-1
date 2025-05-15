@@ -56,6 +56,11 @@ h2 {
   
 }
 
+.select_group label {
+  color: white;
+  font-weight: bold; /* opcional, só pra dar mais destaque */
+}
+
 select {
   background-color: #bf0606;
   border: none;
@@ -67,6 +72,23 @@ select {
   font-weight: bold;
   color: white;
   text-align: center;
+}
+
+#filtrar_btn{
+  background-color: #bf0606;
+  border: none;
+  width: 150px;
+  height: 40px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-family: "Roboto Slab", serif;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+#filtrar_btn:hover{
+  background-color: #6a0303;
 }
 
 option {
@@ -128,5 +150,5 @@ table.tabela_horario th {
 }
 
 .exportar_btn:hover{
-  background-color: #6a0303;
+  background-color: #6a0303;
 }
