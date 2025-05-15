@@ -1,14 +1,28 @@
-const btnOpcoes = document.getElementById("btn-opcoes");
-      const menuOpcoes = document.getElementById("menu-opcoes");
+const botao = document.getElementById('btn-opcoes');
+const menu = document.getElementById('menu-opcoes');
+const opcoes = document.querySelectorAll('.mapa__menu-opcao');
+var imagens = document.querySelectorAll('.mapa-andar');
 
-      btnOpcoes.addEventListener("click", (e) => {
-        e.stopPropagation(); // impede que o clique no botão feche o menu
-        menuOpcoes.classList.toggle("show");
-      });
+botao.addEventListener('click', function (evento) {
+  evento.preventDefault();
+  menu.classList.toggle('show');
+});
 
-      // Se quiser que o menu feche ao clicar fora dele:
-      document.addEventListener("click", (e) => {
-        if (!btnOpcoes.contains(e.target) && !menuOpcoes.contains(e.target)) {
-          menuOpcoes.classList.remove("show");
-        }
-      });
+opcoes.forEach(function (opcao) {
+  opcao.addEventListener('click', function () {
+    opcoes.forEach(function (o) {
+      o.classList.remove('active');
+    });
+    opcao.classList.add('active');
+
+    var andar = opcao.getAttribute('andar');
+
+    imagens.forEach(function (img) {
+      if (img.id === andar) {
+        img.style.display = 'block';
+      } else {
+        img.style.display = 'none';
+      }
+    });
+  });
+});

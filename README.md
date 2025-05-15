@@ -95,11 +95,13 @@
 
 <br>
 
+
 | Período     | Datas                   | Vídeo                                     |
 | ------------| ----------------------- | ----------------------------------------- |
 | Sprint 1 ✅ | 24.03.2025 - 15.04.2025 | [Vídeo-SP1](https://youtu.be/x5jLbeKv5kI) |
-| Sprint 2 ✅ | 16.04.2025 - 15.05.2025 | [Vídeo-SP2](https://youtu.be/fqYVcCfJs5I)|
+| Sprint 2 ✅ | 16.04.2025 - 15.05.2025 | [Vídeo-SP2](https://youtu.be/fqYVcCfJs5I) |
 | Sprint 3 ▶️ | 16.05.2025 - 11.06.2025 |                                           |
+
 
 <br>
 
