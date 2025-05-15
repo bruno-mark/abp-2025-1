@@ -81,7 +81,7 @@
 ## APLICAÇÃO: FATREK 📍
 
 <div align=center>
- <img src=https://github.com/CRIMS0NC0DE/abp-2025-1/blob/update/README.md/assets/design.png heigth=370px>
+ <img src=assets/design.png heigth=370px>
 </div>
 
 <div> 
