@@ -78,9 +78,18 @@
  </ul>
 </ul>
 
-## Aplicação: FATREK 📍
+## APLICAÇÃO: FATREK 📍
 
+<div align=center>
+ <img src=https://github.com/CRIMS0NC0DE/abp-2025-1/blob/update/README.md/assets/design.png heigth=370px>
+</div>
 
+<div> 
+   <h3>
+    <a href=https://www.figma.com/design/lQgwcWDEa8HCt3YKGYpLHq/Fatreck?node-id=0-1&t=YakGwtQgjSrKHSxQ-1 text-decoration=none >PROTÓTIPO FIGMA🧩</a>
+   </h3>
+  <p>Link acima, com acesso ao protótipo desenvolvido no Figma com o conceito final do design da aplicação.</p>
+</div>
 
 ## CALENDÁRIO 🕐
 
@@ -89,7 +98,7 @@
 | Período     | Datas                   | Vídeo                                     |
 | ------------| ----------------------- | ----------------------------------------- |
 | Sprint 1 ✅ | 24.03.2025 - 15.04.2025 | [Vídeo-SP1](https://youtu.be/x5jLbeKv5kI) |
-| Sprint 2 ▶️ | 16.04.2025 - 15.05.2025 |                                           |
+| Sprint 2 ✅ | 16.04.2025 - 15.05.2025 | [Vídeo-SP2]()|
 | Sprint 3 ▶️ | 16.05.2025 - 11.06.2025 |                                           |
 
 <br>
@@ -107,7 +116,6 @@
 | Davi Snaider      | Dev. Team     | [davisnaider06](https://github.com/davisnaider06)         |
 | Henrique Pinho    | Dev. Team     | [rickshf](https://github.com/rickshf)                     |
 | Vinicius Ledro    | Dev. Team     | [ViniciusLedro](https://github.com/ViniciusLedro)         |
-| Wesley Alves      | Dev. Team     | [Wesleycoptero](https://github.com/Wesleycoptero)         |
  
 <br>
 
@@ -141,7 +149,6 @@
  </li>
  <li>
   Acesso online ao sistema (deploy do front-end na nuvem)✅;
-  https://cheerful-frangipane-82c853.netlify.app
  </li>
  <li>
   Consultar horários por turma✅;
@@ -160,7 +167,7 @@
 <h3>BURNDOWN 🔥</h3>
 
 <div>
- <img src=assets/Burndown1.jpeg> 
+ <img src=assets/burndownSP1.png > 
 </div>
 
 <h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
@@ -181,7 +188,7 @@ dificuldade de entender as US's e Taks definidas pelo P.O.</p>
   Prototipagem no Figma: Desenvolver prótotipo de design final da aplicação, utilizando Figma;
  </li>
  <li>
-  Desenvolver o Front-End: Desenvolver as páginas de acordo com o protótipo do Figma, utilizando HTML e CSS;
+  Desenvolver o Front-End: Desenvolver as páginas de acordo com o protótipo do Figma, utilizando HTML e CSS; 
  </li>
  <li>
   Desenvolver Back-End: Iniciar desenvolvimento do script das páginas desenvolvidas, utilizando JavaScript;
@@ -193,5 +200,14 @@ dificuldade de entender as US's e Taks definidas pelo P.O.</p>
 
 
 <h3>BURNDOWN 🔥</h3>
+<div>
+  <img src=assets/burndownSP2.png >
+</div>
 
 <h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
+
+<p><strong>O QUE DEU CERTO?:</strong> Divisão e definição das tasks e US entregando objetivos claros facilitou a execução das atividades, além disso o trabalho em conjunto de todo o grupo onde o Dev. Team participava ativamente ajudando um ao outro no desenvolvimento foi um diferencial.</p>
+
+<p><strong>O QUE DEU ERRADO?:</strong> Durante a sprint vimos que algumas tarefas demandaram mais esforço e tempo que o esperado, sendo assim a distribuição dos pontos não foi acertiva. Outro ponto foi foi as daylis que realizamos, porém em algumas não tivemos um gerenciamento efetivo.</p>
+
+<p><strong>O QUE PODEMOS MELHORAR?:</strong> Distribuição dos pontos e efetividade das daylis.</p>
