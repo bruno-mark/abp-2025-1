@@ -81,8 +81,9 @@
 ## APLICAÇÃO: FATREK 📍
 
 <div align=center>
- <img src=assets/design.png>
+ <img src=https://github.com/CRIMS0NC0DE/abp-2025-1/blob/update/README.md/assets/design.png heigth=370px>
 </div>
+
 <div> 
    <h3>
     <a href=https://www.figma.com/design/lQgwcWDEa8HCt3YKGYpLHq/Fatreck?node-id=0-1&t=YakGwtQgjSrKHSxQ-1 text-decoration=none >PROTÓTIPO FIGMA🧩</a>
