@@ -201,6 +201,9 @@ dificuldade de entender as US's e Taks definidas pelo P.O.</p>
 
 
 <h3>BURNDOWN 🔥</h3>
+<div>
+  <img src=assets/burndownSP2.png >
+</div>
 
 <h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
 
