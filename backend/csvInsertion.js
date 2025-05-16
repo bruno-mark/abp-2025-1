@@ -23,6 +23,9 @@ function resetToInitialState() {
   esconderMensagemDeErro();
   esconderResumoValidacao();
   removeFileButton.classList.add("hidden");
+  document.getElementById("editable-table").classList.add("hidden");
+  document.getElementById("export-buttons").classList.add("hidden");
+
 }
 
 function simulateProgressBar() {
@@ -126,6 +129,8 @@ function readCSVandConvertToJSON(file) {
     });
 
     exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
+    renderEditableTable(jsonData);
+
     console.log("✅ Dados válidos:", jsonData);
   };
 
@@ -199,3 +204,84 @@ fileInput.addEventListener("change", () => {
 });
 
 removeFileButton.addEventListener("click", resetToInitialState);
+
+function renderEditableTable(data) {
+  const tableContainer = document.getElementById("editable-table");
+  tableContainer.innerHTML = "";
+
+  if (!data.length) return;
+
+  const headers = Object.keys(data[0]);
+  let tableHTML =
+    "<table border='1' style='width:100%; border-collapse: collapse;'>";
+
+  // Cabeçalho
+  tableHTML += "<thead><tr>";
+  headers.forEach((h) => {
+    tableHTML += `<th style="padding: 8px; background-color: #4a8b92; color: white;">${h}</th>`;
+  });
+  tableHTML += "</tr></thead><tbody>";
+
+  // Linhas de dados
+  data.forEach((row, rowIndex) => {
+    tableHTML += "<tr>";
+    headers.forEach((h) => {
+      tableHTML += `<td contenteditable="true" data-row="${rowIndex}" data-key="${h}" style="padding: 6px; background-color: white; color: black;">${row[h]}</td>`;
+    });
+    tableHTML += "</tr>";
+  });
+
+  tableHTML += "</tbody></table>";
+  tableContainer.innerHTML = tableHTML;
+  tableContainer.classList.remove("hidden");
+  document.getElementById("export-buttons").classList.remove("hidden");
+
+  document.getElementById("export-json").onclick = () => exportToJSON(data);
+  document.getElementById("export-csv").onclick = () => exportToCSV(data);
+
+  // Atualiza o JSON ao editar células
+  tableContainer
+    .querySelectorAll("td[contenteditable=true]")
+    .forEach((cell) => {
+      cell.addEventListener("input", () => {
+        const row = parseInt(cell.dataset.row, 10);
+        const key = cell.dataset.key;
+        data[row][key] = cell.textContent.trim();
+        console.log("🔄 JSON atualizado:", data);
+      });
+    });
+}
+
+function exportToJSON(data) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "dados_editados.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportToCSV(data) {
+  if (!data.length) return;
+
+  const headers = Object.keys(data[0]);
+  const csvRows = [headers.join(",")];
+
+  data.forEach((row) => {
+    const values = headers.map(
+      (h) => `"${(row[h] || "").replace(/"/g, '""')}"`
+    );
+    csvRows.push(values.join(","));
+  });
+
+  const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "dados_editados.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}

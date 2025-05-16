@@ -108,3 +108,32 @@
   background-color: #4a8b92;
   transition: width 2s ease;
 }
+
+#editable-table {
+  overflow-x: auto;
+  max-width: 100%;
+  margin-top: 20px;
+}
+
+#editable-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+#editable-table th,
+#editable-table td {
+  border: 1px solid white;
+  padding: 8px;
+  text-align: left;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#editable-table th {
+  background-color: var(--color-2);
+  font-weight: bold;
+}
