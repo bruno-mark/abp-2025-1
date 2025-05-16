@@ -49,9 +49,9 @@ function readCSVandConvertToJSON(file) {
 
     const headers = lines[0].split(",").map((h) => h.trim());
     const requiredHeaders = [
-      "turma",
-      "disciplina",
-      "professor",
+      "nome_turma",
+      "nome_disciplina",
+      "nome_professor",
       "dia_semana",
       "horario",
     ];
