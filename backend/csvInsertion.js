@@ -6,6 +6,9 @@ const fileNameDisplay = document.getElementById("selected-filename");
 const progressFill = document.getElementById("progress-fill");
 const removeFileButton = document.getElementById("remove-file");
 
+const jsonDataGlobal = [];
+
+
 function showSelectedFile(file) {
   fileNameDisplay.textContent = `📄 ${file.name}`;
   dropSection.classList.add("hidden");
@@ -83,7 +86,7 @@ function readCSVandConvertToJSON(file) {
       }, {});
 
       // Correções automáticas
-      ["turma", "disciplina", "professor"].forEach((campo) => {
+      ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
         const original = registro[campo];
         const corrigido = capitalizarNome(original.trim());
         if (original !== corrigido) {
@@ -112,7 +115,7 @@ function readCSVandConvertToJSON(file) {
         );
       }
 
-      ["turma", "disciplina", "professor"].forEach((campo) => {
+      ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
         if (!registro[campo]) {
           linhaErros.push(`• Linha ${index + 2}: campo '${campo}' está vazio`);
         }
@@ -127,6 +130,13 @@ function readCSVandConvertToJSON(file) {
 
     exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
     console.log("✅ Dados válidos:", jsonData);
+    jsonDataGlobal.push(jsonData);
+
+    
+    console.log("Olá: ", jsonDataGlobal[0][0].nome_disciplina);
+
+
+
   };
 
   reader.readAsText(file);
