@@ -5,17 +5,117 @@ const fileSection = document.getElementById("file-section");
 const fileNameDisplay = document.getElementById("selected-filename");
 const progressFill = document.getElementById("progress-fill");
 const removeFileButton = document.getElementById("remove-file");
+const removeSendButton = document.getElementById("send-button");
 
-const jsonDataGlobal = [];
+let currentJsonData = [];
 
 
-function showSelectedFile(file) {
+function readCSVandConvertToJSON(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      const text = event.target.result;
+      const lines = text.trim().split("\n");
+
+
+      const headers = lines[0].split(",").map((h) => h.trim());
+      const requiredHeaders = [
+        "nome_turma",
+        "nome_disciplina",
+        "nome_professor",
+        "dia_semana",
+        "horario",
+      ];
+      const missingHeaders = requiredHeaders.filter(
+        (req) => !headers.includes(req)
+      );
+
+      if (missingHeaders.length > 0) {
+        exibirMensagemDeErro(
+          `❌ O arquivo está com colunas faltando: ${missingHeaders.join(", ")}. Corrija antes de prosseguir.`
+        );
+        esconderResumoValidacao();
+        return reject(new Error("Cabeçalhos obrigatórios ausentes."));
+      }
+
+      esconderMensagemDeErro();
+
+      const jsonData = [];
+      const erros = [];
+      let correcoes = 0;
+
+      lines.slice(1).forEach((line, index) => {
+        const values = line.split(",").map((v) => v.trim());
+        let registro = headers.reduce((obj, header, i) => {
+          obj[header] = values[i] || "";
+          return obj;
+        }, {});
+
+        ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
+          const original = registro[campo];
+          const corrigido = capitalizarNome(original.trim());
+          if (original !== corrigido) {
+            registro[campo] = corrigido;
+            correcoes++;
+          }
+        });
+
+        const linhaErros = [];
+
+        const dia = parseInt(registro["dia_semana"], 10);
+        if (isNaN(dia) || dia < 1 || dia > 5) {
+          linhaErros.push(
+            `• Linha ${index + 2}: valor inválido em 'dia_semana' → "${registro["dia_semana"]}"`
+          );
+        }
+
+        const horarioRegex = /^\d{2}:\d{2}-\d{2}:\d{2}$/;
+        if (!horarioRegex.test(registro["horario"])) {
+          linhaErros.push(
+            `• Linha ${index + 2}: formato inválido de 'horario' → "${registro["horario"]}"`
+          );
+        }
+
+        ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
+          if (!registro[campo]) {
+            linhaErros.push(`• Linha ${index + 2}: campo '${campo}' está vazio`);
+          }
+        });
+
+        if (linhaErros.length > 0) {
+          erros.push(...linhaErros);
+        } else {
+          jsonData.push(registro);
+        }
+      });
+
+      exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
+      resolve(jsonData);
+    };
+
+    reader.onerror = () => {
+      reject(new Error('Erro ao ler o arquivo.'));
+    };
+    reader.readAsText(file);
+    
+  });
+}
+
+async function showSelectedFile(file) {
   fileNameDisplay.textContent = `📄 ${file.name}`;
   dropSection.classList.add("hidden");
   fileSection.classList.remove("hidden");
   simulateProgressBar();
-  readCSVandConvertToJSON(file);
   removeFileButton.classList.remove("hidden");
+
+  try {
+    const jsonData = await readCSVandConvertToJSON(file);
+    renderEditableTable(jsonData);
+    console.log("✅ Dados válidos:", jsonData);
+  } catch (error) {
+    console.error("❌ Erro no processamento do CSV:", error.message);
+  }
 }
 
 function resetToInitialState() {
@@ -28,7 +128,7 @@ function resetToInitialState() {
   removeFileButton.classList.add("hidden");
   document.getElementById("editable-table").classList.add("hidden");
   document.getElementById("export-buttons").classList.add("hidden");
-
+  document.getElementById("send-button").classList.add("hidden");
 }
 
 function simulateProgressBar() {
@@ -47,105 +147,34 @@ function capitalizarNome(nome) {
     .join(" ");
 }
 
-function readCSVandConvertToJSON(file) {
-  const reader = new FileReader();
-  reader.onload = function (event) {
-    const text = event.target.result;
-    const lines = text.trim().split("\n");
+dropArea.addEventListener("click", () => fileInput.click());
 
-    const headers = lines[0].split(",").map((h) => h.trim());
-    const requiredHeaders = [
-      "nome_turma",
-      "nome_disciplina",
-      "nome_professor",
-      "dia_semana",
-      "horario",
-    ];
-    const missingHeaders = requiredHeaders.filter(
-      (req) => !headers.includes(req)
-    );
+dropArea.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropArea.style.backgroundColor = "#4a8b92";
+});
 
-    if (missingHeaders.length > 0) {
-      exibirMensagemDeErro(
-        `❌ O arquivo está com colunas faltando: ${missingHeaders.join(
-          ", "
-        )}. Corrija antes de prosseguir.`
-      );
-      esconderResumoValidacao();
-      return;
-    }
+dropArea.addEventListener("dragleave", () => {
+  dropArea.style.backgroundColor = "#5B9EA6";
+});
 
-    esconderMensagemDeErro();
+dropArea.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropArea.style.backgroundColor = "#5B9EA6";
+  const files = e.dataTransfer.files;
+  if (files.length > 0 && files[0].type === "text/csv") {
+    fileInput.files = files;
+    showSelectedFile(files[0]);
+  }
+});
 
-    const jsonData = [];
-    const erros = [];
-    let correcoes = 0;
+fileInput.addEventListener("change", () => {
+  if (fileInput.files.length > 0 && fileInput.files[0].type === "text/csv") {
+    showSelectedFile(fileInput.files[0]);
+  }
+});
 
-    lines.slice(1).forEach((line, index) => {
-      const values = line.split(",").map((v) => v.trim());
-      let registro = headers.reduce((obj, header, i) => {
-        obj[header] = values[i] || "";
-        return obj;
-      }, {});
-
-      // Correções automáticas
-      ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
-        const original = registro[campo];
-        const corrigido = capitalizarNome(original.trim());
-        if (original !== corrigido) {
-          registro[campo] = corrigido;
-          correcoes++;
-        }
-      });
-
-      const linhaErros = [];
-
-      const dia = parseInt(registro["dia_semana"], 10);
-      if (isNaN(dia) || dia < 1 || dia > 5) {
-        linhaErros.push(
-          `• Linha ${index + 2}: valor inválido em 'dia_semana' → "${
-            registro["dia_semana"]
-          }"`
-        );
-      }
-
-      const horarioRegex = /^\d{2}:\d{2}-\d{2}:\d{2}$/;
-      if (!horarioRegex.test(registro["horario"])) {
-        linhaErros.push(
-          `• Linha ${index + 2}: formato inválido de 'horario' → "${
-            registro["horario"]
-          }"`
-        );
-      }
-
-      ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
-        if (!registro[campo]) {
-          linhaErros.push(`• Linha ${index + 2}: campo '${campo}' está vazio`);
-        }
-      });
-
-      if (linhaErros.length > 0) {
-        erros.push(...linhaErros);
-      } else {
-        jsonData.push(registro);
-      }
-    });
-
-    exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
-    renderEditableTable(jsonData);
-
-    console.log("✅ Dados válidos:", jsonData);
-    jsonDataGlobal.push(jsonData);
-
-    
-    console.log("Olá: ", jsonDataGlobal[0][0].nome_disciplina);
-
-
-
-  };
-
-  reader.readAsText(file);
-}
+removeFileButton.addEventListener("click", resetToInitialState);
 
 function exibirMensagemDeErro(mensagem) {
   const errorDiv = document.getElementById("error-messages");
@@ -178,6 +207,10 @@ function exibirResumoValidacao(validos, invalidos, erros, correcoes = 0) {
     }
   `;
   summaryDiv.classList.remove("hidden");
+  if(invalidos) {
+    removeSendButton.classList.remove("hidden");
+    alert(invalidos);
+  };
 }
 
 function esconderResumoValidacao() {
@@ -185,35 +218,6 @@ function esconderResumoValidacao() {
   summaryDiv.innerHTML = "";
   summaryDiv.classList.add("hidden");
 }
-
-dropArea.addEventListener("click", () => fileInput.click());
-
-dropArea.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  dropArea.style.backgroundColor = "#4a8b92";
-});
-
-dropArea.addEventListener("dragleave", () => {
-  dropArea.style.backgroundColor = "#5B9EA6";
-});
-
-dropArea.addEventListener("drop", (e) => {
-  e.preventDefault();
-  dropArea.style.backgroundColor = "#5B9EA6";
-  const files = e.dataTransfer.files;
-  if (files.length > 0 && files[0].type === "text/csv") {
-    fileInput.files = files;
-    showSelectedFile(files[0]);
-  }
-});
-
-fileInput.addEventListener("change", () => {
-  if (fileInput.files.length > 0 && fileInput.files[0].type === "text/csv") {
-    showSelectedFile(fileInput.files[0]);
-  }
-});
-
-removeFileButton.addEventListener("click", resetToInitialState);
 
 function renderEditableTable(data) {
   const tableContainer = document.getElementById("editable-table");
@@ -263,13 +267,13 @@ function renderEditableTable(data) {
 }
 
 function exportToJSON(data) {
-  const blob = new Blob([JSON.stringify(data, null, 2)], {
-    type: "application/json",
-  });
+  const jsonStr = JSON.stringify(data, null, 2);
+  const blob = new Blob([jsonStr], { type: "application/json" });
   const url = URL.createObjectURL(blob);
+
   const a = document.createElement("a");
   a.href = url;
-  a.download = "dados_editados.json";
+  a.download = "dados.json";
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -295,3 +299,4 @@ function exportToCSV(data) {
   a.click();
   URL.revokeObjectURL(url);
 }
+
