@@ -74,6 +74,23 @@ select {
   text-align: center;
 }
 
+#filtrar_btn{
+  background-color: #bf0606;
+  border: none;
+  width: 150px;
+  height: 40px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-family: "Roboto Slab", serif;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+#filtrar_btn:hover{
+  background-color: #6a0303;
+}
+
 option {
   background-color: white;
   color: black;
