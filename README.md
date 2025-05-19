@@ -78,6 +78,10 @@
  </ul>
 </ul>
 
+## Aplicação: FATREK 📍
+
+
+
 ## CALENDÁRIO 🕐
 
 <br>
@@ -174,16 +178,16 @@ dificuldade de entender as US's e Taks definidas pelo P.O.</p>
 
 <ul>
  <li>
-  Prototipagem no Figma: Desenvolver prótotipo de design final da aplicação;
+  Prototipagem no Figma: Desenvolver prótotipo de design final da aplicação, utilizando Figma;
  </li>
  <li>
-  Desenvolver o Front-End: Desenvolver as páginas de acordo com o protótipo do FIGMA, utilizando HTML, CSS e JS;
+  Desenvolver o Front-End: Desenvolver as páginas de acordo com o protótipo do Figma, utilizando HTML e CSS;
  </li>
  <li>
-  Finalizar desenvolvimento do Back-End: Desenvolver script das páginas restantes;
+  Desenvolver Back-End: Iniciar desenvolvimento do script das páginas desenvolvidas, utilizando JavaScript;
  </li>
  <li>
-  Trabalhar no Banco Dados: Remodelar o Banco de Dados para atender os requisitos do cliente.
+  Remodelar o Banco Dados: Remodelar o Banco de Dados para atender os requisitos do cliente.
  </li>
 </ul>
 

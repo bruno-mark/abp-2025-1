@@ -17,4 +17,3 @@ function toggleListaCursos() {
     const lista = document.getElementById('horariosMA');
     lista.style.display = lista.style.display === 'none' ? 'block' : 'none';
   }
-
