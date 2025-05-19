@@ -1,7 +1,19 @@
 {
-  "name": "meu-projeto",
+  "name": "teste-abp",
   "version": "1.0.0",
+  "main": "server.js",
   "scripts": {
-    "build": "cp -r frontend/css frontend/html && find frontend/html -type f -name \"*.html\" -exec sed -i 's|\\.\\.\\/css/|css/|g' {} +"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./backend/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "pg": "^8.16.0"
   }
 }
