@@ -75,33 +75,174 @@ function readCSVandConvertToJSON(file) {
           }
         });
 
-        const linhaErros = [];
+        const linhaErros = []; 
 
 
         // Ordem: turma, disciplina, professor, dia da semana, horario
 
+        //APAGAR ESSA LINHA E A DEBAIXO ANTES DE COMMITAR
+        //Também quero saber se posso melhorá-la da seguinte maneira: gostaria de poder alterar a possibilidade de número (o que vai de um a seis) de acordo com o curso (GEO|DSM|MA) e se, também com base no curso, posso restringir a possibilidade de por M ou N
        
         // Valida nome_turma
-        const turma = registro["nome_turma"].toUpperCase();
-        const verifica_nome_turma = ["DSM","MA","GEO"];
-        
-        verifica_nome_turma.forEach(n => {
-          const erro = false;
-          if(turma.includes(n)) {
-            alert(`N: ${n}, turma: ${turma}`);
-          }
-          
-        
-        });  
+        // Definição do regex:
+        const padrao = /^(?:DSM|GEO|MA)-[1-6]-(?:N|M)$/;
+        if (!padrao.test(registro["nome_turma"].toUpperCase())) {
+          linhaErros.push(
+            `• Linha ${index + 2}: formato inválido em 'nome_turma' → "${registro["nome_turma"]}". Ex.: DSM-3-N`
+          );
+        }
 
-        const verifica_periodo_turma = ["1","2","3","4","5","6"];
+        // Valida disciplina
+        // 1) Array com todas as disciplinas:
+        const disciplinasPermitidas = [
+          "ALGORITMOS E LÓGICA DE PROGRAMAÇÃO",
+          "DESENVOLVIMENTO WEB I",
+          "DESIGN DIGITAL",
+          "ENGENHARIA DE SOFTWARE I",
+          "MODELAGEM DE BANCO DE DADOS",
+          "SISTEMAS OPERACIONAIS E REDES DE COMPUTADORES",
+          "TÉCNICAS DE PROGRAMAÇÃO I",
+          "DESENVOLVIMENTO WEB II",
+          "MATEMÁTICA PARA COMPUTAÇÃO",
+          "ENGENHARIA DE SOFTWARE II",
+          "BANCO DE DADOS - RELACIONAL",
+          "ESTRUTURA DE DADOS",
+          "TÉCNICAS DE PROGRAMAÇÃO II",
+          "DESENVOLVIMENTO WEB III",
+          "ÁLGEBRA LINEAR",
+          "GESTÃO ÁGIL DE PROJETOS DE SOFTWARE",
+          "BANCO DE DADOS - NÃO RELACIONAL",
+          "INTERAÇÃO HUMANO COMPUTADOR",
+          "INGLÊS I",
+          "INTEGRAÇÃO E ENTREGA CONTÍNUA",
+          "LABORATÓRIO DE DESENVOLVIMENTO WEB",
+          "INTERNET DAS COISAS E APLICAÇÕES",
+          "PROGRAMAÇÃO PARA DISPOSITIVOS MÓVEIS I",
+          "ESTATÍSTICA APLICADA",
+          "EXPERIÊNCIA DO USUÁRIO",
+          "INGLÊS II",
+          "COMPUTAÇÃO EM NUVEM I",
+          "APRENDIZAGEM DE MÁQUINA",
+          "LABORATÓRIO DE DESENVOLVIMENTO PARA DISPOSITIVOS MÓVEIS",
+          "PROGRAMAÇÃO PARA DISPOSITIVOS MÓVEIS II",
+          "SEGURANÇA NO DESENVOLVIMENTO DE APLICAÇÕES",
+          "FUNDAMENTOS DA REDAÇÃO TÉCNICA",
+          "INGLÊS III",
+          "INTRODUÇÃO À CIÊNCIA DA GEOINFORMAÇÃO",
+          "DESENHO TÉCNICO",
+          "METODOLOGIA DA PESQUISA CIENTÍFICO-TECNOLÓGICA",
+          "FUNDAMENTOS DE FÍSICA",
+          "CÁLCULO",
+          "FUNDAMENTOS DA COMUNICAÇÃO EMPRESARIAL",
+          "TOPOGRAFIA E BATIMETRIA", 
+          "GEODÉSIA",
+          "LINGUAGEM DE PROGRAMAÇÃO II",
+          "MODELAGEM DE BANCO DE DADOS ESPACIAL",
+          "PROCESSAMENTO DIGITAL DE IMAGENS",
+          "PROJETOS EM GEOPROCESSAMENTO I",
+          "ANÁLISE AMBIENTAL POR GEOPROCESSAMENTO",
+          "GEOPROCESSAMENTO APLICADO À INFRAESTRUTURA URBANA",
+          "TECNOLOGIAS WEB APLICADAS A SISTEMAS DE INFORMAÇÃO GEOGRÁFICA",
+          "ANÁLISE ESPACIAL E MODELAGEM DE TERRENOS",
+          "FUNDAMENTOS DA ADMINISTRAÇÃO GERAL",
+          "LEGISLAÇÃO E NORMAS PARA GEOPROCESSAMENTO",
+          "INGLÊS V",
+          "PROJETOS EM GEOPROCESSAMENTO II",
+          "GEOMARKETING",
+          "FOTOGRAMETRIA ANALÓGICA E DIGITAL",
+          "INTEGRAÇÃO E ANÁLISE DE DADOS TERRITORIAIS",
+          "CADASTRO TÉCNICO MULTIFINALITÁRIO",
+          "POSICIONAMENTO POR SATÉLITE",
+          "PADRÕES DE DISTRIBUIÇÃO DE INFORMAÇÕES EM SIG",
+          "GEORREFERENCIAMENTO DE IMÓVEIS RURAIS",
+          "INGLÊS VI",
+          "CIÊNCIAS AMBIENTAIS E DAS ÁGUAS",
+          "BIOLOGIA",
+          "SOCIOLOGIA AMBIENTAL",
+          "MATEMÁTICA APLICADA",
+          "QUÍMICA GERAL",
+          "GEOCIÊNCIA AMBIENTAL",
+          "HIDROLOGIA E RECURSOS HÍDRICOS",
+          "ECOLOGIA",
+          "CARTOGRAFIA, TOPOGRAFIA E BATIMETRIA",
+          "SENSORIAMENTO REMOTO E GEOPROCESSAMENTO",
+          "CLIMATOLOGIA E METEOROLOGIA",
+          "MICROBIOLOGIA AMBIENTAL",
+          "FÍSICO-QUÍMICA APLICADA À GESTÃO AMBIENTAL", 
+          "HIDRÁULICA FLUVIAL",
+          "LIMNOLOGIA",
+          "PLANEJAMENTO E CONSERVAÇÃO AMBIENTAL",
+          "INTERPRETAÇÃO E PROCESSAMENTO DIGITAL DE IMAGENS",
+          "GESTÃO DA QUALIDADE",
+          "SANEAMENTO AMBIENTAL I"
+        ];
+        // 2) Função de validação:
+        function validarDisciplina(nome) {
+          return disciplinasPermitidas.includes(nome.trim().toUpperCase());
+        }
+        // 3) Exemplo de uso dentro do seu loop:
+        if (!validarDisciplina(registro.nome_disciplina)) {
+          linhaErros.push(
+            `• Linha ${index + 2}: disciplina inválida → "${registro.nome_disciplina}".`
+          );
+        }
 
-        const verifica_turno_turma = ["M","N"];
-        
-
-        // if (!texto.includes("JavaScript")) {
-        //     console.log("A palavra 'JavaScript' não está no texto");
-        // }
+        // Valida nome_professor
+        // 1) Array com todos os nomes de professor em MAIÚSCULAS
+        const professoresPermitidos = [
+          "ADILSON NEVES",
+          "ADRIANA VALVERDE",
+          "ÁLVARO GONÇALVES",
+          "ANDRÉ OLÍMPIO",
+          "ANTONIO GRAÇA",
+          "ANTONIO RIOS",
+          "ARLEY SOUZA",
+          "CELSO OLIVEIRA",
+          "DANIEL ANDRADE",
+          "DANIELE TAVARES",
+          "FABRÍCIO CARVALHO",
+          "FERNANDA BUENO",
+          "GERSON JÚNIOR",
+          "HENRIQUE LOURO",
+          "JANE VERONA",
+          "JOANIZE PAIVA",
+          "JORGE MATSUSHIMA",
+          "KAREN SARMIENTO",
+          "LEANDRO HOFFMANN",
+          "LEONARDO VITTO",
+          "LUCINEIDE PIMENTA",
+          "LUIZ MENDES",
+          "LUIZ AGUIAR",
+          "MARCELO SUDO",
+          "MARIA OLIVEIRA",
+          "MARIANA RODRIGUES",
+          "MÁRIO SCALAMBRINO",
+          "MATHEUS LORENA",
+          "NANCI OLIVEIRA",
+          "NEYMAR DELLARETI",
+          "NILTON JESUS",
+          "PAULO FILHO",
+          "PEDRO SILVA",
+          "RENATO MORTIN",
+          "RITA RANDOW",
+          "RONALDO MOREIRA",
+          "SANZARA HASSMANN",
+          "SELMA GENARI",
+          "VIVIAN HYODO",
+          "YARA FERREIRA",
+          "MARCELO BANDORIA",
+          "ÉRICO PAGOTTO"
+        ];
+        // Função de validação
+        function validarProfessor(nome) {
+          return professoresPermitidos.includes(nome.trim().toUpperCase());
+        }
+        // Uso no loop
+        if (!validarProfessor(registro.nome_professor)) {
+          linhaErros.push(
+            `• Linha ${index + 2}: nome inválido de professor → "${registro.nome_professor}".`
+          );
+        } 
 
         // Valida dia_semana (de 1 a 5)
         const dia = parseInt(registro["dia_semana"], 10);
@@ -217,6 +358,7 @@ dropArea.addEventListener("drop", (e) => {
     showSelectedFile(files[0]);
   }
 });
+
 
 fileInput.addEventListener("change", () => {
   if (fileInput.files.length > 0 && fileInput.files[0].type === "text/csv") {
