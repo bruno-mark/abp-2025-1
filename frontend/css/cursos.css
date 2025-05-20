@@ -95,3 +95,45 @@ body {
   padding: 25px;
 }
 
+@media (max-width: 768px) {
+  .header { 
+    font-size: 30px;
+  }
+
+  .cursos__container {
+    width: 90%;
+    height: auto;
+    padding: 20px;
+    margin: 40px auto;
+    flex-direction: column;
+  }
+
+  .text_cursos {
+    font-size: 28px;
+  }
+
+  .curso_card {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .curso_card > span {
+    font-size: 18px;
+  }
+
+  .curso_card > img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .container_rodape {
+    font-size: 12px;
+    padding: 15px;
+    height: auto;
+  }
+}
+
