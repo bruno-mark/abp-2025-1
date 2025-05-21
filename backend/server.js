@@ -35,4 +35,4 @@ app.get('/', (req, res) => {
 });
 
 require('./dataRecovery')(app, db);
-require('./scriptHorarios')(app, db);
+require('./rotasHorarios')(app, db);
