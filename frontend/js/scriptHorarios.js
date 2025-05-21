@@ -81,3 +81,66 @@ document.getElementById("filtrar_btn").addEventListener("click", async () => {
     console.error("Erro ao carregar os dados da tabela:", erro);
   }
 });
+
+
+
+// Função para exportar para PDF
+document.querySelector(".exportar_btn").addEventListener("click", exportToPDF);
+
+function exportToPDF() {
+    // Carrega o jsPDF (que foi instalado via terminal com npm install)
+    const { jsPDF } = window.jspdf;
+    
+    // Cria um novo PDF
+    const doc = new jsPDF({
+        orientation: 'landscape', // Modo paisagem para a tabela
+        unit: 'mm'
+    });
+
+    // Adiciona título
+    const curso = document.getElementById("curso").options[document.getElementById("curso").selectedIndex].text;
+    const periodo = document.getElementById("periodo").options[document.getElementById("periodo").selectedIndex].text;
+    const semestre = document.getElementById("semestre").options[document.getElementById("semestre").selectedIndex].text;
+    
+    const titulo = `Horário - ${curso} - ${semestre} Semestre (${periodo})`;
+    doc.setFontSize(16);
+    doc.text(titulo, 105, 15, { align: 'center' });
+
+    // Adiciona data de emissão
+    const dataEmissao = new Date().toLocaleDateString('pt-BR');
+    doc.setFontSize(10);
+    doc.text(`Emitido em: ${dataEmissao}`, 190, 10, { align: 'right' });
+
+    // Captura a tabela como imagem
+    const tabela = document.querySelector(".tabela_horario");
+    
+    html2canvas(tabela, {
+        scale: 2, // Melhora a qualidade
+        logging: false,
+        useCORS: true
+    }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 280; // Largura máxima em modo paisagem
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        // Adiciona a tabela
+        doc.addImage(imgData, 'PNG', 10, 20, imgWidth, imgHeight);
+        
+        // Adiciona a lista de docentes (se houver)
+        const docentes = document.querySelector(".docentes");
+        if (docentes && docentes.textContent.trim() !== "Docentes:") {
+            doc.addPage();
+            doc.setFontSize(14);
+            doc.text("Docentes e Disciplinas:", 10, 20);
+            
+            // Converte o HTML para texto simples
+            const docentesText = docentes.textContent.replace(/\n/g, ' ').replace(/\s+/g, ' ');
+            doc.setFontSize(10);
+            const splitText = doc.splitTextToSize(docentesText, 180);
+            doc.text(splitText, 10, 30);
+        }
+        
+        // Salva o PDF
+        doc.save(`horario_${curso}_${semestre}_semestre_${periodo}.pdf`);
+    });
+}
