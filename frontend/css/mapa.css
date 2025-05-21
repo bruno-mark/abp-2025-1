@@ -1,7 +1,7 @@
 .mapa__container {
     padding: 40px;
-    width: 977px;
-    height: 600px;
+    width: 1100px;
+    height: 700px;
     margin: 100px auto;
     text-align: center;
     display: flex;
@@ -26,9 +26,9 @@
 
 .mapa__imagem-container {
     background-color: #d9d9d9;
-    margin-top: 30px;
-    height: 360px;
-    width: 887px;
+    margin-top: 20px;
+    height: 460px;
+    width: 1010px;
     border-radius: 10px;
     position: relative;
     overflow: hidden;
@@ -75,4 +75,425 @@
     border-radius: 100%;
     font-weight: bold;
     cursor: pointer;
+}
+
+.sala {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  padding: 20px;
+}
+
+
+.sala {
+  position: absolute;
+  background: white;
+  border: 1px solid #333;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.sala div { 
+    padding: 4px;}
+
+.sala:hover{
+  cursor: pointer;
+    color: red;
+}
+
+.vertical-text {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  text-align: center;
+  line-height: 1.1;
+}
+
+/*Terreo */
+.piso-terreo
+.escadas,
+.escadas-emg1,
+.escadas-emg2,
+.escadas-emg-centro,
+.apoio,
+.direcao,
+.sala-professores,
+.coordenacoes-cursos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.piso-terreo, .piso-primeiro-andar, .piso-segundo-andar {
+    font-size: 40px;
+}
+
+.laboratorio-informatica101,
+.laboratorio-informatica103,
+.laboratorio-informatica105,
+.laboratorio-informatica107,
+.laboratorio-informatica108,
+.laboratorio-informatica201,
+.laboratorio-informatica203,
+.laboratorio-informatica205,
+.laboratorio-informatica207,
+.laboratorio-informatica208,
+.sala-maker,
+.sala-maker1,
+.sala-de-aula102,
+.sala-de-aula104,
+.sala-de-aula106,
+.sala-de-aula202,
+.sala-de-aula204,
+.sala-de-aula206,
+.lab01,
+.lab02,
+.lab03,
+.lab04 {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.copa {
+  left: 147px;
+  top: 11px;
+  width: 123px;
+  height: 180px;
+}
+.deposito {
+  left: 16px;
+  top: 11px;
+  width: 126px;
+  height: 183px;
+}
+.direcao {
+  left: 155px;
+  top: 280px;
+  width: 56px;
+  height: 164px;
+}
+.secretaria-adm {
+  left: 275px;
+  top: 11px;
+  width: 160px;
+  height: 180px;
+}
+.escadas-emg1 {
+  left: 436px;
+  top: 11px;
+  width: 40px;
+  height: 156px;
+}
+.escadas-emg2 {
+  left: 820px;
+  top: 11px;
+  width: 40px;
+  height: 156px;
+}
+.servidor {
+  left: 16px;
+  top: 206px;
+  width: 74px;
+  height: 70px;
+}
+.sala-professores {
+  left: 22px;
+  top: 285px;
+  width: 67px;
+  height: 158px;
+}
+.coordenacoes-cursos {
+  left: 93px;
+  top: 305px;
+  width: 57px;
+  height: 138px;
+}
+.piso-terreo {
+  left: 478px;
+  top: 11px;
+  width: 140px;
+  height: 432px;
+}
+.sanitarios-servidores {
+  left: 215px;
+  top: 261px;
+  width: 120px;
+  height: 182px;
+}
+.secretaria-acad {
+  left: 340px;
+  top: 261px;
+  width: 135px;
+  height: 182px;
+}
+.lab02 {
+  left: 685px;
+  top: 11px;
+  width: 130px;
+  height: 190px;
+}
+.lab04 {
+  left: 865px;
+  top: 11px;
+  width: 130px;
+  height: 190px;
+}
+.escadas {
+  left: 620px;
+  top: 280px;
+  width: 55px;
+  height: 163px;
+}
+.sanitarios {
+  left: 620px;
+  top: 11px;
+  width: 60px;
+  height: 190px;
+}
+.lab01 {
+  left: 680px;
+  top: 250px;
+  width: 130px;
+  height: 192px;
+}
+.lab03 {
+  left:860px;
+  top: 250px;
+  width: 130px;
+  height: 192px;
+}
+
+.apoio {
+    left: 815px;
+  top: 250px;  
+  width: 40px;
+  height: 192px;
+}
+
+/* Primeiro andar */
+
+.piso-primeiro-andar {
+  left: 478px;
+  top: 11px;
+  width: 140px;
+  height: 436px;
+}
+
+.laboratorio-informatica101 {
+  left: 11px;
+  top: 265px;
+  width: 113px;
+  height: 183px;
+}
+
+.laboratorio-informatica103 {
+  left: 128px;
+  top: 265px;
+  width: 113px;
+  height: 183px;
+}
+
+.laboratorio-informatica105 {
+  left: 244px;
+  top: 265px;
+  width: 113px;
+  height: 183px;
+}
+
+.laboratorio-informatica107 {
+  left: 360px;
+  top: 265px;
+  width: 113px;
+  height: 183px;
+}
+
+.laboratorio-informatica108 {
+  left: 685px;
+  top: 11px;
+  width: 130px;
+  height: 190px;
+}
+
+.sala-de-aula102 {
+  left: 16px;
+  top: 11px;
+  width: 113px;
+  height: 183px;
+}
+
+.sala-de-aula104 {
+  left: 133px;
+  top: 11px;
+  width: 113px;
+  height: 183px;
+}
+
+.sala-de-aula106 {
+  left: 249px;
+  top: 11px;
+  width: 120px;
+  height: 183px;
+}
+
+.escadas-emg3 {
+  left: 818px;
+  top: 11px;
+  width: 40px;
+  height: 156px;
+}
+
+.escadas-emg4 {
+  left: 372px;
+  top: 11px;
+  width: 50px;
+  height: 156px;
+}
+
+.sala-maker {
+  left: 862px;
+  top: 11px;
+  width: 137px;
+  height: 195px;
+}
+
+
+.elevador {
+  left: 425px;
+  top: 125px;
+  width: 50px;
+  height: 35px;
+  font-size: 10px;
+}
+
+.univesp-coordenacao {
+  left: 425px;
+  top: 11px;
+  width: 50px;
+  height: 112px;
+}
+
+.biblioteca {
+  left: 678px;
+  top: 345px;
+  width: 200px;
+  height: 100px;
+}
+
+.atendimento-biblioteca {
+  left: 678px;
+  top: 280px;
+  width: 200px;
+  height: 65px;
+}
+
+.acervo-biblioteca {
+  left: 878px;
+  top: 207px;
+  width: 120px;
+  height: 135px;
+}
+
+.sala-de-estudos1 {
+  left: 878px;
+  top: 327px;
+  width: 120px;
+  height: 60px;
+}
+
+.sala-de-estudos2 {
+  left: 878px;
+  top: 385px;
+  width: 120px;
+  height: 60px;
+}
+
+/* Segundo Andar */
+
+.piso-segundo-andar {
+  left: 478px;
+  top: 11px;
+  width: 140px;
+  height: 436px;
+}
+
+
+.coordenacao-estagio {
+  left: 425px;
+  top: 11px;
+  width: 50px;
+  height: 112px;
+}
+
+.sala-de-aula202 {
+  left: 16px;
+  top: 11px;
+  width: 113px;
+  height: 183px;
+}
+
+.sala-de-aula204 {
+  left: 133px;
+  top: 11px;
+  width: 113px;
+  height: 183px;
+}
+
+.sala-de-aula206 {
+  left: 249px;
+  top: 11px;
+  width: 120px;
+  height: 183px;
+}
+
+.sala-maker1 {
+  left: 862px;
+  top: 11px;
+  width: 137px;
+  height: 195px;
+}
+
+.laboratorio-informatica201 {
+  left: 11px;
+  top: 264px;
+  width: 153px;
+  height: 183px;
+}
+
+.laboratorio-informatica203 {
+  left: 167px;
+  top: 265px;
+  width: 153px;
+  height: 183px;
+}
+
+.laboratorio-informatica205 {
+  left: 322px;
+  top: 265px;
+  width: 153px;
+  height: 183px;
+}
+
+.laboratorio-informatica208 {
+  left: 685px;
+  top: 11px;
+  width: 130px;
+  height: 190px;
+}
+
+.laboratorio-informatica207 {
+  left: 680px;
+  top: 250px;
+  width: 157px;
+  height: 192px;
+}
+
+.laboratorio-informatica209 {
+  left:840px;
+  top: 250px;
+  width: 157px;
+  height: 192px;
 }
