@@ -29,6 +29,7 @@
     <div class="insercao__container card-box">
       <h1 class="insercao__title">Inserção CSV</h1>
       <form class="insercao__form">
+        <!-- upliad e drop area -->
         <input id="file-upload" type="file" accept=".csv" class="insercao__input-file" />
 
         <div id="drop-section">
@@ -37,7 +38,7 @@
           </div>
         </div>
 
-        <!-- ARQUIVO SELECIONADO -->
+        <!-- Seção de arquivo selecionado -->
         <div id="file-section" class="insercao__file-selected hidden">
           <p id="selected-filename">📄 nome.csv</p>
           <div class="progress-bar">
@@ -50,6 +51,8 @@
 
         <!-- Resumo da Validação -->
         <div id="validation-summary" class="insercao__file-list hidden"></div>
+
+        
         <!-- Tabela editável de visualização e edição -->
         <div id="editable-table" class="insercao__file-list hidden"></div>
         <div id="export-buttons" class="hidden" style="text-align: center; margin-top: 20px">

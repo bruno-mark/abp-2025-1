@@ -15,14 +15,12 @@ const removeFileButton = document.getElementById("remove-file");
 // Botão de envio que passa a permitir enviar após validação
 const removeSendButton = document.getElementById("send-button");
 
-let currentJsonData = []; // Armazena temporariamente os dados convertidos do CSV
 
 // Lê o CSV e converte em JSON, retornando uma Promise
 function readCSVandConvertToJSON(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader(); 
     // FileReader lê o conteúdo do arquivo de forma assíncrona
-
     reader.onload = function (event) {
       const text = event.target.result;
       const lines = text.trim().split("\n");
@@ -54,6 +52,7 @@ function readCSVandConvertToJSON(file) {
 
       const jsonData = [];
       const erros = [];
+      const invalidRows = []; // Linhas inválidas para tabela de edição
       let correcoes = 0;
 
       // Processa cada linha de dados (pulando o cabeçalho)
@@ -78,10 +77,7 @@ function readCSVandConvertToJSON(file) {
         const linhaErros = []; 
 
 
-        // Ordem: turma, disciplina, professor, dia da semana, horario
-
-        //APAGAR ESSA LINHA E A DEBAIXO ANTES DE COMMITAR
-        //Também quero saber se posso melhorá-la da seguinte maneira: gostaria de poder alterar a possibilidade de número (o que vai de um a seis) de acordo com o curso (GEO|DSM|MA) e se, também com base no curso, posso restringir a possibilidade de por M ou N
+        // Quero melhorar a validação de turma da seguinte maneira: o sistema só aceitará e número do semestre (que vai de um a seis) de acordo com o curso (GEO|DSM|MA) e, também, com base no turno (matutino M ou noturno N);
        
         // Valida nome_turma
         // Definição do regex:
@@ -252,11 +248,41 @@ function readCSVandConvertToJSON(file) {
           );
         }
 
-        // Valida formato de horário HH:MM-HH:MM
-        const horarioRegex = /^\d{2}:\d{2}-\d{2}:\d{2}$/;
-        if (!horarioRegex.test(registro["horario"])) {
+        // Valida horário HH:MM-HH:MM
+        const periodo = registro["nome_turma"][registro["nome_turma"].length - 1].toUpperCase();
+        
+        // Arrays com os horários válidos
+        const horariosValidosMatutino = [ 
+          "07:30-08:20",
+          "08:20-09:10",
+          "09:20-10:10",
+          "10:10-11:00",
+          "11:10-12:00",
+          "12:00-12:50"
+        ];
+        const horariosValidosNoturno = [
+          "18:45-19:35",
+          "19:35-20:25",
+          "20:25-21:15",
+          "21:25-22:15",
+          "22:15-23:05"
+        ];
+        // Função para verificar se os horários são válidos (incluindo verificação de periodo)
+        function validarHorario(p, horario) {
+          if(p == "M") {
+            return horariosValidosMatutino.includes(horario);
+          } else if (p == "N") {
+            return horariosValidosNoturno.includes(horario);
+          }
+        };
+
+        // Constante para 
+        const entrada = registro["horario"]; 
+        if (validarHorario(periodo, entrada)) {
+          
+        } else {
           linhaErros.push(
-            `• Linha ${index + 2}: formato inválido de 'horario' → "${registro["horario"]}"`
+            `Linha ${index + 2}: horário inválido  → "${registro["horario"]}"`
           );
         }
 
@@ -268,16 +294,31 @@ function readCSVandConvertToJSON(file) {
         });
 
         // Se houver erros na linha, acumula; senão adiciona ao JSON limpo
+        // if (linhaErros.length > 0) {
+        //   erros.push(...linhaErros);
+        // } else {
+        //   jsonData.push(registro);
+        // }
         if (linhaErros.length > 0) {
-          erros.push(...linhaErros);
+            // Guarda as mensagens de erro gerais
+            erros.push(...linhaErros);
+            // Armazena o próprio registro + array de erros para exibir na tabela
+            invalidRows.push({
+              ...registro,
+              erros: [...linhaErros]
+          });
         } else {
           jsonData.push(registro);
         }
+
+        // Exibe o resumo de validação com contagem de válidos, erros e correções
+        exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
+        // agora mostre somente os inválidos:
+        renderEditableTable(invalidRows);
+
       });
 
-      // Exibe o resumo de validação com contagem de válidos, erros e correções
-      exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
-      resolve(jsonData);
+      
     };
 
     reader.onerror = () => {
@@ -298,8 +339,8 @@ async function showSelectedFile(file) {
 
   try {
     const jsonData = await readCSVandConvertToJSON(file);
-    renderEditableTable(jsonData);
     console.log("✅ Dados válidos:", jsonData);
+    renderEditableTable(linhaErros);
   } catch (error) {
     console.error("❌ Erro no processamento do CSV:", error.message);
   }
@@ -499,3 +540,37 @@ function exportToCSV(data) {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+
+
+
+
+
+
+
+
+// Seleciona elementos
+const openModalBtn   = document.getElementById('open-edit-modal');
+const modalOverlay   = document.getElementById('edit-modal');
+const closeModalBtn  = modalOverlay.querySelector('.modal-close');
+
+// Função para mostrar o modal
+function showEditModal() {
+  modalOverlay.classList.remove('hidden');
+  modalOverlay.setAttribute('aria-hidden', 'false');
+}
+
+// Função para esconder o modal
+function hideEditModal() {
+  modalOverlay.classList.add('hidden');
+  modalOverlay.setAttribute('aria-hidden', 'true');
+}
+
+// Eventos
+openModalBtn.addEventListener('click', showEditModal);
+closeModalBtn.addEventListener('click', hideEditModal);
+
+// Fechar ao clicar fora do conteúdo
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) hideEditModal();
+});
