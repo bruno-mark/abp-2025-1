@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Page</title>
+  <title>Mapa Interativo</title>
   <link rel="stylesheet" href="../css/reset.css">
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/mapa.css">
@@ -43,20 +43,17 @@
         <div class="mapa__menu" id="menu-container">
           <button class="mapa__menu-botao" id="btn-opcoes">Opções</button>
           <div class="mapa__menu-opcoes" id="menu-opcoes">
-            <button class="mapa__menu-opcao">T</button>
-            <button class="mapa__menu-opcao">1º</button>
-            <button class="mapa__menu-opcao">2º</button>
+            <button type="button" class="mapa__menu-opcao active" andar="terreo">T</button>
+            <button type="button" class="mapa__menu-opcao" andar="primeiro-andar">1º</button>
+            <button type="button" class="mapa__menu-opcao" andar="segundo-andar">2º</button>
           </div>
         </div>
+
   
         <div class="mapa__imagem-container">
-          <img
-            src="../../assets/"
-            alt="mapa-img"
-            width="464px"
-            height="887px"
-            class="mapa__imagem"
-          />
+          <div class="mapa-andar" id="terreo"></div>
+        <div class="mapa-andar" id="primeiro-andar"></div>
+        <div class="mapa-andar" id="segundo-andar"></div>
         </div>
       </form>
     </section>
@@ -74,7 +71,7 @@
       – Todos os direitos reservados.
     </div>
   </footer>
-  <script src="../js/mapa.js">
+  <script src="/backend/mapa.js">
   </script>
 </body>
 </html>
