@@ -78,13 +78,8 @@
 }
 
 .sala {
-  font-family: Arial, sans-serif;
-  font-size: 13px;
-  padding: 20px;
-}
-
-
-.sala {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   background: white;
   border: 1px solid #333;
@@ -92,14 +87,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  padding: 0px;
+  margin: 0px;
   text-align: center;
   box-sizing: border-box;
+  border-radius: 10px;
 }
 
-.sala div { 
-    padding: 4px;}
 
 .sala:hover{
   cursor: pointer;
@@ -112,6 +108,12 @@
   text-align: center;
   line-height: 1.1;
 }
+
+button.desativada {
+  pointer-events: none;        
+  cursor: not-allowed;
+}
+
 
 /*Terreo */
 .piso-terreo
@@ -142,6 +144,7 @@
 .laboratorio-informatica205,
 .laboratorio-informatica207,
 .laboratorio-informatica208,
+.laboratorio-informatica209,
 .sala-maker,
 .sala-maker1,
 .sala-de-aula102,
@@ -496,4 +499,25 @@
   top: 250px;
   width: 157px;
   height: 192px;
+}
+
+.status-sala {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 10px;
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+    font-weight: bold;
+    align-self: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-disponivel {
+  background-color: green;
+}
+
+.status-nao-disponivel {
+  background-color: red;
 }
