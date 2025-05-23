@@ -1,7 +1,7 @@
 # Ignorar node_modules para backend e frontend
 backend/node_modules/
 frontend/node_modules/
-
+node_modules
 # Ignorar variáveis de ambiente
 .env
 
