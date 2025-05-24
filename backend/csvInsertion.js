@@ -21,7 +21,6 @@ function readCSVandConvertToJSON(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader(); 
     // FileReader lê o conteúdo do arquivo de forma assíncrona
-
     reader.onload = function (event) {
       const text = event.target.result;
       const lines = text.trim().split("\n");
@@ -76,13 +75,11 @@ function readCSVandConvertToJSON(file) {
         });
 
         const linhaErros = []; 
-
-
-        // Quero melhorar a validação de turma da seguinte maneira: o sistema só aceitará e número do semestre (que vai de um a seis) de acordo com o curso (GEO|DSM|MA) e, também, com base no turno (matutino M ou noturno N);
-       
+        
         // Valida nome_turma
-        // Definição do regex:
-        const padrao = /^(?:DSM|GEO|MA)-[1-6]-(?:N|M)$/;
+        // Definição da regex (expressão regular)
+        const padrao = /^(?:DSM-[1-5]-N|GEO-(?:1|3|5|6)-N|MA-(?:[1-3]-N|[5-6]-M))$/
+
         if (!padrao.test(registro["nome_turma"].toUpperCase())) {
           linhaErros.push(
             `• Linha ${index + 2}: formato inválido em 'nome_turma' → "${registro["nome_turma"]}". Ex.: DSM-3-N`
@@ -369,14 +366,47 @@ function simulateProgressBar() {
   }, 100);
 }
 
-// Converte um nome em formato Capitalizado (Ex.: "joão silva" → "João Silva")
-function capitalizarNome(nome) {
-  return nome
-    .toLowerCase()
-    .split(" ")
-    .filter(Boolean)
-    .map((palavra) => palavra[0].toUpperCase() + palavra.slice(1))
-    .join(" ");
+// Converte nome de professor ou disciplina em formato Capitalizado, menos os conectivos, que ficam em minúsculas, e os algarismos romanos, que ficam em maiúsculas (Ex.: "engenharia de software ii" → "Engenharia de Software II")
+function capitalizarNome(texto) {
+  const conectivos = [
+    'de','do','da','dos','das',
+    'e','a','o','os','as',
+    'à','ao','aos','às',
+    'para','por','com','sem','sob','sobre','entre',
+    'contra','perante','segundo','conforme','via','até'
+  ];
+  const romanos = ['i','ii','iii','iv'];
+
+  // Limpa espaços extras e separa em palavras
+  const palavras = texto
+    .trim()
+    .split(/\s+/)
+    .map(p => p.toLowerCase());
+
+  return palavras
+    .map((palavra, idx) => {
+      const isFirst = idx === 0;
+      const isLast = idx === palavras.length - 1;
+      
+      // Se for o último e for algarismo romano I–IV, retornar em uppercase
+      if (isLast && romanos.includes(palavra)) {
+        return palavra.toUpperCase();
+      }
+      
+      // Sempre capitaliza a primeira palavra
+      if (isFirst) {
+        return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+      }
+      
+      // Se for conectivo, deve ficar todo em minúsculas
+      if (conectivos.includes(palavra)) {
+        return palavra;
+      }
+      
+      // Caso padrão: capitalize somente a primeira letra
+      return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+    })
+    .join(' ');
 }
 
 // Eventos para drag & drop e clique na área
@@ -541,3 +571,37 @@ function exportToCSV(data) {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+
+
+
+
+
+
+
+
+// Seleciona elementos
+const openModalBtn   = document.getElementById('open-edit-modal');
+const modalOverlay   = document.getElementById('edit-modal');
+const closeModalBtn  = modalOverlay.querySelector('.modal-close');
+
+// Função para mostrar o modal
+function showEditModal() {
+  modalOverlay.classList.remove('hidden');
+  modalOverlay.setAttribute('aria-hidden', 'false');
+}
+
+// Função para esconder o modal
+function hideEditModal() {
+  modalOverlay.classList.add('hidden');
+  modalOverlay.setAttribute('aria-hidden', 'true');
+}
+
+// Eventos
+openModalBtn.addEventListener('click', showEditModal);
+closeModalBtn.addEventListener('click', hideEditModal);
+
+// Fechar ao clicar fora do conteúdo
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) hideEditModal();
+});

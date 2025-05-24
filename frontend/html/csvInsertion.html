@@ -29,7 +29,7 @@
     <div class="insercao__container card-box">
       <h1 class="insercao__title">Inserção CSV</h1>
       <form class="insercao__form">
-        <!-- upliad e drop area -->
+        <!-- upload e drop area -->
         <input id="file-upload" type="file" accept=".csv" class="insercao__input-file" />
 
         <div id="drop-section">
@@ -53,15 +53,15 @@
         <div id="validation-summary" class="insercao__file-list hidden"></div>
 
         
-        <!-- Tabela editável de visualização e edição -->
+        <!-- Tabela de visualização e edição -->
         <div id="editable-table" class="insercao__file-list hidden"></div>
         <div id="export-buttons" class="hidden" style="text-align: center; margin-top: 20px">
-          <button type="button" id="export-json" class="insercao__button">
-            Importar JSON
+          <!-- Botão para ativar pop-up da tabela de edição -->
+          <button type="button" id="open-error-modal" class="insercao__button" style="margin-top: 10px;">
+            Corrigir Erros
           </button>
-          <button type="button" id="export-csv" class="insercao__button" style="margin-left: 10px">
-            Importar CSV
-          </button>
+
+
         </div>
 
         <!-- Botão "Remover arquivo" abaixo do resumo -->
@@ -72,6 +72,22 @@
         <button type="submit" class="insercao__button hidden" id="send-button">
           Enviar arquivos
         </button>
+
+
+        <!-- Início do Modal de Correções -->
+        <div id="error-modal" class="modal-overlay hidden" aria-hidden="true">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Tabela de Correção</h2>
+              <button type="button" class="modal-close" aria-label="Fechar modal">×</button>
+            </div>
+            <div class="modal-body">
+              <!-- Aqui renderizaremos a tabela de erros -->
+              <div id="modal-error-table"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Fim do Modal de Correções -->
       </form>
     </div>
   </main>

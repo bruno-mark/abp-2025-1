@@ -139,42 +139,65 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-/* Overlay ocupa toda a tela */
+/* Overlay ocupa toda a tela e escurece o fundo */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
   display: flex;               /* centraliza o modal-content */
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
+/* Garante que o overlay fique escondido se tiver a classe .hidden */
+.modal-overlay.hidden {
+  display: none !important;
+}
+
 /* Caixa branca central */
 .modal-content {
   background: #fff;
-  width: 80vw;                 /* 80% da largura da viewport */
-  height: 80vh;                /* 80% da altura da viewport */
+  width: 80vw;    /* 80% da largura da viewport */
+  height: 80vh;   /* 80% da altura da viewport */
   display: flex;
   flex-direction: column;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   overflow: hidden;
+}
+
+.modal-header {
+  flex: 0 0 auto;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-header > h2 {
+  color: black;
+}
+
+.modal-body {
+  flex: 1 1 auto;
+  padding: 1rem;
+  overflow-y: auto;  /* Barra de rolagem vertical */
+  overflow-x: auto;
+}
+
+.modal-body table {
+  width: max-content; /* Força rolagem horizontal se necessário */
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 /* Cabeçalho com título e botão de fechar */
