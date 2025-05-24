@@ -16,16 +16,15 @@ const removeFileButton = document.getElementById("remove-file");
 const removeSendButton = document.getElementById("send-button");
 
 // Elementos do modal
-const openErrorModalBtn = document.getElementById('open-error-modal'); // botão para abrir
-const errorModal        = document.getElementById('error-modal');      // overlay do modal
-const closeErrorBtn     = errorModal.querySelector('.modal-close');    // botão de fechar
-const modalErrorTable   = document.getElementById('modal-error-table'); // container da tabela
-
+const openErrorModalBtn = document.getElementById("open-error-modal"); // botão para abrir
+const errorModal = document.getElementById("error-modal"); // overlay do modal
+const closeErrorBtn = errorModal.querySelector(".modal-close"); // botão de fechar
+const modalErrorTable = document.getElementById("modal-error-table"); // container da tabela
 
 // Lê o CSV e converte em JSON, retornando uma Promise
 function readCSVandConvertToJSON(file) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader(); 
+    const reader = new FileReader();
     // FileReader lê o conteúdo do arquivo de forma assíncrona
     reader.onload = function (event) {
       const text = event.target.result;
@@ -48,7 +47,9 @@ function readCSVandConvertToJSON(file) {
 
       if (missingHeaders.length > 0) {
         exibirMensagemDeErro(
-          `❌ O arquivo está com colunas faltando: ${missingHeaders.join(", ")}. Corrija antes de prosseguir.`
+          `❌ O arquivo está com colunas faltando: ${missingHeaders.join(
+            ", "
+          )}. Corrija antes de prosseguir.`
         );
         esconderResumoValidacao();
         return reject(new Error("Cabeçalhos obrigatórios ausentes."));
@@ -80,15 +81,18 @@ function readCSVandConvertToJSON(file) {
           }
         });
 
-        const linhaErros = []; 
-        
+        const linhaErros = [];
+
         // Valida nome_turma
         // Definição da regex (expressão regular)
-        const padrao = /^(?:DSM-[1-5]-N|GEO-(?:1|3|5|6)-N|MA-(?:[1-3]-N|[5-6]-M))$/
+        const padrao =
+          /^(?:DSM-[1-5]-N|GEO-(?:1|3|5|6)-N|MA-(?:[1-3]-N|[5-6]-M))$/;
 
         if (!padrao.test(registro["nome_turma"].toUpperCase())) {
           linhaErros.push(
-            `• Linha ${index + 2}: formato inválido em 'nome_turma' → "${registro["nome_turma"]}". Ex.: DSM-3-N`
+            `• Linha ${index + 2}: formato inválido em 'nome_turma' → "${
+              registro["nome_turma"]
+            }". Ex.: DSM-3-N`
           );
         }
 
@@ -188,7 +192,7 @@ function readCSVandConvertToJSON(file) {
           "Energias Alternativas",
           "Projetos Ambientais 2",
           "Turismo e Meio Ambiente e Recursos Hídricos",
-          "Planejamento de Bacias Hidrográficas"
+          "Planejamento de Bacias Hidrográficas",
         ];
         // 2) Função de validação:
         function validarDisciplina(nome) {
@@ -197,7 +201,9 @@ function readCSVandConvertToJSON(file) {
         // 3) Exemplo de uso dentro do seu loop:
         if (!validarDisciplina(registro.nome_disciplina)) {
           linhaErros.push(
-            `• Linha ${index + 2}: disciplina inválida → "${registro.nome_disciplina}".`
+            `• Linha ${index + 2}: disciplina inválida → "${
+              registro.nome_disciplina
+            }".`
           );
         }
 
@@ -247,7 +253,7 @@ function readCSVandConvertToJSON(file) {
           "Prof. Dr. Daniel",
           "A definir",
           "Sem professor",
-          "Sem docente"
+          "Sem docente",
         ];
         // Função de validação
         function validarProfessor(nome) {
@@ -256,50 +262,56 @@ function readCSVandConvertToJSON(file) {
         // Uso no loop
         if (!validarProfessor(registro.nome_professor)) {
           linhaErros.push(
-            `• Linha ${index + 2}: nome inválido de professor → "${registro.nome_professor}".`
+            `• Linha ${index + 2}: nome inválido de professor → "${
+              registro.nome_professor
+            }".`
           );
-        } 
+        }
 
         // Valida dia_semana (de 1 a 5)
         const dia = parseInt(registro["dia_semana"], 10);
         if (isNaN(dia) || dia < 1 || dia > 5) {
           linhaErros.push(
-            `• Linha ${index + 2}: valor inválido em 'dia_semana' → "${registro["dia_semana"]}"`
+            `• Linha ${index + 2}: valor inválido em 'dia_semana' → "${
+              registro["dia_semana"]
+            }"`
           );
         }
 
         // Valida horário HH:MM-HH:MM
-        const periodo = registro["nome_turma"][registro["nome_turma"].length - 1].toUpperCase();
-        
+        const periodo =
+          registro["nome_turma"][
+            registro["nome_turma"].length - 1
+          ].toUpperCase();
+
         // Arrays com os horários válidos
-        const horariosValidosMatutino = [ 
+        const horariosValidosMatutino = [
           "07:30-08:20",
           "08:20-09:10",
           "09:20-10:10",
           "10:10-11:00",
           "11:10-12:00",
-          "12:00-12:50"
+          "12:00-12:50",
         ];
         const horariosValidosNoturno = [
           "18:45-19:35",
           "19:35-20:25",
           "20:25-21:15",
           "21:25-22:15",
-          "22:15-23:05"
+          "22:15-23:05",
         ];
         // Função para verificar se os horários são válidos (incluindo verificação de periodo)
         function validarHorario(p, horario) {
-          if(p == "M") {
+          if (p == "M") {
             return horariosValidosMatutino.includes(horario);
           } else if (p == "N") {
             return horariosValidosNoturno.includes(horario);
           }
-        };
+        }
 
-        // Constante para 
-        const entrada = registro["horario"]; 
+        // Constante para
+        const entrada = registro["horario"];
         if (validarHorario(periodo, entrada)) {
-          
         } else {
           linhaErros.push(
             `Linha ${index + 2}: horário inválido  → "${registro["horario"]}"`
@@ -309,17 +321,19 @@ function readCSVandConvertToJSON(file) {
         // Verifica se campos obrigatórios não estão vazios
         ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
           if (!registro[campo]) {
-            linhaErros.push(`• Linha ${index + 2}: campo '${campo}' está vazio`);
+            linhaErros.push(
+              `• Linha ${index + 2}: campo '${campo}' está vazio`
+            );
           }
         });
 
         if (linhaErros.length > 0) {
-            // Guarda as mensagens de erro gerais
-            erros.push(...linhaErros);
-            // Armazena o próprio registro + array de erros para exibir na tabela
-            invalidRows.push({
-              ...registro,
-              erros: [...linhaErros]
+          // Guarda as mensagens de erro gerais
+          erros.push(...linhaErros);
+          // Armazena o próprio registro + array de erros para exibir na tabela
+          invalidRows.push({
+            ...registro,
+            erros: [...linhaErros],
           });
         } else {
           jsonData.push(registro);
@@ -329,14 +343,11 @@ function readCSVandConvertToJSON(file) {
         exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
         // agora mostre somente os inválidos:
         renderEditableTable(invalidRows);
-
       });
-
-      
     };
 
     reader.onerror = () => {
-      reject(new Error('Erro ao ler o arquivo.'));
+      reject(new Error("Erro ao ler o arquivo."));
     };
     reader.readAsText(file);
     // Inicia a leitura do arquivo como texto
@@ -346,9 +357,9 @@ function readCSVandConvertToJSON(file) {
 // Exibe no DOM o arquivo selecionado, executa leitura e renderiza tabela
 async function showSelectedFile(file) {
   fileNameDisplay.textContent = `📄 ${file.name}`;
-  dropSection.classList.add("hidden");    // Esconde instruções de drop
+  dropSection.classList.add("hidden"); // Esconde instruções de drop
   fileSection.classList.remove("hidden"); // Mostra seção de arquivo
-  simulateProgressBar();                  // Anima barra de progresso
+  simulateProgressBar(); // Anima barra de progresso
   removeFileButton.classList.remove("hidden");
 
   try {
@@ -385,44 +396,66 @@ function simulateProgressBar() {
 // Converte nome de professor ou disciplina em formato Capitalizado, menos os conectivos, que ficam em minúsculas, e os algarismos romanos, que ficam em maiúsculas (Ex.: "engenharia de software ii" → "Engenharia de Software II")
 function capitalizarNome(texto) {
   const conectivos = [
-    'de','do','da','dos','das',
-    'e','a','o','os','as',
-    'à','ao','aos','às',
-    'para','por','com','sem','sob','sobre','entre',
-    'contra','perante','segundo','conforme','via','até'
+    "de",
+    "do",
+    "da",
+    "dos",
+    "das",
+    "e",
+    "a",
+    "o",
+    "os",
+    "as",
+    "à",
+    "ao",
+    "aos",
+    "às",
+    "para",
+    "por",
+    "com",
+    "sem",
+    "sob",
+    "sobre",
+    "entre",
+    "contra",
+    "perante",
+    "segundo",
+    "conforme",
+    "via",
+    "até",
   ];
-  const romanos = ['i','ii','iii','iv'];
+  const romanos = ["i", "ii", "iii", "iv"];
 
   // Limpa espaços extras e separa em palavras
   const palavras = texto
     .trim()
     .split(/\s+/)
-    .map(p => p.toLowerCase());
+    .map((p) => p.toLowerCase());
 
   return palavras
     .map((palavra, idx) => {
       const isFirst = idx === 0;
       const isLast = idx === palavras.length - 1;
-      
+
       // Se for o último e for algarismo romano I–IV, retornar em uppercase
       if (isLast && romanos.includes(palavra)) {
         return palavra.toUpperCase();
       }
-      
+
       // Sempre capitaliza a primeira palavra
       if (isFirst) {
         return palavra.charAt(0).toUpperCase() + palavra.slice(1);
       }
-      
+
       // Se for conectivo, deve ficar todo em minúsculas
       if (conectivos.includes(palavra)) {
         return palavra;
       }
-      
+
       // Caso padrão: capitalize somente a primeira letra
       return palavra.charAt(0).toUpperCase() + palavra.slice(1);
     })
-    .join(' ');
+    .join(" ");
 }
 
 // Eventos para drag & drop e clique na área
@@ -446,7 +479,6 @@ dropArea.addEventListener("drop", (e) => {
     showSelectedFile(files[0]);
   }
 });
-
 
 fileInput.addEventListener("change", () => {
   if (fileInput.files.length > 0 && fileInput.files[0].type === "text/csv") {
@@ -491,9 +523,9 @@ function exibirResumoValidacao(validos, invalidos, erros, correcoes = 0) {
   `;
   summaryDiv.classList.remove("hidden");
   // Revome o "hidder" para mostrar o botão "Enviar" apenas quando não holver mais erros de validação
-  if(!invalidos) {
+  if (!invalidos) {
     removeSendButton.classList.remove("hidden");
-  };
+  }
 }
 
 // Limpa o resumo de validação da interface
@@ -553,27 +585,28 @@ function renderEditableTable(data) {
  */
 function showErrorModal() {
   // Copia a tabela de erros existente (renderEditableTable em #editable-table)
-  modalErrorTable.innerHTML = document.getElementById('editable-table').innerHTML;
+  modalErrorTable.innerHTML =
+    document.getElementById("editable-table").innerHTML;
   // Exibe o overlay
-  errorModal.classList.remove('hidden');
-  errorModal.setAttribute('aria-hidden', 'false');
+  errorModal.classList.remove("hidden");
+  errorModal.setAttribute("aria-hidden", "false");
 }
 
 /**
  * Esconde o modal
  */
 function hideErrorModal() {
-  errorModal.classList.add('hidden');
-  errorModal.setAttribute('aria-hidden', 'true');
+  errorModal.classList.add("hidden");
+  errorModal.setAttribute("aria-hidden", "true");
 }
 
 // Abre modal ao clicar no botão
-openErrorModalBtn.addEventListener('click', showErrorModal);
+openErrorModalBtn.addEventListener("click", showErrorModal);
 
 // Fecha modal ao clicar no botão de fechar
-closeErrorBtn.addEventListener('click', hideErrorModal);
+closeErrorBtn.addEventListener("click", hideErrorModal);
 
 // Fecha modal ao clicar fora do conteúdo
-errorModal.addEventListener('click', (e) => {
+errorModal.addEventListener("click", (e) => {
   if (e.target === errorModal) hideErrorModal();
 });
