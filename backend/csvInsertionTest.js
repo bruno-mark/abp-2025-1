@@ -14,6 +14,7 @@ const progressFill = document.getElementById("progress-fill");
 const removeFileButton = document.getElementById("remove-file");
 // Botão de envio que passa a permitir enviar após validação
 const removeSendButton = document.getElementById("send-button");
+let jsonDataGlobal = [];
 
 // Elementos do modal
 const openErrorModalBtn = document.getElementById("open-error-modal"); // botão para abrir
@@ -363,7 +364,7 @@ async function showSelectedFile(file) {
   removeFileButton.classList.remove("hidden");
 
   try {
-    const jsonData = await readCSVandConvertToJSON(file);
+    jsonDataGlobal = await readCSVandConvertToJSON(file);
     console.log("✅ Dados válidos:", jsonData);
     renderEditableTable(linhaErros);
   } catch (error) {
@@ -609,4 +610,31 @@ closeErrorBtn.addEventListener("click", hideErrorModal);
 // Fecha modal ao clicar fora do conteúdo
 errorModal.addEventListener("click", (e) => {
   if (e.target === errorModal) hideErrorModal();
+});
+
+
+document.getElementById("send-button").addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch("http://localhost:3000/api/inserir-csv", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(jsonDataGlobal),
+ // certifique-se que jsonData está acessível aqui
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      alert("✅ Dados enviados com sucesso!");
+      resetToInitialState();
+    } else {
+      alert("❌ Erro ao enviar: " + result.erro);
+    }
+  } catch (error) {
+    console.error("❌ Erro de rede:", error);
+    alert("❌ Falha na comunicação com o servidor.");
+  }
 });

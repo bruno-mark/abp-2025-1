@@ -34,5 +34,6 @@ app.get('/', (req, res) => {
 });
 
 require('./dataRecovery')(app, db);
-require('./csvInsertion')(app, db);
 require('./rotasHorarios')(app, db);
+require('./csvUpload')(app, db);
+
