@@ -197,8 +197,11 @@ function readCSVandConvertToJSON(file) {
         ];
         // 2) Função de validação:
         function validarDisciplina(nome) {
-          return disciplinasPermitidas.includes(nome.trim().toUpperCase());
+          return disciplinasPermitidas.some(
+            (disc) => normalizarTexto(disc) === normalizarTexto(nome)
+          );
         }
+
         // 3) Exemplo de uso dentro do seu loop:
         if (!validarDisciplina(registro.nome_disciplina)) {
           linhaErros.push(
@@ -258,8 +261,11 @@ function readCSVandConvertToJSON(file) {
         ];
         // Função de validação
         function validarProfessor(nome) {
-          return professoresPermitidos.includes(nome.trim().toUpperCase());
+          return professoresPermitidos.some(
+            (prof) => normalizarTexto(prof) === normalizarTexto(nome)
+          );
         }
+
         // Uso no loop
         if (!validarProfessor(registro.nome_professor)) {
           linhaErros.push(
@@ -344,6 +350,7 @@ function readCSVandConvertToJSON(file) {
         exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
         // agora mostre somente os inválidos:
         renderEditableTable(invalidRows);
+        resolve(jsonData);
       });
     };
 
@@ -365,8 +372,7 @@ async function showSelectedFile(file) {
 
   try {
     jsonDataGlobal = await readCSVandConvertToJSON(file);
-    console.log("✅ Dados válidos:", jsonData);
-    renderEditableTable(linhaErros);
+    console.log("✅ Dados válidos:", jsonDataGlobal);
   } catch (error) {
     console.error("❌ Erro no processamento do CSV:", error.message);
   }
@@ -457,6 +463,14 @@ function capitalizarNome(texto) {
       return palavra.charAt(0).toUpperCase() + palavra.slice(1);
     })
     .join(" ");
+}
+
+function normalizarTexto(texto) {
+  return texto
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
 }
 
 // Eventos para drag & drop e clique na área
@@ -613,9 +627,10 @@ errorModal.addEventListener("click", (e) => {
 });
 
 
+
 document.getElementById("send-button").addEventListener("click", async (e) => {
   e.preventDefault();
-
+console.log("📤 Enviando para o backend:", jsonDataGlobal); 
   try {
     const response = await fetch("http://localhost:3000/api/inserir-csv", {
       method: "POST",
@@ -623,7 +638,7 @@ document.getElementById("send-button").addEventListener("click", async (e) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(jsonDataGlobal),
- // certifique-se que jsonData está acessível aqui
+      // certifique-se que jsonData está acessível aqui
     });
 
     const result = await response.json();

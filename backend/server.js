@@ -1,8 +1,10 @@
 // Importa o framework Express para criar e gerenciar o servidor web
 const express = require("express");
 const dotenv = require("dotenv");
+
 const { Client } = require("pg");
 const cors = require("cors");
+
 
 
 dotenv.config();
@@ -33,7 +35,7 @@ app.get('/', (req, res) => {
   res.send('🚀 API rodando com sucesso e com deploy automático! hahahahaha');
 });
 
-require('./dataRecovery')(app, db);
-require('./rotasHorarios')(app, db);
+//require('./dataRecovery')(app, db);
+//require('./rotasHorarios')(app, db);
 require('./csvUpload')(app, db);
 
