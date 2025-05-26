@@ -13,335 +13,348 @@ const progressFill = document.getElementById("progress-fill");
 // Botão para remover o arquivo
 const removeFileButton = document.getElementById("remove-file");
 // Botão de envio que passa a permitir enviar após validação
-const removeSendButton = document.getElementById("send-button");
+const SendButton = document.getElementById("send-button");
 
 // Elementos do modal
 const openErrorModalBtn = document.getElementById('open-error-modal'); // botão para abrir
-const errorModal        = document.getElementById('error-modal');      // overlay do modal
-const closeErrorBtn     = errorModal.querySelector('.modal-close');    // botão de fechar
-const modalErrorTable   = document.getElementById('modal-error-table'); // container da tabela
+const errorModal = document.getElementById('error-modal');      // overlay do modal
+const closeErrorBtn = errorModal.querySelector('.modal-close');    // botão de fechar
+const modalErrorTable = document.getElementById('modal-error-table'); // container da tabela
 
+// 1. Variável global que mantém a última versão editada na tabela
+let dadosEditados = [];
 
-// Lê o CSV e converte em JSON, retornando uma Promise
-function readCSVandConvertToJSON(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader(); 
-    // FileReader lê o conteúdo do arquivo de forma assíncrona
-    reader.onload = function (event) {
-      const text = event.target.result;
-      const lines = text.trim().split("\n");
-      // Separa em linhas, removendo espaços em branco extras
+// 2. Regex e listas de validação
+const padraoTurma = /^(?:DSM-[1-5]-N|GEO-(?:1|3|5|6)-N|MA-(?:[1-3]-N|[5-6]-M))$/;
 
-      const headers = lines[0].split(",").map((h) => h.trim());
-      const requiredHeaders = [
-        "nome_turma",
-        "nome_disciplina",
-        "nome_professor",
-        "dia_semana",
-        "horario",
-      ];
+const disciplinasPermitidas = [
+  "Engenharia de Software I",
+  "Modelagem de Banco de Dados",
+  "Algoritmo",
+  "Sistemas Operacionais e Redes de Computadores",
+  "Desenvolvimento Web I",
+  "Design Digital",
+  "Técnicas de Programação I",
+  "Desenvolvimento Web II",
+  "Matemática para Computação",
+  "Estrutura de Dados",
+  "Engenharia de Software II",
+  "Banco de Dados Relacional",
+  "Banco de Dados não Relacional",
+  "Gestão Ágil de Projetos de Software",
+  "Álgebra Linear",
+  "Técnicas de Programação II",
+  "Desenvolvimento Web III",
+  "Interação Humano Computador",
+  "Inglês I",
+  "Programação para Dispositivos Móveis I",
+  "Laboratório de Desenvolvimento Web",
+  "Internet das Coisas e Aplicações",
+  "Estatística Aplicada",
+  "Integração e Entrega Contínua",
+  "Experiência do Usuário",
+  "Inglês II",
+  "Segurança no Desenvolvimento de Aplicações",
+  "Aprendizagem de Máquina",
+  "Computação em Nuvem I",
+  "Laboratório de Desenvolvimento para Dispositivos Móveis",
+  "Programação para Dispositivos Móveis II",
+  "Fundamentos da Redação Técnica",
+  "Inglês III",
+  "Introdução à Ciência da Geoinformação",
+  "Desenho Técnico",
+  "Algoritmos e Lógica de Programação",
+  "Cálculo",
+  "Metodologia",
+  "Comunicação",
+  "Fundamentos de Física",
+  "Estatística",
+  "Topografia e Batimetria",
+  "Geodésia",
+  "Processamento Digital de Imagens",
+  "Linguagem de Programação II",
+  "Análise Ambiental",
+  "WebGIS",
+  "Análise Espacial e Modelagem Territorial",
+  "Infraestrutura Urbana",
+  "Fundamentos da Administração",
+  "Projetos 1",
+  "Legislação",
+  "Inglês V",
+  "Posicionamento por Satélite",
+  "Cadastro Técnico Multifinalitário",
+  "Integração e Análise de Dados Territoriais",
+  "Projetos 2",
+  "Padrões Distribuídos de Dados em SIG",
+  "Fotogrametria Analógica e Digital",
+  "Geomarketing",
+  "Georreferenciamento de Imóveis Rurais",
+  "Inglês VI",
+  "Ciências Ambientais e das Águas",
+  "Química Geral",
+  "Biologia",
+  "Matemática Aplicada",
+  "Fundamentos da Comunicação Empresarial",
+  "Sociologia Ambiental",
+  "Geociência Ambiental",
+  "Cartografia, Topografia e Batimetria",
+  "Microbiologia",
+  "Hidrologia e Recursos Hídricos",
+  "SERE",
+  "Físico-Química Ambiental",
+  "Ecologia",
+  "Climatologia e Meteorologia",
+  "Hidráulica Fluvial",
+  "Gestão da Qualidade",
+  "Saneamento Ambiental I",
+  "Planejamento e Conservação Ambiental",
+  "IPDI",
+  "Legislação Ambiental",
+  "Planejamento e Gestão Urbana",
+  "Projetos Ambientais 1",
+  "Gerenciamento de Resíduos",
+  "Controle e Monitoramento da Poluição Atmosférica",
+  "Ecotecnologia",
+  "Águas Subterrâneas",
+  "Sistemas de Gestão e Auditoria Ambiental",
+  "Revitalização de Rios e Recuperação de Nascentes",
+  "Energias Alternativas",
+  "Projetos Ambientais 2",
+  "Turismo e Meio Ambiente e Recursos Hídricos",
+  "Planejamento de Bacias Hidrográficas"
+];
+const professoresPermitidos = [
+  "Prof. Me. Antonio Egydio São Thiago Graça",
+  "Prof. Dr. Arley Ferreira de Souza",
+  "Prof. Esp. Marcelo Augusto Sudo",
+  "Prof. Esp. André Olímpio",
+  "Prof. Dr. Fabrício Galende Marques de Carvalho",
+  "Prof. Esp. Henrique Duarte Borges Louro",
+  "Profa. Esp. Lucineide Nunes Pimenta",
+  "Profa. Ma. Adriana Antividad López Valverde",
+  "Profa. Dra. Rita de Cássia Silva Von Randow",
+  "Prof. Me. Ronaldo Emerick Moreira",
+  "Prof. Esp. Neymar Siqueira Dellareti",
+  "Profa. Esp. Maria Lucia de Oliveira",
+  "Prof. Me. Rodrigo Monteiro de Barros Santana",
+  "Profa. Esp. Joanize Aparecida dos Santos Mohallem Paiva",
+  "Prof. Me. Celso de Oliveira",
+  "Profa. Dra. Karen Espinosa",
+  "Prof. Dr. Daniel José de Andrade",
+  "Prof. Esp. Mariana Timponi Rodrigues",
+  "Profa. Dra. Vivian Hyodo",
+  "Prof. Me. Adilson Rodolfo Neves",
+  "Prof. Msc. Jane Delane Verona",
+  "Profa. Ma. Yara da Cruz Ferreira",
+  "Prof. Dr. Nilton de Jesus",
+  "Profa. Msc. Risleide Lucia dos Santos",
+  "Prof. Esp. Matheus de Oliveira Lorena",
+  "Prof. M.Sc. Mario Sérgio Soléo Scalambrino",
+  "Prof. M.Sc. Luiz Gustavo Galhardo Mendes",
+  "Prof. M.Sc. Kenji Taniguchi",
+  "Prof. M.Sc. Luiz Sérgio Gonçalves Aguiar",
+  "Prof. M.Sc. Paulo José Maria Filho",
+  "Profa. M.Sc. Fernanda da Silveira Bueno",
+  "Prof. Dr. Renato Mortin",
+  "Prof. Me. Gerson Freitas Júnior",
+  "Prof. Me. Wellington Rios",
+  "Prof. Dr. Érico Luciano Pagotto",
+  "Prof. Dr. Jorge Tadao Matsushima",
+  "Profa. Dra. Sanzara Nhiaia J.C. Hassmann",
+  "Profa. Dra. Selma Candelária Genari",
+  "Profa. Dra. Rita de Cássia von Randow",
+  "Profa. Dra. Nanci de Oliveira",
+  "Prof. Dr. Daniel",
+  "A definir",
+  "Sem professor",
+  "Sem docente"
+];
 
-      // Verifica se há cabeçalhos obrigatórios
-      const missingHeaders = requiredHeaders.filter(
-        (req) => !headers.includes(req)
-      );
+const horariosValidosMatutino = [
+  "07:30-08:20", "08:20-09:10", "09:20-10:10",
+  "10:10-11:00", "11:10-12:00", "12:00-12:50"
+];
+const horariosValidosNoturno = [
+  "18:45-19:35", "19:35-20:25", "20:25-21:15",
+  "21:25-22:15", "22:15-23:05"
+];
 
-      if (missingHeaders.length > 0) {
-        exibirMensagemDeErro(
-          `❌ O arquivo está com colunas faltando: ${missingHeaders.join(", ")}. Corrija antes de prosseguir.`
-        );
-        esconderResumoValidacao();
-        return reject(new Error("Cabeçalhos obrigatórios ausentes."));
+// Funções utilitárias
+// Converte nome de professor ou disciplina em formato Capitalizado, menos os conectivos, que ficam em minúsculas, e os algarismos romanos, que ficam em maiúsculas (Ex.: "engenharia de software ii" → "Engenharia de Software II")
+function capitalizarNome(texto) {
+  const conectivos = [
+    'de', 'do', 'da', 'dos', 'das',
+    'e', 'a', 'o', 'os', 'as',
+    'à', 'ao', 'aos', 'às',
+    'para', 'por', 'com', 'sem', 'sob', 'sobre', 'entre',
+    'contra', 'perante', 'segundo', 'conforme', 'via', 'até'
+  ];
+  const romanos = ['i', 'ii', 'iii', 'iv'];
+
+  // Limpa espaços extras e separa em palavras
+  const palavras = texto
+    .trim()
+    .split(/\s+/)
+    .map(p => p.toLowerCase());
+
+  return palavras
+    .map((palavra, idx) => {
+      const isFirst = idx === 0;
+      const isLast = idx === palavras.length - 1;
+
+      // Se for o último e for algarismo romano I–IV, retornar em uppercase
+      if (isLast && romanos.includes(palavra)) {
+        return palavra.toUpperCase();
       }
 
+      // Sempre capitaliza a primeira palavra
+      if (isFirst) {
+        return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+      }
+
+      // Se for conectivo, deve ficar todo em minúsculas
+      if (conectivos.includes(palavra)) {
+        return palavra;
+      }
+
+      // Caso padrão: capitalize somente a primeira letra
+      return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+    })
+    .join(' ');
+}
+
+// Bibliotecas e utilitários para correspondência aproximada
+// Aqui usamos uma função de distância de Levenshtein para medir similaridade
+function levenshtein(a, b) {
+  const dp = Array.from({ length: a.length + 1 }, () => []);
+  for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+  for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1].toLowerCase() === b[j - 1].toLowerCase() ? 0 : 1;
+      dp[i][j] = Math.min(
+        dp[i - 1][j] + 1,       // deleção
+        dp[i][j - 1] + 1,       // inserção
+        dp[i - 1][j - 1] + cost // substituição
+      );
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+// Normaliza e calcula similaridade: 1 - (distância / comprimento máximo)
+function similarity(a, b) {
+  const dist = levenshtein(a.trim(), b.trim());
+  const maxLen = Math.max(a.length, b.length);
+  return maxLen === 0 ? 1 : 1 - dist / maxLen;
+}
+// Encontra melhor correspondência em uma lista, acima de um limiar
+function getBestMatch(input, list, threshold = 0.6) {
+  let best = { item: null, score: 0 };
+  list.forEach((candidate) => {
+    const score = similarity(input, candidate);
+    if (score > best.score) {
+      best = { item: candidate, score };
+    }
+  });
+  return best.score >= threshold ? best.item : null;
+}
+
+// Validar horário
+function validarHorario(p, horario) {
+  return p === "M"
+    ? horariosValidosMatutino.includes(horario)
+    : horariosValidosNoturno.includes(horario);
+}
+
+// Lê o CSV e converte em JSON, retornando uma Promise; Prá-valida as entradas
+function readCSVandConvertToJSON(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    // FileReader lê o conteúdo do arquivo de forma assíncrona
+    reader.onload = function (event) {
+      const lines = event.target.result.trim().split("\n");
+      const headers = lines[0].split(",").map(h=>h.trim());
+      const required = ["nome_turma","nome_disciplina","nome_professor","dia_semana","horario"];
+      const missing = required.filter(r=>!headers.includes(r));
+      if(missing.length) {
+        exibirMensagemDeErro(`❌ Colunas faltando: ${missing.join(", ")}`);
+        esconderResumoValidacao();
+        return reject(new Error("Cabeçalhos ausentes"));
+      }
       esconderMensagemDeErro();
 
-      const jsonData = [];
-      const erros = [];
-      const invalidRows = []; // Linhas inválidas para tabela de edição
-      let correcoes = 0;
+      const jsonData   = [];
+      const invalidRows= [];
+      const erros      = [];
+      let correcoes    = 0;
+
 
       // Processa cada linha de dados (pulando o cabeçalho)
-      lines.slice(1).forEach((line, index) => {
-        const values = line.split(",").map((v) => v.trim());
-        // Monta um objeto com base nos headers
-        let registro = headers.reduce((obj, header, i) => {
-          obj[header] = values[i] || "";
-          return obj;
-        }, {});
+       lines.slice(1).forEach((line,idx) => {
+        const values = line.split(",").map(v=>v.trim());
+        const registro= headers.reduce((o,h,i)=> (o[h]=values[i]||"",o), {});
+        const linhaErros = [];
 
-        // Faz capitalização automática nos campos de texto
-        ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
-          const original = registro[campo];
-          const corrigido = capitalizarNome(original.trim());
-          if (original !== corrigido) {
-            registro[campo] = corrigido;
-            correcoes++;
-          }
+        // Nome da turma
+        const up = registro.nome_turma.toUpperCase();
+        if(!padraoTurma.test(up)) {
+          linhaErros.push(`• Linha ${idx+2}: nome_turma inválido → "${registro.nome_turma}"`);
+        } else if(registro.nome_turma !== up) {
+          registro.nome_turma = up; correcoes++;
+        }
+
+        // Capitalização
+        ["nome_disciplina","nome_professor"].forEach(c=>{
+          const cap = capitalizarNome(registro[c]);
+          if(registro[c]!==cap){ registro[c]=cap; correcoes++; }
         });
 
-        const linhaErros = []; 
-        
-        // Valida nome_turma
-        // Definição da regex (expressão regular)
-        const padrao = /^(?:DSM-[1-5]-N|GEO-(?:1|3|5|6)-N|MA-(?:[1-3]-N|[5-6]-M))$/
+        // Correspondência aproximada
+        const bestD = getBestMatch(registro.nome_disciplina, disciplinasPermitidas,0.6);
+        if(bestD) { if(bestD!==registro.nome_disciplina){ registro.nome_disciplina=bestD; correcoes++; } }
+        else linhaErros.push(`• Linha ${idx+2}: disciplina inválida → "${registro.nome_disciplina}"`);
 
-        if (!padrao.test(registro["nome_turma"].toUpperCase())) {
-          linhaErros.push(
-            `• Linha ${index + 2}: formato inválido em 'nome_turma' → "${registro["nome_turma"]}". Ex.: DSM-3-N`
-          );
-        }
+        const bestP = getBestMatch(registro.nome_professor, professoresPermitidos,0.3);
+        if(bestP) { if(bestP!==registro.nome_professor){ registro.nome_professor=bestP; correcoes++; } }
+        else linhaErros.push(`• Linha ${idx+2}: professor inválido → "${registro.nome_professor}"`);
 
-        // Valida disciplina
-        // 1) Array com todas as disciplinas:
-        const disciplinasPermitidas = [
-          "Engenharia de Software I",
-          "Modelagem de Banco de Dados",
-          "Algoritmo",
-          "Sistemas Operacionais e Redes de Computadores",
-          "Desenvolvimento Web I",
-          "Design Digital",
-          "Técnicas de Programação I",
-          "Desenvolvimento Web II",
-          "Matemática para Computação",
-          "Estrutura de Dados",
-          "Engenharia de Software II",
-          "Banco de Dados Relacional",
-          "Banco de Dados não Relacional",
-          "Gestão Ágil de Projetos de Software",
-          "Álgebra Linear",
-          "Técnicas de Programação II",
-          "Desenvolvimento Web III",
-          "Interação Humano Computador",
-          "Inglês I",
-          "Programação para Dispositivos Móveis I",
-          "Laboratório de Desenvolvimento Web",
-          "Internet das Coisas e Aplicações",
-          "Estatística Aplicada",
-          "Integração e Entrega Contínua",
-          "Experiência do Usuário",
-          "Inglês II",
-          "Segurança no Desenvolvimento de Aplicações",
-          "Aprendizagem de Máquina",
-          "Computação em Nuvem I",
-          "Laboratório de Desenvolvimento para Dispositivos Móveis",
-          "Programação para Dispositivos Móveis II",
-          "Fundamentos da Redação Técnica",
-          "Inglês III",
-          "Introdução à Ciência da Geoinformação",
-          "Desenho Técnico",
-          "Algoritmos e Lógica de Programação",
-          "Cálculo",
-          "Metodologia",
-          "Comunicação",
-          "Fundamentos de Física",
-          "Estatística",
-          "Topografia e Batimetria",
-          "Geodésia",
-          "Processamento Digital de Imagens",
-          "Linguagem de Programação II",
-          "Análise Ambiental",
-          "WebGIS",
-          "Análise Espacial e Modelagem Territorial",
-          "Infraestrutura Urbana",
-          "Fundamentos da Administração",
-          "Projetos 1",
-          "Legislação",
-          "Inglês V",
-          "Posicionamento por Satélite",
-          "Cadastro Técnico Multifinalitário",
-          "Integração e Análise de Dados Territoriais",
-          "Projetos 2",
-          "Padrões Distribuídos de Dados em SIG",
-          "Fotogrametria Analógica e Digital",
-          "Geomarketing",
-          "Georreferenciamento de Imóveis Rurais",
-          "Inglês VI",
-          "Ciências Ambientais e das Águas",
-          "Química Geral",
-          "Biologia",
-          "Matemática Aplicada",
-          "Fundamentos da Comunicação Empresarial",
-          "Sociologia Ambiental",
-          "Geociência Ambiental",
-          "Cartografia, Topografia e Batimetria",
-          "Microbiologia",
-          "Hidrologia e Recursos Hídricos",
-          "SERE",
-          "Físico-Química Ambiental",
-          "Ecologia",
-          "Climatologia e Meteorologia",
-          "Hidráulica Fluvial",
-          "Gestão da Qualidade",
-          "Saneamento Ambiental I",
-          "Planejamento e Conservação Ambiental",
-          "IPDI",
-          "Legislação Ambiental",
-          "Planejamento e Gestão Urbana",
-          "Projetos Ambientais 1",
-          "Gerenciamento de Resíduos",
-          "Controle e Monitoramento da Poluição Atmosférica",
-          "Ecotecnologia",
-          "Águas Subterrâneas",
-          "Sistemas de Gestão e Auditoria Ambiental",
-          "Revitalização de Rios e Recuperação de Nascentes",
-          "Energias Alternativas",
-          "Projetos Ambientais 2",
-          "Turismo e Meio Ambiente e Recursos Hídricos",
-          "Planejamento de Bacias Hidrográficas"
-        ];
-        // 2) Função de validação:
-        function validarDisciplina(nome) {
-          return disciplinasPermitidas.includes(nome.trim().toUpperCase());
-        }
-        // 3) Exemplo de uso dentro do seu loop:
-        if (!validarDisciplina(registro.nome_disciplina)) {
-          linhaErros.push(
-            `• Linha ${index + 2}: disciplina inválida → "${registro.nome_disciplina}".`
-          );
-        }
+        // Dia da semana
+        const dia = parseInt(registro.dia_semana,10);
+        if(isNaN(dia)||dia<1||dia>5)
+          linhaErros.push(`• Linha ${idx+2}: dia_semana inválido → "${registro.dia_semana}"`);
 
-        // Valida nome_professor
-        // 1) Array com todos os nomes de professor em MAIÚSCULAS
-        const professoresPermitidos = [
-          "Prof. Me. Antonio Egydio São Thiago Graça",
-          "Prof. Dr. Arley Ferreira de Souza",
-          "Prof. Esp. Marcelo Augusto Sudo",
-          "Prof. Esp. André Olímpio",
-          "Prof. Dr. Fabrício Galende Marques de Carvalho",
-          "Prof. Esp. Henrique Duarte Borges Louro",
-          "Profa. Esp. Lucineide Nunes Pimenta",
-          "Profa. Ma. Adriana Antividad López Valverde",
-          "Profa. Dra. Rita de Cássia Silva Von Randow",
-          "Prof. Me. Ronaldo Emerick Moreira",
-          "Prof. Esp. Neymar Siqueira Dellareti",
-          "Profa. Esp. Maria Lucia de Oliveira",
-          "Prof. Me. Rodrigo Monteiro de Barros Santana",
-          "Profa. Esp. Joanize Aparecida dos Santos Mohallem Paiva",
-          "Prof. Me. Celso de Oliveira",
-          "Profa. Dra. Karen Espinosa",
-          "Prof. Dr. Daniel José de Andrade",
-          "Prof. Esp. Mariana Timponi Rodrigues",
-          "Profa. Dra. Vivian Hyodo",
-          "Prof. Me. Adilson Rodolfo Neves",
-          "Prof. Msc. Jane Delane Verona",
-          "Profa. Ma. Yara da Cruz Ferreira",
-          "Prof. Dr. Nilton de Jesus",
-          "Profa. Msc. Risleide Lucia dos Santos",
-          "Prof. Esp. Matheus de Oliveira Lorena",
-          "Prof. M.Sc. Mario Sérgio Soléo Scalambrino",
-          "Prof. M.Sc. Luiz Gustavo Galhardo Mendes",
-          "Prof. M.Sc. Kenji Taniguchi",
-          "Prof. M.Sc. Luiz Sérgio Gonçalves Aguiar",
-          "Prof. M.Sc. Paulo José Maria Filho",
-          "Profa. M.Sc. Fernanda da Silveira Bueno",
-          "Prof. Dr. Renato Mortin",
-          "Prof. Me. Gerson Freitas Júnior",
-          "Prof. Me. Wellington Rios",
-          "Prof. Dr. Érico Luciano Pagotto",
-          "Prof. Dr. Jorge Tadao Matsushima",
-          "Profa. Dra. Sanzara Nhiaia J.C. Hassmann",
-          "Profa. Dra. Selma Candelária Genari",
-          "Profa. Dra. Rita de Cássia von Randow",
-          "Profa. Dra. Nanci de Oliveira",
-          "Prof. Dr. Daniel",
-          "A definir",
-          "Sem professor",
-          "Sem docente"
-        ];
-        // Função de validação
-        function validarProfessor(nome) {
-          return professoresPermitidos.includes(nome.trim().toUpperCase());
-        }
-        // Uso no loop
-        if (!validarProfessor(registro.nome_professor)) {
-          linhaErros.push(
-            `• Linha ${index + 2}: nome inválido de professor → "${registro.nome_professor}".`
-          );
-        } 
+        // Horário
+        const periodo = up.slice(-1);
+        if(!validarHorario(periodo, registro.horario))
+          linhaErros.push(`• Linha ${idx+2}: horário inválido → "${registro.horario}"`);
 
-        // Valida dia_semana (de 1 a 5)
-        const dia = parseInt(registro["dia_semana"], 10);
-        if (isNaN(dia) || dia < 1 || dia > 5) {
-          linhaErros.push(
-            `• Linha ${index + 2}: valor inválido em 'dia_semana' → "${registro["dia_semana"]}"`
-          );
-        }
-
-        // Valida horário HH:MM-HH:MM
-        const periodo = registro["nome_turma"][registro["nome_turma"].length - 1].toUpperCase();
-        
-        // Arrays com os horários válidos
-        const horariosValidosMatutino = [ 
-          "07:30-08:20",
-          "08:20-09:10",
-          "09:20-10:10",
-          "10:10-11:00",
-          "11:10-12:00",
-          "12:00-12:50"
-        ];
-        const horariosValidosNoturno = [
-          "18:45-19:35",
-          "19:35-20:25",
-          "20:25-21:15",
-          "21:25-22:15",
-          "22:15-23:05"
-        ];
-        // Função para verificar se os horários são válidos (incluindo verificação de periodo)
-        function validarHorario(p, horario) {
-          if(p == "M") {
-            return horariosValidosMatutino.includes(horario);
-          } else if (p == "N") {
-            return horariosValidosNoturno.includes(horario);
-          }
-        };
-
-        // Constante para 
-        const entrada = registro["horario"]; 
-        if (validarHorario(periodo, entrada)) {
-          
-        } else {
-          linhaErros.push(
-            `Linha ${index + 2}: horário inválido  → "${registro["horario"]}"`
-          );
-        }
-
-        // Verifica se campos obrigatórios não estão vazios
-        ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
-          if (!registro[campo]) {
-            linhaErros.push(`• Linha ${index + 2}: campo '${campo}' está vazio`);
-          }
+        // Campos obrigatórios
+        ["nome_turma","nome_disciplina","nome_professor"].forEach(c=>{
+          if(!registro[c]) linhaErros.push(`• Linha ${idx+2}: campo '${c}' vazio`);
         });
 
-        if (linhaErros.length > 0) {
-            // Guarda as mensagens de erro gerais
-            erros.push(...linhaErros);
-            // Armazena o próprio registro + array de erros para exibir na tabela
-            invalidRows.push({
-              ...registro,
-              erros: [...linhaErros]
-          });
+        // Classifica registro
+        if(linhaErros.length) {
+          erros.push(...linhaErros);
+          invalidRows.push({ ...registro, erros: linhaErros });
         } else {
           jsonData.push(registro);
         }
-
-        // Exibe o resumo de validação com contagem de válidos, erros e correções
-        exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
-        // agora mostre somente os inválidos:
-        renderEditableTable(invalidRows);
-
       });
 
-      
+      // 4. Depois do loop, atualiza a UI **apenas uma vez**
+      exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
+      // Removido renderEditableTable(invalidRows) daqui para ser chamado apenas ao abrir o modal
+      dadosEditados = invalidRows; // Guarda os dados para edição, mesmo que não seja imediatamente exibido
+      resolve(jsonData);
     };
 
-    reader.onerror = () => {
-      reject(new Error('Erro ao ler o arquivo.'));
-    };
+    reader.onerror = () => reject(new Error("Erro ao ler arquivo"));
     reader.readAsText(file);
-    // Inicia a leitura do arquivo como texto
   });
 }
+
 
 // Exibe no DOM o arquivo selecionado, executa leitura e renderiza tabela
 async function showSelectedFile(file) {
@@ -352,12 +365,160 @@ async function showSelectedFile(file) {
   removeFileButton.classList.remove("hidden");
 
   try {
-    const jsonData = await readCSVandConvertToJSON(file);
-    console.log("✅ Dados válidos:", jsonData);
-    renderEditableTable(linhaErros);
+    await readCSVandConvertToJSON(file);
+
   } catch (error) {
     console.error("❌ Erro no processamento do CSV:", error.message);
   }
+}
+
+// Renderiza uma tabela editável com os dados JSON
+// Agora, esta função aceita um container como argumento para ser mais flexível
+function renderEditableTable(data, containerElement, showCheckButton = false) {
+  containerElement.innerHTML = "";
+
+  if (!data.length) {
+      containerElement.classList.add("hidden");
+      return;
+  }
+
+  containerElement.classList.remove("hidden"); // <-- torna visível
+
+  // monta cabeçalho
+  const headers = Object.keys(data[0]);
+  let html = "<table><thead><tr>";
+  headers.forEach(h=> html+=`<th>${h}</th>`);
+  html+="</tr></thead><tbody>";
+
+  // monta linhas
+  data.forEach((row,i)=>{
+    html+="<tr>";
+    headers.forEach(h=> html+=`<td contenteditable data-row="${i}" data-key="${h}">${row[h]}</td>`);
+    html+="</tr>";
+  });
+  html+="</tbody></table>";
+  containerElement.innerHTML = html;
+
+  // listener de edição
+  containerElement.querySelectorAll("td[contenteditable]").forEach(cell=>{
+    cell.addEventListener("input", ()=>{
+      const i   = +cell.dataset.row;
+      const key = cell.dataset.key;
+      dadosEditados[i][key] = cell.textContent.trim();
+    });
+  });
+
+  // Condicionalmente adiciona o botão "Verificar Novamente"
+  if (showCheckButton) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = "Verificar Novamente";
+      btn.className = "insercao__button";
+      btn.style.marginTop = "20px";
+      btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          checkTable();
+      });
+      containerElement.appendChild(btn);
+  }
+}
+
+
+function checkTable() {
+  // limpa mensagens e resumo anteriores
+  esconderMensagemDeErro();
+  esconderResumoValidacao();
+
+  const erros = [];
+  const validos = [];
+  const invalidos = [];
+  let correcoes = 0;
+
+  dadosEditados.forEach((registro, idx) => {
+    const linhaErros = [];
+    const linhaNum = idx + 2; // considerar cabeçalho
+
+    // 1) Valida nome_turma
+    const turmaUp = registro.nome_turma.toUpperCase();
+    if (!padraoTurma.test(turmaUp)) {
+      linhaErros.push(`• Linha ${linhaNum}: formato inválido em 'nome_turma' → "${registro.nome_turma}"`);
+    } else if (registro.nome_turma !== turmaUp) {
+      registro.nome_turma = turmaUp;
+      correcoes++;
+    }
+
+    // 2) Capitalização de campos
+    ["nome_disciplina","nome_professor"].forEach(c => {
+      const cap = capitalizarNome(registro[c].trim());
+      if (registro[c] !== cap) {
+        registro[c] = cap;
+        correcoes++;
+      }
+    });
+
+    // 3) Correspondência aproximada
+    const bestDisc = getBestMatch(registro.nome_disciplina, disciplinasPermitidas, 0.6);
+    if (bestDisc) {
+      if (bestDisc !== registro.nome_disciplina) {
+        registro.nome_disciplina = bestDisc;
+        correcoes++;
+      }
+    } else {
+      linhaErros.push(`• Linha ${linhaNum}: disciplina inválida → "${registro.nome_disciplina}"`);
+    }
+    const bestProf = getBestMatch(registro.nome_professor, professoresPermitidos, 0.3);
+    if (bestProf) {
+      if (bestProf !== registro.nome_professor) {
+        registro.nome_professor = bestProf;
+        correcoes++;
+      }
+    } else {
+      linhaErros.push(`• Linha ${linhaNum}: professor inválido → "${registro.nome_professor}"`);
+    }
+
+    // 4) Dia da semana
+    const dia = parseInt(registro.dia_semana,10);
+    if (isNaN(dia) || dia<1 || dia>5) {
+      linhaErros.push(`• Linha ${linhaNum}: dia_semana inválido → "${registro.dia_semana}"`);
+    }
+
+    // 5) Horário
+    const periodo = registro.nome_turma.slice(-1);
+    if (!validarHorario(periodo, registro.horario)) {
+      linhaErros.push(`• Linha ${linhaNum}: horário inválido → "${registro.horario}"`);
+    }
+
+    // 6) Campos obrigatórios
+    ["nome_turma","nome_disciplina","nome_professor"].forEach(c => {
+      if (!registro[c]) {
+        linhaErros.push(`• Linha ${linhaNum}: campo '${c}' vazio`);
+      }
+    });
+
+
+    if (linhaErros.length) {
+      erros.push(...linhaErros);
+      invalidos.push({ ...registro, erros: linhaErros });
+    } else {
+      validos.push(registro);
+    }
+  });
+
+  // Atualiza a variável global com os registros inválidos para a próxima edição
+  dadosEditados = invalidos;
+
+  // Exibe novamente a tabela no modal se ele estiver aberto, senão na principal
+  if (!errorModal.classList.contains('hidden')) {
+      renderEditableTable(invalidos, modalErrorTable, true);
+  } else {
+      // Isso é para o caso de o checkTable ser chamado por outra razão que não o modal (talvez um futuro uso)
+      renderEditableTable(invalidos, document.getElementById("editable-table"));
+  }
+
+  // Mostra o resumo atualizado
+  exibirResumoValidacao(validos.length, erros.length, erros, correcoes);
+
+  console.log("✅ Revalidação completa. Válidos:", validos);
 }
 
 // Restaura estado inicial da interface, limpando tudo
@@ -372,6 +533,8 @@ function resetToInitialState() {
   document.getElementById("editable-table").classList.add("hidden");
   document.getElementById("export-buttons").classList.add("hidden");
   document.getElementById("send-button").classList.add("hidden");
+  sendButton.classList.add("hidden");  
+  hideErrorModal(); // Esconder o modal ao resetar
 }
 
 // Simula um carregamento rápido de progresso
@@ -380,49 +543,6 @@ function simulateProgressBar() {
   setTimeout(() => {
     progressFill.style.width = "100%";
   }, 100);
-}
-
-// Converte nome de professor ou disciplina em formato Capitalizado, menos os conectivos, que ficam em minúsculas, e os algarismos romanos, que ficam em maiúsculas (Ex.: "engenharia de software ii" → "Engenharia de Software II")
-function capitalizarNome(texto) {
-  const conectivos = [
-    'de','do','da','dos','das',
-    'e','a','o','os','as',
-    'à','ao','aos','às',
-    'para','por','com','sem','sob','sobre','entre',
-    'contra','perante','segundo','conforme','via','até'
-  ];
-  const romanos = ['i','ii','iii','iv'];
-
-  // Limpa espaços extras e separa em palavras
-  const palavras = texto
-    .trim()
-    .split(/\s+/)
-    .map(p => p.toLowerCase());
-
-  return palavras
-    .map((palavra, idx) => {
-      const isFirst = idx === 0;
-      const isLast = idx === palavras.length - 1;
-      
-      // Se for o último e for algarismo romano I–IV, retornar em uppercase
-      if (isLast && romanos.includes(palavra)) {
-        return palavra.toUpperCase();
-      }
-      
-      // Sempre capitaliza a primeira palavra
-      if (isFirst) {
-        return palavra.charAt(0).toUpperCase() + palavra.slice(1);
-      }
-      
-      // Se for conectivo, deve ficar todo em minúsculas
-      if (conectivos.includes(palavra)) {
-        return palavra;
-      }
-      
-      // Caso padrão: capitalize somente a primeira letra
-      return palavra.charAt(0).toUpperCase() + palavra.slice(1);
-    })
-    .join(' ');
 }
 
 // Eventos para drag & drop e clique na área
@@ -471,30 +591,35 @@ function esconderMensagemDeErro() {
 }
 
 // Exibe resumo detalhado de quantos registros foram válidos, inválidos e correções automáticas
-function exibirResumoValidacao(validos, invalidos, erros, correcoes = 0) {
+function exibirResumoValidacao(validos, invalidosCount, erros, correcoes = 0) {
   const summaryDiv = document.getElementById("validation-summary");
+  const exportButtons = document.getElementById("export-buttons");
+  const sendButton = document.getElementById("send-button"); // Adicionado para referência
+
   summaryDiv.innerHTML = `
     <p><strong>✅ Registros válidos:</strong> ${validos}</p>
-    <p><strong>❌ Registros com erro:</strong> ${invalidos}</p>
-    ${
-      correcoes > 0
-        ? `<p><strong>🛠 Correções automáticas aplicadas:</strong> ${correcoes}</p>`
-        : ""
-    }
-    ${
-      erros.length > 0
-        ? `<p><strong>Detalhes:</strong></p><ul>${erros
-            .map((e) => `<li>${e}</li>`)
-            .join("")}</ul>`
-        : ""
+    <p><strong>❌ Registros com erro:</strong> ${invalidosCount}</p>
+    ${correcoes > 0
+      ? `<p><strong>🛠 Correções automáticas aplicadas:</strong> ${correcoes}</p>`
+      : ""
     }
   `;
   summaryDiv.classList.remove("hidden");
-  // Revome o "hidder" para mostrar o botão "Enviar" apenas quando não holver mais erros de validação
-  if(!invalidos) {
-    removeSendButton.classList.remove("hidden");
-  };
+  
+  // Sempre exibe o botão Remover Arquivo
+  removeFileButton.classList.remove("hidden");
+  
+  if (invalidosCount === 0) {
+    // Sem erros → mostrar Enviar, esconder Corrigir
+    sendButton.classList.remove("hidden");
+    exportButtons.classList.add("hidden"); // Oculta a div que contém o botão "Corrigir Erros"
+  } else {
+    // Com erros → mostrar Corrigir, esconder Enviar
+    exportButtons.classList.remove("hidden"); // Mostra a div que contém o botão "Corrigir Erros"
+    sendButton.classList.add("hidden");
+  }
 }
+
 
 // Limpa o resumo de validação da interface
 function esconderResumoValidacao() {
@@ -503,57 +628,12 @@ function esconderResumoValidacao() {
   summaryDiv.classList.add("hidden");
 }
 
-// Renderiza uma tabela editável com os dados JSON
-function renderEditableTable(data) {
-  const tableContainer = document.getElementById("editable-table");
-  tableContainer.innerHTML = "";
-
-  if (!data.length) return;
-
-  const headers = Object.keys(data[0]);
-  let tableHTML =
-    "<table border='1' style='width:100%; border-collapse: collapse;'>";
-
-  // Cabeçalho
-  tableHTML += "<thead><tr>";
-  headers.forEach((h) => {
-    tableHTML += `<th style="padding: 8px; background-color: #4a8b92; color: white;">${h}</th>`;
-  });
-  tableHTML += "</tr></thead><tbody>";
-
-  // Linhas de dados
-  data.forEach((row, rowIndex) => {
-    tableHTML += "<tr>";
-    headers.forEach((h) => {
-      tableHTML += `<td contenteditable="true" data-row="${rowIndex}" data-key="${h}" style="padding: 6px; background-color: white; color: black;">${row[h]}</td>`;
-    });
-    tableHTML += "</tr>";
-  });
-
-  tableHTML += "</tbody></table>";
-  tableContainer.innerHTML = tableHTML;
-  tableContainer.classList.remove("hidden");
-  document.getElementById("export-buttons").classList.remove("hidden");
-
-  // Atualiza o objeto `data` ao editar células na tabela
-  tableContainer
-    .querySelectorAll("td[contenteditable=true]")
-    .forEach((cell) => {
-      cell.addEventListener("input", () => {
-        const row = parseInt(cell.dataset.row, 10);
-        const key = cell.dataset.key;
-        data[row][key] = cell.textContent.trim();
-        console.log("🔄 JSON atualizado:", data);
-      });
-    });
-}
-
 /**
  * Mostra o modal e insere a tabela de erros.
  */
 function showErrorModal() {
-  // Copia a tabela de erros existente (renderEditableTable em #editable-table)
-  modalErrorTable.innerHTML = document.getElementById('editable-table').innerHTML;
+  // Renderiza a tabela de erros no modal, passando dadosEditados e indicando para mostrar o botão de verificar novamente
+  renderEditableTable(dadosEditados, modalErrorTable, true);
   // Exibe o overlay
   errorModal.classList.remove('hidden');
   errorModal.setAttribute('aria-hidden', 'false');
