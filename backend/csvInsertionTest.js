@@ -195,27 +195,31 @@ function capitalizarNome(texto) {
   const palavras = texto
     .trim()
     .split(/\s+/)
-    .map(p => p.toLowerCase());
+    .map((p) => p.toLowerCase());
 
   return palavras
     .map((palavra, idx) => {
       const isFirst = idx === 0;
       const isLast = idx === palavras.length - 1;
 
+
       // Se for o último e for algarismo romano I–IV, retornar em uppercase
       if (isLast && romanos.includes(palavra)) {
         return palavra.toUpperCase();
       }
+
 
       // Sempre capitaliza a primeira palavra
       if (isFirst) {
         return palavra.charAt(0).toUpperCase() + palavra.slice(1);
       }
 
+
       // Se for conectivo, deve ficar todo em minúsculas
       if (conectivos.includes(palavra)) {
         return palavra;
       }
+
 
       // Caso padrão: capitalize somente a primeira letra
       return palavra.charAt(0).toUpperCase() + palavra.slice(1);
@@ -567,7 +571,6 @@ dropArea.addEventListener("drop", (e) => {
   }
 });
 
-
 fileInput.addEventListener("change", () => {
   if (fileInput.files.length > 0 && fileInput.files[0].type === "text/csv") {
     showSelectedFile(fileInput.files[0]);
@@ -635,25 +638,25 @@ function showErrorModal() {
   // Renderiza a tabela de erros no modal, passando dadosEditados e indicando para mostrar o botão de verificar novamente
   renderEditableTable(dadosEditados, modalErrorTable, true);
   // Exibe o overlay
-  errorModal.classList.remove('hidden');
-  errorModal.setAttribute('aria-hidden', 'false');
+  errorModal.classList.remove("hidden");
+  errorModal.setAttribute("aria-hidden", "false");
 }
 
 /**
  * Esconde o modal
  */
 function hideErrorModal() {
-  errorModal.classList.add('hidden');
-  errorModal.setAttribute('aria-hidden', 'true');
+  errorModal.classList.add("hidden");
+  errorModal.setAttribute("aria-hidden", "true");
 }
 
 // Abre modal ao clicar no botão
-openErrorModalBtn.addEventListener('click', showErrorModal);
+openErrorModalBtn.addEventListener("click", showErrorModal);
 
 // Fecha modal ao clicar no botão de fechar
-closeErrorBtn.addEventListener('click', hideErrorModal);
+closeErrorBtn.addEventListener("click", hideErrorModal);
 
 // Fecha modal ao clicar fora do conteúdo
-errorModal.addEventListener('click', (e) => {
+errorModal.addEventListener("click", (e) => {
   if (e.target === errorModal) hideErrorModal();
 });

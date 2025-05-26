@@ -52,16 +52,13 @@
         <!-- Resumo da Validação -->
         <div id="validation-summary" class="insercao__file-list hidden"></div>
 
-        
         <!-- Tabela de visualização e edição -->
         <div id="editable-table" class="insercao__file-list hidden"></div>
         <div id="export-buttons" class="hidden" style="text-align: center; margin-top: 20px">
           <!-- Botão para ativar pop-up da tabela de edição -->
-          <button type="button" id="open-error-modal" class="insercao__button" style="margin-top: 10px;">
+          <button type="button" id="open-error-modal" class="insercao__button" style="margin-top: 10px">
             Corrigir Erros
           </button>
-
-
         </div>
 
         <!-- Botão "Remover arquivo" abaixo do resumo -->
@@ -73,13 +70,14 @@
           Enviar arquivos
         </button>
 
-
         <!-- Início do Modal de Correções -->
         <div id="error-modal" class="modal-overlay hidden" aria-hidden="true">
           <div class="modal-content">
             <div class="modal-header">
               <h2>Tabela de Correção</h2>
-              <button type="button" class="modal-close" aria-label="Fechar modal">×</button>
+              <button type="button" class="modal-close" aria-label="Fechar modal">
+                ×
+              </button>
             </div>
             <div class="modal-body">
               <!-- Aqui renderizaremos a tabela de erros -->
@@ -104,4 +102,5 @@
   </footer>
   <script src="../../backend/csvInsertionTest.js"></script>
 </body>
+
 </html>

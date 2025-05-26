@@ -9,11 +9,19 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "<h1 align=\"center\" >DSM FATEC/SP - Jacareí</h1>",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "pg": "^8.16.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CRIMS0NC0DE/abp-2025-1.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CRIMS0NC0DE/abp-2025-1/issues"
+  },
+  "homepage": "https://github.com/CRIMS0NC0DE/abp-2025-1#readme"
 }
