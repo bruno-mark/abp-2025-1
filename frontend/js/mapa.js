@@ -60,7 +60,7 @@ opcoes.forEach(function (opcao) {
 
 function abrirModal(nomeSala, descricaoSala) {
   modalTitle.textContent = nomeSala;
-  modalDescription.textContent = descricaoSala;
+  modalDescription.innerHTML = descricaoSala;
   modal.classList.remove('hidden'); // Corrected typo: classList
 }
 
@@ -82,12 +82,28 @@ andaresContainer.addEventListener('click', function (event) {
   const botaoSala = event.target.closest('.sala:not(.desativada)');
   if (botaoSala) {
     // Extract room name - improved to handle potential nested elements like status divs
-    const roomNameElement = botaoSala.querySelector('div:first-child'); // Assuming the first div holds the name
-    const nomeSala = roomNameElement ? roomNameElement.innerText.replace(/\n/g, ' ').trim() : 'Nome Indisponível';
+    const nomeSala = botaoSala.value;
 
-    // Placeholder description - you might want to fetch real descriptions later
-    const descricao = `Informações sobre a sala "${nomeSala}". (Esta é uma descrição de exemplo. Você pode adicionar dados reais aqui.)`;
-    abrirModal(nomeSala, descricao);
+    fetch(`http://localhost:3010/mapa/${nomeSala}`)
+      .then(response => {
+        if(!response.ok) throw new Error("Erro ao carregar dados da sala");
+        return response.json();
+      })
+      .then(dados => {
+        let descricaoHtml;
+        if(dados.length === 0){
+          descricaoHtml = `<p>Não há aulas nessa sala "${nomeSala}".</p>`;
+        } else {
+          descricaoHtml = gerarTabelaHorarios(dados);
+          console.log("Dados da sala:", dados);
+        }
+
+        abrirModal(nomeSala, descricaoHtml);
+      })
+      .catch(erro => {
+        console.error("Erro ao buscar dados:", erro);
+        abrirModal(nomeSala, `<p>Erro ao carregar informações da sala "${nomeSala}".</p>`);
+      });
   }
 });
 
@@ -100,3 +116,48 @@ document.querySelectorAll('.mapa-andar').forEach(el => {
     }
 });
 
+function gerarTabelaHorarios(dados) {
+  const dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
+  const horarios = ['18:45-19:35', '19:35-20:25', '20:25-21:15', '21:25-22:15', '22:15-23:05'];
+
+  const diaIndice = {
+    Segunda: 0,
+    Terça: 1,
+    Quarta: 2,
+    Quinta: 3,
+    Sexta: 4,
+  };
+
+  const horarioIndice = {
+    "18:45-19:35": 0,
+    "19:35-20:25": 1,
+    "20:25-21:15": 2,
+    "21:25-22:15": 3,
+    "22:15-23:05": 4,
+  };
+
+  // Cria matriz vazia [horários][dias]
+  const matriz = Array.from({ length: horarios.length }, () => Array(dias.length).fill(''));
+
+  dados.forEach(item => {
+    const linha = horarioIndice[item.horario];
+    const coluna = diaIndice[item.dia_semana];
+    if (linha !== undefined && coluna !== undefined) {
+      const conteudo = `<small>${item.nome_disciplina}</small>`;
+      matriz[linha][coluna] += matriz[linha][coluna] ? `<hr>${conteudo}` : conteudo;
+    }
+  });
+
+  // Monta a tabela em HTML sem estilos inline
+  let html = '<table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%;">';
+  html += '<thead><tr><th>Horário</th>' + dias.map(d => `<th>${d}</th>`).join('') + '</tr></thead>';
+  html += '<tbody>';
+  horarios.forEach((h, i) => {
+    html += `<tr><td><strong>${h}</strong></td>`;
+    html += matriz[i].map(cel => `<td>${cel || ''}</td>`).join('');
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+
+  return html;
+}

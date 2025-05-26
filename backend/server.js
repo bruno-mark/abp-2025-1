@@ -36,3 +36,4 @@ app.get('/', (req, res) => {
 
 require('./dataRecovery')(app, db);
 require('./rotasHorarios')(app, db);
+require('./mapa')(app, db);
