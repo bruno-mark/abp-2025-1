@@ -14,6 +14,7 @@ const progressFill = document.getElementById("progress-fill");
 const removeFileButton = document.getElementById("remove-file");
 // Botão de envio que passa a permitir enviar após validação
 const SendButton = document.getElementById("send-button");
+let jsonData = []; // adiciona como variável global
 
 // Elementos do modal
 const openErrorModalBtn = document.getElementById('open-error-modal'); // botão para abrir
@@ -288,7 +289,8 @@ function readCSVandConvertToJSON(file) {
       }
       esconderMensagemDeErro();
 
-      const jsonData   = [];
+      jsonData = [];
+
       const invalidRows= [];
       const erros      = [];
       let correcoes    = 0;
@@ -537,7 +539,7 @@ function resetToInitialState() {
   document.getElementById("editable-table").classList.add("hidden");
   document.getElementById("export-buttons").classList.add("hidden");
   document.getElementById("send-button").classList.add("hidden");
-  sendButton.classList.add("hidden");  
+  SendButton.classList.add("hidden");  
   hideErrorModal(); // Esconder o modal ao resetar
 }
 
@@ -659,4 +661,34 @@ closeErrorBtn.addEventListener("click", hideErrorModal);
 // Fecha modal ao clicar fora do conteúdo
 errorModal.addEventListener("click", (e) => {
   if (e.target === errorModal) hideErrorModal();
+});
+
+SendButton.addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  // Aqui você escolhe qual dado enviar:
+  // Se quiser enviar apenas os registros válidos, você precisa tornar jsonData acessível aqui.
+  // Para este exemplo, vamos considerar que `jsonData` é global — você pode adaptar conforme sua estrutura.
+
+  try {
+    const response = await fetch("http://localhost:3000/api/inserir-csv", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(jsonData) // <--- substitua aqui se necessário
+    });
+
+    const resultado = await response.json();
+
+    if (response.ok) {
+      alert("✅ Dados enviados com sucesso!");
+      resetToInitialState(); // limpa a interface
+    } else {
+      alert("❌ Erro ao enviar dados: " + resultado.erro);
+    }
+  } catch (error) {
+    console.error("❌ Erro na requisição:", error);
+    alert("❌ Erro na comunicação com o servidor.");
+  }
 });
