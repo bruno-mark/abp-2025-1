@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
   res.send('🚀 API rodando com sucesso e com deploy automático! hahahahaha');
 });
 
-//require('./dataRecovery')(app, db);
-//require('./rotasHorarios')(app, db);
+require('./dataRecovery')(app, db);
+require('./rotasHorarios')(app, db);
 require('./csvUpload')(app, db);
 
