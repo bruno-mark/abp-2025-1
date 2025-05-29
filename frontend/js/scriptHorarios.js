@@ -7,6 +7,10 @@ document.getElementById("filtrar_btn").addEventListener("click", async () => {
     const response = await fetch(`http://localhost:3010/scriptHorarios/${curso}/${periodo}/${semestre}`);
     const dados = await response.json();
 
+    if (!dados || dados.length === 0) {
+        alert("O curso escolhido não possui turma nesse semestre e/ou período!");
+        return;
+    }
 
     const diaIndice = {
       Segunda: 1,
@@ -71,7 +75,7 @@ document.getElementById("filtrar_btn").addEventListener("click", async () => {
       lista.appendChild(li);
     }
 
-    const divDocentes = document.querySelector(".docentes");
+    const divDocentes = document.querySelector("#docentes__ul");
     divDocentes.innerHTML = "";
     divDocentes.appendChild(lista);
 

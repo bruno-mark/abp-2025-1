@@ -24,7 +24,6 @@ db.connect()
   .then(() => console.log('✅ Conectado ao PostgreSQL'))
   .catch(err => console.error('❌ Erro ao conectar:', err));
 
-
 // Inicia o servidor na porta definida e exibe uma mensagem no console
 app.listen(port, function () {
   console.log(`🚀 Servidor rodando na porta ${port}`);
@@ -37,3 +36,4 @@ app.get('/', (req, res) => {
 require('./dataRecovery')(app, db);
 require('./rotasHorarios')(app, db);
 require('./mapa')(app, db);
+require('./csvInsertion')(app, db);

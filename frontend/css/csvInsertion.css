@@ -66,3 +66,143 @@
 .insercao__button:hover {
   background-color: var(--color-5);
 }
+
+.insercao__file-list {
+  color: white;
+  font-family: var(--font-primary);
+  margin-top: 20px;
+  text-align: left;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  word-wrap: break-word;
+}
+
+.insercao__file-selected {
+  margin-top: 30px;
+  color: white;
+  text-align: center;
+  font-family: var(--font-primary);
+}
+
+.hidden {
+  display: none;
+}
+
+.progress-bar {
+  width: 80%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background-color: #4a8b92;
+  transition: width 2s ease;
+}
+
+#editable-table {
+  overflow-x: auto;
+  max-width: 100%;
+  margin-top: 20px;
+}
+
+#editable-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+#editable-table th,
+#editable-table td {
+  border: 1px solid white;
+  padding: 8px;
+  text-align: left;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#editable-table th {
+  background-color: var(--color-2);
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Overlay ocupa toda a tela */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: flex;               /* centraliza o modal-content */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Caixa branca central */
+.modal-content {
+  background: #fff;
+  width: 80vw;                 /* 80% da largura da viewport */
+  height: 80vh;                /* 80% da altura da viewport */
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+/* Cabeçalho com título e botão de fechar */
+.modal-header {
+  flex: 0 0 auto;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Área que contém a tabela */
+.modal-body {
+  flex: 1 1 auto;
+  padding: 1rem;
+  overflow-x: auto;            /* barra horizontal se necessário */
+  overflow-y: auto;            /* barra vertical se necessário */
+}
+
+/* Opcional: ajuste a tabela para não ultrapassar */
+.modal-body table {
+  width: max-content;          /* para forçar scroll quando muito larga */
+}

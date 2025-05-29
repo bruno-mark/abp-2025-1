@@ -1,86 +1,89 @@
 const botao = document.getElementById('btn-opcoes');
 const menu = document.getElementById('menu-opcoes');
 const opcoes = document.querySelectorAll('.mapa__menu-opcao');
-const andaresContainer = document.querySelector('.mapa__imagem-container'); // Target the container for delegation
+const andaresContainer = document.querySelector('.mapa__imagem-container'); // Container dos andares (usado para delegação de eventos)
 const modal = document.getElementById('modal');
 const modalTitle = document.getElementById('modal-title');
-const modalDescription = document.getElementById('modal-description'); // Corrected ID
+const modalDescription = document.getElementById('modal-description');
 const closeModalBtn = document.querySelector('.modal-close');
 
+// Mostra ou oculta o menu suspenso de opções de andares
 botao.addEventListener('click', function (evento) {
   evento.preventDefault();
   menu.classList.toggle('show');
 });
 
-// Função genérica para carregar HTML do andar
+// Função para carregar o conteúdo HTML de um andar específico
 function carregarAndar(andarId) {
-  // Hide all floors first
+  // Esconde todos os andares
   document.querySelectorAll('.mapa-andar').forEach(el => el.style.display = 'none');
 
   const container = document.getElementById(andarId);
   if (!container) {
-      console.error(`Container element with ID ${andarId} not found.`);
-      return;
+    console.error(`Elemento com ID ${andarId} não encontrado.`);
+    return;
   }
-  // Show the target floor container
+
+  // Exibe o andar selecionado
   container.style.display = 'block';
 
-  // Fetch and load content using the original path structure
-  fetch(`./mapa/${andarId}.html`) // Using original path structure
+  // Busca e carrega o conteúdo HTML correspondente ao andar
+  fetch(`./mapa/${andarId}.html`)
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.text();
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
+      }
+      return response.text();
     })
     .then(html => {
       container.innerHTML = html;
     })
     .catch(error => {
       console.error(`Erro ao carregar ${andarId}.html:`, error);
-      container.innerHTML = `<p>Erro ao carregar o mapa do andar ${andarId}.</p>`; // Provide feedback
+      container.innerHTML = `<p>Erro ao carregar o mapa do andar ${andarId}.</p>`;
     });
 }
 
-// Carrega o térreo ao iniciar
+// Carrega automaticamente o térreo ao iniciar
 carregarAndar('terreo');
 
+// Adiciona eventos aos botões de troca de andar
 opcoes.forEach(function (opcao) {
   opcao.addEventListener('click', function () {
-    // Atualiza botão ativo
+    // Atualiza o botão ativo
     opcoes.forEach(o => o.classList.remove('active'));
     opcao.classList.add('active');
 
     const andar = opcao.getAttribute('andar');
-
-    // Carrega o conteúdo do andar selecionado
     carregarAndar(andar);
   });
 });
 
+// Função para abrir o modal com informações da sala
 function abrirModal(nomeSala, descricaoSala) {
   modalTitle.textContent = nomeSala;
   modalDescription.innerHTML = descricaoSala;
   modal.classList.remove('hidden'); // Corrected typo: classList
 }
 
-// Função para fechar o modal
+// Fecha o modal ao clicar no botão de fechar (X)
 closeModalBtn.addEventListener('click', () => {
   modal.classList.add('hidden');
 });
 
-// Fechar modal ao clicar fora do conteúdo
+// Fecha o modal ao clicar fora da área de conteúdo
 modal.addEventListener('click', (event) => {
   if (event.target === modal) {
     modal.classList.add('hidden');
   }
 });
 
-// Use event delegation on the container that holds the dynamic content
+// Usa delegação de eventos para detectar cliques em botões de salas
 andaresContainer.addEventListener('click', function (event) {
-  // Check if the clicked element or its parent is a button with class 'sala' and NOT 'desativada'
+  // Verifica se o clique foi em uma sala que não está desativada
   const botaoSala = event.target.closest('.sala:not(.desativada)');
   if (botaoSala) {
+
     // Extract room name - improved to handle potential nested elements like status divs
     const nomeSala = botaoSala.value;
 
@@ -107,13 +110,13 @@ andaresContainer.addEventListener('click', function (event) {
   }
 });
 
-// Initial setup for the first floor display (redundant with carregarAndar('terreo') call, but ensures correct display logic)
+// Garante que apenas o térreo esteja visível inicialmente
 document.querySelectorAll('.mapa-andar').forEach(el => {
-    if (el.id !== 'terreo') {
-        el.style.display = 'none';
-    } else {
-        el.style.display = 'block';
-    }
+  if (el.id !== 'terreo') {
+    el.style.display = 'none';
+  } else {
+    el.style.display = 'block';
+  }
 });
 
 function gerarTabelaHorarios(dados) {

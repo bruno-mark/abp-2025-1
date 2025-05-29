@@ -21,7 +21,6 @@ function readCSVandConvertToJSON(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader(); 
     // FileReader lê o conteúdo do arquivo de forma assíncrona
-
     reader.onload = function (event) {
       const text = event.target.result;
       const lines = text.trim().split("\n");
@@ -541,3 +540,37 @@ function exportToCSV(data) {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+
+
+
+
+
+
+
+
+// Seleciona elementos
+const openModalBtn   = document.getElementById('open-edit-modal');
+const modalOverlay   = document.getElementById('edit-modal');
+const closeModalBtn  = modalOverlay.querySelector('.modal-close');
+
+// Função para mostrar o modal
+function showEditModal() {
+  modalOverlay.classList.remove('hidden');
+  modalOverlay.setAttribute('aria-hidden', 'false');
+}
+
+// Função para esconder o modal
+function hideEditModal() {
+  modalOverlay.classList.add('hidden');
+  modalOverlay.setAttribute('aria-hidden', 'true');
+}
+
+// Eventos
+openModalBtn.addEventListener('click', showEditModal);
+closeModalBtn.addEventListener('click', hideEditModal);
+
+// Fechar ao clicar fora do conteúdo
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) hideEditModal();
+});
