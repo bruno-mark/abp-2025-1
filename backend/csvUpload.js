@@ -66,9 +66,6 @@ module.exports = (app, db) => {
         const id_disciplina = disciplina.rows[0].id_disciplina;
 
         // 5. Professor
-        // ATENÇÃO: em seu DDL o campo "nome" não é UNIQUE.
-        // O ideal seria você adicionar:
-        // ALTER TABLE professores ADD CONSTRAINT unique_professor_nome UNIQUE (nome);
 
         const professor = await db.query(
           `INSERT INTO professores (nome)
@@ -95,7 +92,7 @@ module.exports = (app, db) => {
           [id_disciplina, id_professor]
         );
 
-        // 8. Horário — agora com a constraint correta do DDL
+        // 8. Horário 
         await db.query(
           `INSERT INTO horarios (id_turma, id_disciplina, id_professor, dia_semana, horario)
            VALUES ($1, $2, $3, $4, $5)
