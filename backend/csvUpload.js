@@ -66,6 +66,10 @@ module.exports = (app, db) => {
         const id_disciplina = disciplina.rows[0].id_disciplina;
 
         // 5. Professor
+        // ATENÇÃO: em seu DDL o campo "nome" não é UNIQUE.
+        // O ideal seria você adicionar:
+        // ALTER TABLE professores ADD CONSTRAINT unique_professor_nome UNIQUE (nome);
+
         const professor = await db.query(
           `INSERT INTO professores (nome)
            VALUES ($1)
@@ -75,13 +79,29 @@ module.exports = (app, db) => {
         );
         const id_professor = professor.rows[0].id_professor;
 
-        // 6. Horário — UPSERT usando campos únicos para conflito
+        // 6. Relação Turma-Disciplina (turma_disciplina)
+        await db.query(
+          `INSERT INTO turma_disciplina (id_turma, id_disciplina)
+           VALUES ($1, $2)
+           ON CONFLICT (id_turma, id_disciplina) DO NOTHING`,
+          [id_turma, id_disciplina]
+        );
+
+        // 7. Relação Disciplina-Professor (disciplina_professor)
+        await db.query(
+          `INSERT INTO disciplina_professor (id_disciplina, id_professor)
+           VALUES ($1, $2)
+           ON CONFLICT (id_disciplina, id_professor) DO NOTHING`,
+          [id_disciplina, id_professor]
+        );
+
+        // 8. Horário — agora com a constraint correta do DDL
         await db.query(
           `INSERT INTO horarios (id_turma, id_disciplina, id_professor, dia_semana, horario)
            VALUES ($1, $2, $3, $4, $5)
-           ON CONFLICT ON CONSTRAINT unique_horario_completo
-           DO UPDATE SET id_disciplina = EXCLUDED.id_disciplina,
-                         id_professor = EXCLUDED.id_professor`,
+           ON CONFLICT ON CONSTRAINT unique_professor_horario_disciplina
+           DO UPDATE SET id_turma = EXCLUDED.id_turma,
+                         id_disciplina = EXCLUDED.id_disciplina`,
           [id_turma, id_disciplina, id_professor, Number(dia_semana), String(horario)]
         );
       }
