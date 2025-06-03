@@ -66,6 +66,17 @@
 .insercao__button:hover {
   background-color: var(--color-5);
 }
+.insercao__button-verifica {
+  width: 250px;
+  color: yellow;
+}
+/* Estilo para células com erro */
+.error-cell {
+  background-color: #ffebeb; /* Um vermelho muito claro para o fundo */
+  border: 1px solid #ff0000 !important; /* Borda vermelha forte */
+  color: #c00000; /* Cor do texto mais escura para o erro */
+  font-weight: bold;
+}
 
 .insercao__file-list {
   color: white;
