@@ -20,10 +20,17 @@ const db = new Client({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
 });
 
 db.connect()
-  .then(() => console.log('✅ Conectado ao PostgreSQL'))
+  .then(() => {
+    console.log('✅ Conectado ao PostgreSQL');
+    console.log(`📡 Host: ${process.env.DB_HOST}`);
+    console.log(`👤 User: ${process.env.DB_USER}`);
+    console.log(`🗄️  Database: ${process.env.DB_NAME}`);
+    console.log(`🔌 PostgreSQL Port: ${process.env.DB_PORT}`);
+  })
   .catch(err => console.error('❌ Erro ao conectar:', err));
 
 // Inicia o servidor na porta definida e exibe uma mensagem no console

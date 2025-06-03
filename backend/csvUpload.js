@@ -113,3 +113,12 @@ module.exports = (app, db) => {
     }
   });
 };
+
+
+//.env
+//DB_HOST=localhost
+//DB_USER=postgres
+//DB_PASS=123
+//DB_NAME=teste2
+//DB_PORT=5432
+//PORT=3000
