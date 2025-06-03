@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./backend/server.js"
+    "start": "node ./backend/server.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/CRIMS0NC0DE/abp-2025-1/issues"
   },
-  "homepage": "https://github.com/CRIMS0NC0DE/abp-2025-1#readme"
+  "homepage": "https://github.com/CRIMS0NC0DE/abp-2025-1#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
