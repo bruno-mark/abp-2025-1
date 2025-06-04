@@ -14,20 +14,18 @@ const progressFill = document.getElementById("progress-fill");
 const removeFileButton = document.getElementById("remove-file");
 // Botão de envio que passa a permitir enviar após validação
 const SendButton = document.getElementById("send-button");
-let jsonData = []; // adiciona como variável global
 
 // Elementos do modal
-const openErrorModalBtn = document.getElementById("open-error-modal"); // botão para abrir
-const errorModal = document.getElementById("error-modal"); // overlay do modal
-const closeErrorBtn = errorModal.querySelector(".modal-close"); // botão de fechar
-const modalErrorTable = document.getElementById("modal-error-table"); // container da tabela
+const openErrorModalBtn = document.getElementById('open-error-modal'); // botão para abrir
+const errorModal = document.getElementById('error-modal');      // overlay do modal
+const closeErrorBtn = errorModal.querySelector('.modal-close');    // botão de fechar
+const modalErrorTable = document.getElementById('modal-error-table'); // container da tabela
 
 // 1. Variável global que mantém a última versão editada na tabela
 let dadosEditados = [];
 
 // 2. Regex e listas de validação
-const padraoTurma =
-  /^(?:DSM-[1-5]-N|GEO-(?:1|3|5|6)-N|MA-(?:[1-3]-N|[5-6]-M))$/;
+const padraoTurma = /^(?:DSM-[1-5]-N|GEO-(?:1|3|5|6)-N|MA-(?:[1-3]-N|[5-6]-M))$/;
 
 const disciplinasPermitidas = [
   "Engenharia de Software I",
@@ -123,7 +121,7 @@ const disciplinasPermitidas = [
   "Energias Alternativas",
   "Projetos Ambientais 2",
   "Turismo e Meio Ambiente e Recursos Hídricos",
-  "Planejamento de Bacias Hidrográficas",
+  "Planejamento de Bacias Hidrográficas"
 ];
 const professoresPermitidos = [
   "Prof. Me. Antonio Egydio São Thiago Graça",
@@ -169,58 +167,29 @@ const professoresPermitidos = [
   "Prof. Dr. Daniel",
   "A definir",
   "Sem professor",
-  "Sem docente",
+  "Sem docente"
 ];
 
 const horariosValidosMatutino = [
-  "07:30-08:20",
-  "08:20-09:10",
-  "09:20-10:10",
-  "10:10-11:00",
-  "11:10-12:00",
-  "12:00-12:50",
+  "07:30-08:20", "08:20-09:10", "09:20-10:10",
+  "10:10-11:00", "11:10-12:00", "12:00-12:50"
 ];
 const horariosValidosNoturno = [
-  "18:45-19:35",
-  "19:35-20:25",
-  "20:25-21:15",
-  "21:25-22:15",
-  "22:15-23:05",
+  "18:45-19:35", "19:35-20:25", "20:25-21:15",
+  "21:25-22:15", "22:15-23:05"
 ];
 
 // Funções utilitárias
 // Converte nome de professor ou disciplina em formato Capitalizado, menos os conectivos, que ficam em minúsculas, e os algarismos romanos, que ficam em maiúsculas (Ex.: "engenharia de software ii" → "Engenharia de Software II")
 function capitalizarNome(texto) {
   const conectivos = [
-    "de",
-    "do",
-    "da",
-    "dos",
-    "das",
-    "e",
-    "a",
-    "o",
-    "os",
-    "as",
-    "à",
-    "ao",
-    "aos",
-    "às",
-    "para",
-    "por",
-    "com",
-    "sem",
-    "sob",
-    "sobre",
-    "entre",
-    "contra",
-    "perante",
-    "segundo",
-    "conforme",
-    "via",
-    "até",
+    'de', 'do', 'da', 'dos', 'das',
+    'e', 'a', 'o', 'os', 'as',
+    'à', 'ao', 'aos', 'às',
+    'para', 'por', 'com', 'sem', 'sob', 'sobre', 'entre',
+    'contra', 'perante', 'segundo', 'conforme', 'via', 'até'
   ];
-  const romanos = ["i", "ii", "iii", "iv"];
+  const romanos = ['i', 'ii', 'iii', 'iv'];
 
   // Limpa espaços extras e separa em palavras
   const palavras = texto
@@ -233,25 +202,29 @@ function capitalizarNome(texto) {
       const isFirst = idx === 0;
       const isLast = idx === palavras.length - 1;
 
+
       // Se for o último e for algarismo romano I–IV, retornar em uppercase
       if (isLast && romanos.includes(palavra)) {
         return palavra.toUpperCase();
       }
+
 
       // Sempre capitaliza a primeira palavra
       if (isFirst) {
         return palavra.charAt(0).toUpperCase() + palavra.slice(1);
       }
 
+
       // Se for conectivo, deve ficar todo em minúsculas
       if (conectivos.includes(palavra)) {
         return palavra;
       }
 
+
       // Caso padrão: capitalize somente a primeira letra
       return palavra.charAt(0).toUpperCase() + palavra.slice(1);
     })
-    .join(" ");
+    .join(' ');
 }
 
 // Bibliotecas e utilitários para correspondência aproximada
@@ -264,8 +237,8 @@ function levenshtein(a, b) {
     for (let j = 1; j <= b.length; j++) {
       const cost = a[i - 1].toLowerCase() === b[j - 1].toLowerCase() ? 0 : 1;
       dp[i][j] = Math.min(
-        dp[i - 1][j] + 1, // deleção
-        dp[i][j - 1] + 1, // inserção
+        dp[i - 1][j] + 1,       // deleção
+        dp[i][j - 1] + 1,       // inserção
         dp[i - 1][j - 1] + cost // substituição
       );
     }
@@ -305,114 +278,68 @@ function readCSVandConvertToJSON(file) {
     // FileReader lê o conteúdo do arquivo de forma assíncrona
     reader.onload = function (event) {
       const lines = event.target.result.trim().split("\n");
-      const headers = lines[0].split(",").map((h) => h.trim());
-      const required = [
-        "nome_turma",
-        "nome_disciplina",
-        "nome_professor",
-        "dia_semana",
-        "horario",
-      ];
-      const missing = required.filter((r) => !headers.includes(r));
-      if (missing.length) {
+      const headers = lines[0].split(",").map(h=>h.trim());
+      const required = ["nome_turma","nome_disciplina","nome_professor","dia_semana","horario"];
+      const missing = required.filter(r=>!headers.includes(r));
+      if(missing.length) {
         exibirMensagemDeErro(`❌ Colunas faltando: ${missing.join(", ")}`);
         esconderResumoValidacao();
         return reject(new Error("Cabeçalhos ausentes"));
       }
       esconderMensagemDeErro();
 
-      jsonData = [];
+      const jsonData   = [];
+      const invalidRows= [];
+      const erros      = [];
+      let correcoes    = 0;
 
-      const invalidRows = [];
-      const erros = [];
-      let correcoes = 0;
 
       // Processa cada linha de dados (pulando o cabeçalho)
-      lines.slice(1).forEach((line, idx) => {
-        const values = line.split(",").map((v) => v.trim());
-        const registro = headers.reduce(
-          (o, h, i) => ((o[h] = values[i] || ""), o),
-          {}
-        );
+       lines.slice(1).forEach((line,idx) => {
+        const values = line.split(",").map(v=>v.trim());
+        const registro= headers.reduce((o,h,i)=> (o[h]=values[i]||"",o), {});
         const linhaErros = [];
 
         // Nome da turma
         const up = registro.nome_turma.toUpperCase();
-        if (!padraoTurma.test(up)) {
-          linhaErros.push(
-            `• Linha ${idx + 2}: nome_turma inválido → "${registro.nome_turma}"`
-          );
-        } else if (registro.nome_turma !== up) {
-          registro.nome_turma = up;
-          correcoes++;
+        if(!padraoTurma.test(up)) {
+          linhaErros.push(`• Formato inválido em <strong>nome_turma</strong> → "${registro.nome_turma}"`);
+        } else if(registro.nome_turma !== up) {
+          registro.nome_turma = up; correcoes++;
         }
 
         // Capitalização
-        ["nome_disciplina", "nome_professor"].forEach((c) => {
+        ["nome_disciplina","nome_professor"].forEach(c=>{
           const cap = capitalizarNome(registro[c]);
-          if (registro[c] !== cap) {
-            registro[c] = cap;
-            correcoes++;
-          }
+          if(registro[c]!==cap){ registro[c]=cap; correcoes++; }
         });
 
         // Correspondência aproximada
-        const bestD = getBestMatch(
-          registro.nome_disciplina,
-          disciplinasPermitidas,
-          0.6
-        );
-        if (bestD) {
-          if (bestD !== registro.nome_disciplina) {
-            registro.nome_disciplina = bestD;
-            correcoes++;
-          }
-        } else
-          linhaErros.push(
-            `• Linha ${idx + 2}: disciplina inválida → "${
-              registro.nome_disciplina
-            }"`
-          );
+        const bestD = getBestMatch(registro.nome_disciplina, disciplinasPermitidas,0.6);
+        if(bestD) { if(bestD!==registro.nome_disciplina){ registro.nome_disciplina=bestD; correcoes++; } }
+        else linhaErros.push(`• Formato inválido em <strong>nome_disciplina</strong> → "${registro.nome_disciplina}"`);
 
-        const bestP = getBestMatch(
-          registro.nome_professor,
-          professoresPermitidos,
-          0.3
-        );
-        if (bestP) {
-          if (bestP !== registro.nome_professor) {
-            registro.nome_professor = bestP;
-            correcoes++;
-          }
-        } else
-          linhaErros.push(
-            `• Linha ${idx + 2}: professor inválido → "${
-              registro.nome_professor
-            }"`
-          );
+        const bestP = getBestMatch(registro.nome_professor, professoresPermitidos,0.3);
+        if(bestP) { if(bestP!==registro.nome_professor){ registro.nome_professor=bestP; correcoes++; } }
+        else linhaErros.push(`•Formato inválido em <strong>nome_professor</strong> → "${registro.nome_professor}"`);
 
         // Dia da semana
-        const dia = parseInt(registro.dia_semana, 10);
-        if (isNaN(dia) || dia < 1 || dia > 5)
-          linhaErros.push(
-            `• Linha ${idx + 2}: dia_semana inválido → "${registro.dia_semana}"`
-          );
+        const dia = parseInt(registro.dia_semana,10);
+        if(isNaN(dia)||dia<1||dia>5)
+          linhaErros.push(`•Formato inválido em <strong>dia_semana</strong> → "${registro.dia_semana}"`);
 
         // Horário
         const periodo = up.slice(-1);
-        if (!validarHorario(periodo, registro.horario))
-          linhaErros.push(
-            `• Linha ${idx + 2}: horário inválido → "${registro.horario}"`
-          );
+        if(!validarHorario(periodo, registro.horario))
+          linhaErros.push(`• Formato inválido em <strong>horario</strong> → "${registro.horario}"`);
 
         // Campos obrigatórios
-        ["nome_turma", "nome_disciplina", "nome_professor"].forEach((c) => {
-          if (!registro[c])
-            linhaErros.push(`• Linha ${idx + 2}: campo '${c}' vazio`);
+        ["nome_turma","nome_disciplina","nome_professor"].forEach(c=>{
+          if(!registro[c]) linhaErros.push(`• Linha <strong>${idx+2}</strong>: campo <srong>'${c}'</strong> vazio`);
         });
 
         // Classifica registro
-        if (linhaErros.length) {
+        if(linhaErros.length) {
           erros.push(...linhaErros);
           invalidRows.push({ ...registro, erros: linhaErros });
         } else {
@@ -432,16 +359,18 @@ function readCSVandConvertToJSON(file) {
   });
 }
 
+
 // Exibe no DOM o arquivo selecionado, executa leitura e renderiza tabela
 async function showSelectedFile(file) {
   fileNameDisplay.textContent = `📄 ${file.name}`;
-  dropSection.classList.add("hidden"); // Esconde instruções de drop
+  dropSection.classList.add("hidden");    // Esconde instruções de drop
   fileSection.classList.remove("hidden"); // Mostra seção de arquivo
-  simulateProgressBar(); // Anima barra de progresso
+  simulateProgressBar();                  // Anima barra de progresso
   removeFileButton.classList.remove("hidden");
 
   try {
     await readCSVandConvertToJSON(file);
+
   } catch (error) {
     console.error("❌ Erro no processamento do CSV:", error.message);
   }
@@ -575,23 +504,24 @@ function renderEditableTable(data, containerElement, showCheckButton = false) {
 
   const headers = Object.keys(data[0]);
   let html = "<table><thead><tr>";
-  headers.forEach((h) => (html += `<th>${h}</th>`));
+  // Assegura que 'errors' não seja um cabeçalho de coluna da tabela
+  headers.filter(h => h !== 'errors').forEach(h => html += `<th>${h}</th>`);
   html += "</tr></thead><tbody>";
 
-  // monta linhas
   data.forEach((row, i) => {
     html += "<tr>";
-    headers.forEach(
-      (h) =>
-        (html += `<td contenteditable data-row="${i}" data-key="${h}">${row[h]}</td>`)
-    );
+    headers.filter(h => h !== 'errors').forEach(h => {
+      // Adiciona a classe 'error-cell' se a propriedade 'error' for true
+      const cellClass = row[h] && row[h].error ? 'error-cell' : '';
+      html += `<td contenteditable class="${cellClass}" data-row="${i}" data-key="${h}">${row[h].value}</td>`;
+    });
     html += "</tr>";
   });
   html += "</tbody></table>";
   containerElement.innerHTML = html;
 
   // listener de edição
-  containerElement.querySelectorAll("td[contenteditable]").forEach((cell) => {
+  containerElement.querySelectorAll("td[contenteditable]").forEach(cell => {
     cell.addEventListener("input", () => {
       const i = +cell.dataset.row;
       const key = cell.dataset.key;
@@ -606,7 +536,7 @@ function renderEditableTable(data, containerElement, showCheckButton = false) {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.textContent = "Verificar Novamente";
-    btn.className = "insercao__button";
+    btn.className = "insercao__button insercao__button-verifica";
     btn.style.marginTop = "20px";
     btn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -616,6 +546,7 @@ function renderEditableTable(data, containerElement, showCheckButton = false) {
   }
 }
 
+// Modifique a função checkTable para atualizar os estados de erro das células
 function checkTable() {
   esconderMensagemDeErro();
   esconderResumoValidacao();
@@ -643,74 +574,61 @@ function checkTable() {
     // Valida nome_turma
     const turmaUp = newRegistro.nome_turma.value.toUpperCase();
     if (!padraoTurma.test(turmaUp)) {
-      linhaErros.push(
-        `• Linha ${linhaNum}: formato inválido em 'nome_turma' → "${registro.nome_turma}"`
-      );
-    } else if (registro.nome_turma !== turmaUp) {
-      registro.nome_turma = turmaUp;
+      linhaErros.push(`• Linha ${linhaNum}: formato inválido em 'nome_turma' → "${newRegistro.nome_turma.value}"`);
+      newRegistro.nome_turma.error = true;
+    } else if (newRegistro.nome_turma.value !== turmaUp) {
+      newRegistro.nome_turma.value = turmaUp;
       correcoes++;
     }
 
-    // 2) Capitalização de campos
-    ["nome_disciplina", "nome_professor"].forEach((c) => {
-      const cap = capitalizarNome(registro[c].trim());
-      if (registro[c] !== cap) {
-        registro[c] = cap;
+    // Capitalização de campos
+    ["nome_disciplina", "nome_professor"].forEach(c => {
+      const cap = capitalizarNome(newRegistro[c].value.trim());
+      if (newRegistro[c].value !== cap) {
+        newRegistro[c].value = cap;
         correcoes++;
       }
     });
 
-    // 3) Correspondência aproximada
-    const bestDisc = getBestMatch(
-      registro.nome_disciplina,
-      disciplinasPermitidas,
-      0.6
-    );
+    // Correspondência aproximada
+    const bestDisc = getBestMatch(newRegistro.nome_disciplina.value, disciplinasPermitidas, 0.6);
     if (bestDisc) {
       if (bestDisc !== newRegistro.nome_disciplina.value) {
         newRegistro.nome_disciplina.value = bestDisc;
         correcoes++;
       }
     } else {
-      linhaErros.push(
-        `• Linha ${linhaNum}: disciplina inválida → "${registro.nome_disciplina}"`
-      );
+      linhaErros.push(`• Linha ${linhaNum}: disciplina inválida → "${newRegistro.nome_disciplina.value}"`);
+      newRegistro.nome_disciplina.error = true;
     }
-    const bestProf = getBestMatch(
-      registro.nome_professor,
-      professoresPermitidos,
-      0.3
-    );
+    const bestProf = getBestMatch(newRegistro.nome_professor.value, professoresPermitidos, 0.3);
     if (bestProf) {
       if (bestProf !== newRegistro.nome_professor.value) {
         newRegistro.nome_professor.value = bestProf;
         correcoes++;
       }
     } else {
-      linhaErros.push(
-        `• Linha ${linhaNum}: professor inválido → "${registro.nome_professor}"`
-      );
+      linhaErros.push(`• Linha ${linhaNum}: professor inválido → "${newRegistro.nome_professor.value}"`);
+      newRegistro.nome_professor.error = true;
     }
 
-    // 4) Dia da semana
-    const dia = parseInt(registro.dia_semana, 10);
+    // Dia da semana
+    const dia = parseInt(newRegistro.dia_semana.value, 10);
     if (isNaN(dia) || dia < 1 || dia > 5) {
-      linhaErros.push(
-        `• Linha ${linhaNum}: dia_semana inválido → "${registro.dia_semana}"`
-      );
+      linhaErros.push(`• Linha ${linhaNum}: dia_semana inválido → "${newRegistro.dia_semana.value}"`);
+      newRegistro.dia_semana.error = true;
     }
 
-    // 5) Horário
-    const periodo = registro.nome_turma.slice(-1);
-    if (!validarHorario(periodo, registro.horario)) {
-      linhaErros.push(
-        `• Linha ${linhaNum}: horário inválido → "${registro.horario}"`
-      );
+    // Horário
+    const periodo = newRegistro.nome_turma.value.slice(-1);
+    if (!validarHorario(periodo, newRegistro.horario.value)) {
+      linhaErros.push(`• Linha ${linhaNum}: horário inválido → "${newRegistro.horario.value}"`);
+      newRegistro.horario.error = true;
     }
 
-    // 6) Campos obrigatórios
-    ["nome_turma", "nome_disciplina", "nome_professor"].forEach((c) => {
-      if (!registro[c]) {
+    // Campos obrigatórios
+    ["nome_turma", "nome_disciplina", "nome_professor"].forEach(c => {
+      if (!newRegistro[c].value) {
         linhaErros.push(`• Linha ${linhaNum}: campo '${c}' vazio`);
         newRegistro[c].error = true;
       }
@@ -720,20 +638,19 @@ function checkTable() {
       errosGerais.push(...linhaErros);
       invalidos.push({ ...newRegistro, errors: linhaErros });
     } else {
-      validos.push(registro);
+      const validRegistro = {};
+      for (const key in newRegistro) {
+        validRegistro[key] = newRegistro[key].value;
+      }
+      validos.push(validRegistro);
     }
+    revalidatedData.push(newRegistro); // Adiciona o registro revalidado (com flags de erro)
   });
 
-  // Atualiza a variável global com os registros inválidos para a próxima edição
-  dadosEditados = invalidos;
+  dadosEditados = invalidos; // dadosEditados agora armazena apenas as linhas que ainda têm erros
 
-  // Exibe novamente a tabela no modal se ele estiver aberto, senão na principal
-  if (!errorModal.classList.contains("hidden")) {
-    renderEditableTable(invalidos, modalErrorTable, true);
-  } else {
-    // Isso é para o caso de o checkTable ser chamado por outra razão que não o modal (talvez um futuro uso)
-    renderEditableTable(invalidos, document.getElementById("editable-table"));
-  }
+  // Atualiza a exibição da tabela no modal (sempre com o botão Verificar Novamente)
+  renderEditableTable(dadosEditados, modalErrorTable, true);
 
   // Mostra o resumo atualizado
   exibirResumoValidacao(validos.length, errosGerais.length, errosGerais, correcoes);
@@ -753,7 +670,7 @@ function resetToInitialState() {
   document.getElementById("editable-table").classList.add("hidden");
   document.getElementById("export-buttons").classList.add("hidden");
   document.getElementById("send-button").classList.add("hidden");
-  SendButton.classList.add("hidden");
+  sendButton.classList.add("hidden");  
   hideErrorModal(); // Esconder o modal ao resetar
 }
 
@@ -818,17 +735,16 @@ function exibirResumoValidacao(validos, invalidosCount, erros, correcoes = 0) {
   summaryDiv.innerHTML = `
     <p><strong>✅ Registros válidos:</strong> ${validos}</p>
     <p><strong>❌ Registros com erro:</strong> ${invalidosCount}</p>
-    ${
-      correcoes > 0
-        ? `<p><strong>🛠 Correções automáticas aplicadas:</strong> ${correcoes}</p>`
-        : ""
+    ${correcoes > 0
+      ? `<p><strong>🛠 Correções automáticas aplicadas:</strong> ${correcoes}</p>`
+      : ""
     }
   `;
   summaryDiv.classList.remove("hidden");
-
+  
   // Sempre exibe o botão Remover Arquivo
   removeFileButton.classList.remove("hidden");
-
+  
   if (invalidosCount === 0) {
     // Sem erros → mostrar Enviar, esconder Corrigir
     sendButton.classList.remove("hidden");
@@ -839,6 +755,7 @@ function exibirResumoValidacao(validos, invalidosCount, erros, correcoes = 0) {
     sendButton.classList.add("hidden");
   }
 }
+
 
 // Limpa o resumo de validação da interface
 function esconderResumoValidacao() {
@@ -876,6 +793,9 @@ closeErrorBtn.addEventListener("click", hideErrorModal);
 errorModal.addEventListener("click", (e) => {
   if (e.target === errorModal) hideErrorModal();
 });
+
+
+
 
 SendButton.addEventListener("click", async (e) => {
   e.preventDefault();
