@@ -7,4 +7,4 @@ node_modules
 
 # Ignorar volumes do Docker
 postgres_data/
-package-lock.json
+
