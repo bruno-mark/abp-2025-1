@@ -23,6 +23,7 @@ const modalErrorTable = document.getElementById('modal-error-table'); // contain
 
 // 1. Variável global que mantém a última versão editada na tabela
 let dadosEditados = [];
+let jsonDataFinal = [];
 
 // 2. Regex e listas de validação
 const padraoTurma = /^(?:DSM-[1-5]-N|GEO-(?:1|3|5|6)-N|MA-(?:[1-3]-N|[5-6]-M))$/;
@@ -363,18 +364,19 @@ function readCSVandConvertToJSON(file) {
 // Exibe no DOM o arquivo selecionado, executa leitura e renderiza tabela
 async function showSelectedFile(file) {
   fileNameDisplay.textContent = `📄 ${file.name}`;
-  dropSection.classList.add("hidden");    // Esconde instruções de drop
-  fileSection.classList.remove("hidden"); // Mostra seção de arquivo
-  simulateProgressBar();                  // Anima barra de progresso
+  dropSection.classList.add("hidden");
+  fileSection.classList.remove("hidden");
+  simulateProgressBar();
   removeFileButton.classList.remove("hidden");
 
   try {
-    await readCSVandConvertToJSON(file);
+    jsonDataFinal = await readCSVandConvertToJSON(file); // <<< Salva os dados válidos aqui
 
   } catch (error) {
     console.error("❌ Erro no processamento do CSV:", error.message);
   }
 }
+
 
 // Renderiza uma tabela editável com os dados JSON
 // Agora, esta função aceita um container como argumento para ser mais flexível
@@ -670,7 +672,7 @@ function resetToInitialState() {
   document.getElementById("editable-table").classList.add("hidden");
   document.getElementById("export-buttons").classList.add("hidden");
   document.getElementById("send-button").classList.add("hidden");
-  sendButton.classList.add("hidden");  
+  SendButton.classList.add("hidden");  
   hideErrorModal(); // Esconder o modal ao resetar
 }
 
@@ -810,7 +812,7 @@ SendButton.addEventListener("click", async (e) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(jsonData), // <--- substitua aqui se necessário
+      body: JSON.stringify(jsonDataFinal), // <--- substitua aqui se necessário
     });
 
     const resultado = await response.json();
