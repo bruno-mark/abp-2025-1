@@ -3,7 +3,6 @@ const express = require("express");
 const dotenv = require("dotenv");
 const { Pool } = require("pg");
 const cors = require("cors");
-const db = pool;
 
 dotenv.config();
 
@@ -33,8 +32,8 @@ app.get('/', (req, res) => {
   res.send('🚀 API rodando com sucesso e com deploy automático! hahahahaha');
 });
 
-require('./dataRecovery')(app, db);
-require('./rotasHorarios')(app, db);
-require('./mapa')(app, db);
+require('./dataRecovery')(app, pool);
+require('./rotasHorarios')(app, pool);
+require('./mapa')(app, pool);
 //require('./csvInsertion')(app, db);
 //require('./scriptTabelaCadastro.js')(app, bd);
