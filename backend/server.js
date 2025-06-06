@@ -20,7 +20,7 @@ const pool = new Pool({
   }
 });
 
-db.connect()
+pool.connect()
   .then(() => console.log('✅ Conectado ao PostgreSQL'))
   .catch(err => console.error('❌ Erro ao conectar:', err));
 
@@ -38,5 +38,3 @@ require('./rotasHorarios')(app, db);
 require('./mapa')(app, db);
 //require('./csvInsertion')(app, db);
 //require('./scriptTabelaCadastro.js')(app, bd);
-
-module.exports = pool;
