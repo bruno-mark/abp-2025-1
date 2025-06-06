@@ -27,7 +27,7 @@ module.exports = (app, db) => {
       JOIN disciplinas d ON h.id_disciplina = d.id_disciplina
       JOIN professores p ON h.id_professor = p.id_professor
       JOIN salas s ON s.id_turma = t.id_turma
-      WHERE s.nome_sala = $1
+      WHERE s.nome = $1
       ORDER BY h.dia_semana, h.horario;
     `, [nomeSala]);
 
