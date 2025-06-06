@@ -1,7 +1,7 @@
 // Importa o framework Express para criar e gerenciar o servidor web
 const express = require("express");
 const dotenv = require("dotenv");
-const { Client } = require("pg");
+const { Pool } = require("pg");
 const cors = require("cors");
 
 
@@ -13,11 +13,11 @@ const port = process.env.PORT;
 app.use(cors());
 
 // Coneta ao banco de dados PostgreSQL
-const db = new Client({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 db.connect()
@@ -38,3 +38,5 @@ require('./rotasHorarios')(app, db);
 require('./mapa')(app, db);
 //require('./csvInsertion')(app, db);
 //require('./scriptTabelaCadastro.js')(app, bd);
+
+module.exports = pool;
