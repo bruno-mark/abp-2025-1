@@ -243,3 +243,20 @@ table.tabela_horario th {
   }
 }
 
+@media (max-width: 768px) {
+
+   body {
+    height: 768px;
+  }
+
+  .horario__container {
+    padding: 10px;
+    width: 100%;
+    height: 665px;
+    margin: 50px auto;
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
