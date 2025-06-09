@@ -53,10 +53,21 @@ option {
   background-color: white;
 }
 
+.horario__tabela select {
+  width: 100%;
+}
+
 .horario__tabela th,
 .horario__tabela td {
   border: 1px solid #ccc;
   padding: 10px;
+  color: black;
+  text-align: center;
+}
+
+.horario__label {
+  font-family: var(--font-primary);
+  font-weight: bold;
 }
 
 .horario__tabela th {

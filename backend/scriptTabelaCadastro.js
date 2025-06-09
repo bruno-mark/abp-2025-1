@@ -1,66 +1,55 @@
-const tabela = document.querySelector('.horario__tabela tbody');
-const salvarButton = document.querySelector('.horario__botao-exportar');
+module.exports = (app, db) => {
+// Exporta o app e o bd
 
-const periodoSelect = document.getElementById('periodo');
-const semestreSelect = document.getElementById('semestre');
+app.get('/scriptTabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
+    const { curso, periodo, semestre } = req.params;
 
-//Deixar as células editavéis
-function tornarEditavel() {
-    tabela.querySelectorAll('tr').forEach(tr =>{
-        tr.querySelectorAll('td:not(:first-child)').forEach(td => {
-            td.contentEditable = true;
-        });
-    });
-};
+    try {
+        const nomeTurma = `${curso}-${semestre}-${periodo}`;
+        const resultado = await db.query(`
+            SELECT
+                h.id_horario,
+                t.nome AS nome_turma,
+                d.nome AS nome_disciplina,
+                p.nome AS nome_professor,
+                CASE h.dia_semana
+                    WHEN 1 THEN 'Segunda'
+                    WHEN 2 THEN 'Terça'
+                    WHEN 3 THEN 'Quarta'
+                    WHEN 4 THEN 'Quinta'
+                    WHEN 5 THEN 'Sexta'
+                    ELSE 'Desconhecido'
+                END AS dia_semana,
+                h.horario
+            FROM horarios h
+            JOIN turmas t ON h.id_turma = t.id_turma
+            JOIN disciplinas d ON h.id_disciplinas = d.id_disciplina
+            JOIN professores p ON h.id_professor = p.id_professor
+            WHERE t.nome = $1
+            ORDER BY h.dia_semana, h.horario;
+        `, [nomeTurma]);
 
-//Carregar dados da API
-async function carregarDados() {
-    const periodo = periodoSelect.value;
-    const semestre = semestreSelect.value;
-
-    const res = await fetch('http://localhost:3000/api/horario?periodo=${periodo}&semestre=${semestre}');
-    const dados = await res.json();
-    const linhas = tabela.querySelectorAll('tr');
-    
-    dados.forEach((linha, i) => {
-        const tds = linhas[i].querySelectorAll('td');
-        for(let j = 1; j <= tds.length; j++) {
-            tds[i].innerText = linha.dias[i-1]
-        };
-    })
-};
-
-//Salvar dados na API
-async function salvarDados() {
-    const periodo = periodoSelect.value;
-    const semestre = semestreSelect.value;
-    const linhas = tabela.querySelectorAll('tr');
-    const dados = [];
-
-    linha.forEach((tr, i) => {
-        const tds = tr.querySelectorAll('td');
-        const horario = tds[0].innerText.trim();
-        const dias = Array.from(tds).slice(1).map(td => td.innerText.trim());
-        dados.push({horarios, dias});
+        res.json(resultado.rows);
+        } catch (err) {
+            console.error('Erro ao buscar dados ❌', err);
+            res.status(500).json({Erro: 'Erro interno no servidor' });
+        }
     });
 
-    const res = await fetch('http://localhost:3000/api/horario', { method: 'POST', 
-        Headers:{'Content-Type': 'application/json'},
-        body: JSON.stringify({ periodo, semestre, dados})
-    });
 
-    if (res.ok) {
-        alert('Horário salvo com sucesso!');
-    } else {
-        alert('Erro ao salvar horário');
-    }
+app.post('/scriptTabelaCadastro/insert', async (req, res) => {
+   try {
+       const dados = req.body;
+       for (const linha of dados) {
+           await pool.query(
+            `UPDATE horarios SET nome_disciplina = $1 WHERE id_disciplina = $2`,
+            [nome__disciplina]
+           );
+       }
+       res.send('Dados atualizados');
+   } catch (err) {
+        console.error('Erro atualizar dados', err);
+        res.status(500).send('Erro ao atualizar dados');
+   }
+});
 };
-
-//Eventos
-periodoSelect.addEventListener('change', carregarDados);
-semestreSelect.addEventListener('change', carregarDados);
-salvarButton.addEventListener('click', salvarDados);
-
-//Inicialização 
-tornarEditavel();
-carregarDados(); 

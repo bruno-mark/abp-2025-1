@@ -31,19 +31,28 @@
     </a>
   </header>
 
-  <main>
+  <main id="main-content">
     <div class="horario__container card-box">
       <h2>Horário do Curso</h2>
       <div class="horario__selects">
         <div class="horario__select-group">
-          <label for="periodo">Período</label>
+          <label class="horario__label" for="curso">Curso</label>
+          <select id="curso" class="horario__select">
+            <option value="DSM">Desenvolvimento de Software</option>
+            <option value="MA">Meio Ambiente e Recursos Hídricos</option>
+            <option value="GEO">Geoprocessamento</option>
+          </select>
+        </div>
+
+        <div class="horario__select-group">
+          <label class="horario__label" for="periodo">Período</label>
           <select id="periodo" class="horario__select">
-            <option value="diurno">Diurno</option>
-            <option value="noturno">Noturno</option>
+            <option value="M">Diurno</option>
+            <option value="N">Noturno</option>
           </select>
         </div>
         <div class="horario__select-group">
-          <label for="semestre">Semestre</label>
+          <label class="horario__label" for="semestre">Semestre</label>
           <select id="semestre" class="horario__select">
             <option value="1">1º</option>
             <option value="2">2º</option>
@@ -66,28 +75,154 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Linha: 18:45 às 19:35 -->
           <tr>
-            <td>18:45 às 19:35</td>
-            <td></td><td></td><td></td><td></td><td></td>
+            <td><strong>18:45 às 19:35</strong></td>
+            <td>
+              <select class="disciplina-select" data-horario="18:45-19:35" data-dia="Segunda">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="18:45-19:35" data-dia="Terça">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="18:45-19:35" data-dia="Quarta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="18:45-19:35" data-dia="Quinta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="18:45-19:35" data-dia="Sexta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
           </tr>
+          <!-- Linha: 19:35 às 20:25 -->
           <tr>
-            <td>19:35 às 20:25</td>
-            <td></td><td></td><td></td><td></td><td></td>
+            <td><strong>19:35 às 20:25</strong></td>
+            <td>
+              <select class="disciplina-select" data-horario="19:35-20:25" data-dia="Segunda">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="19:35-20:25" data-dia="Terça">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="19:35-20:25" data-dia="Quarta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="19:35-20:25" data-dia="Quinta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="19:35-20:25" data-dia="Sexta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
           </tr>
+          <!-- Linha: 20:25 às 21:15 -->
           <tr>
-            <td>20:25 às 21:15</td>
-            <td></td><td></td><td></td><td></td><td></td>
+            <td><strong>20:25 às 21:15</strong></td>
+            <td>
+              <select class="disciplina-select" data-horario="20:25-21:15" data-dia="Segunda">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="20:25-21:15" data-dia="Terça">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="20:25-21:15" data-dia="Quarta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="20:25-21:15" data-dia="Quinta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="20:25-21:15" data-dia="Sexta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
           </tr>
+          <!-- Linha: 21:25 às 22:15 -->
           <tr>
-            <td>21:25 às 22:15</td>
-            <td></td><td></td><td></td><td></td><td></td>
+            <td><strong>21:25 às 22:15</strong></td>
+            <td>
+              <select class="disciplina-select" data-horario="21:25-22:15" data-dia="Segunda">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="21:25-22:15" data-dia="Terça">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="21:25-22:15" data-dia="Quarta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="21:25-22:15" data-dia="Quinta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="21:25-22:15" data-dia="Sexta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
           </tr>
+          <!-- Linha: 22:15 às 23:05 -->
           <tr>
-            <td>22:15 às 23:05</td>
-            <td></td><td></td><td></td><td></td><td></td>
+            <td><strong>22:15 às 23:05</strong></td>
+            <td>
+              <select class="disciplina-select" data-horario="22:15-23:05" data-dia="Segunda">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="22:15-23:05" data-dia="Terça">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="22:15-23:05" data-dia="Quarta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="22:15-23:05" data-dia="Quinta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
+            <td>
+              <select class="disciplina-select" data-horario="22:15-23:05" data-dia="Sexta">
+                <option value="">Selecione...</option>
+              </select>
+            </td>
           </tr>
         </tbody>
       </table>
+
       <div class="horario__docentes">
         <h3>Docentes:</h3>
         <ul>
@@ -97,21 +232,23 @@
           <li>Prof. Esp. Marcelo Augusto Sudo</li>
         </ul>
       </div>
-      <button class="horario__botao-exportar">Salvar</button>
+      <button id="gerarJsonBtn" class="horario__botao-exportar">Salvar</button>
+      <pre id="jsonOutput"></pre>
     </div>
   </main>
 
   <footer>
     <div class="footer__container">
-      © 2025 FATEC Jacareí – Desenvolvido por
+      © 2025 FATEC Jacareí – Desenvolvido por
       <a href="https://github.com/CRIMS0NC0DE"
          aria-label="Ir para o GitHub da equipe CrimsonCode"
          target="_blank"
          rel="noopener noreferrer">
         <strong>Crims0nc0de</strong>
       </a>
-      – Todos os direitos reservados.
+      – Todos os direitos reservados.
     </div>
   </footer>
+  <script src="../js/insertCadastro.js"></script>
 </body>
 </html>
