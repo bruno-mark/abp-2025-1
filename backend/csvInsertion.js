@@ -23,6 +23,7 @@ const modalErrorTable = document.getElementById('modal-error-table'); // contain
 
 // 1. Variável global que mantém a última versão editada na tabela
 let dadosEditados = [];
+let jsonDataFinal = [];
 
 // 2. Regex e listas de validação
 const padraoTurma = /^(?:DSM-[1-5]-N|GEO-(?:1|3|5|6)-N|MA-(?:[1-3]-N|[5-6]-M))$/;
@@ -363,166 +364,300 @@ function readCSVandConvertToJSON(file) {
 // Exibe no DOM o arquivo selecionado, executa leitura e renderiza tabela
 async function showSelectedFile(file) {
   fileNameDisplay.textContent = `📄 ${file.name}`;
-  dropSection.classList.add("hidden");    // Esconde instruções de drop
-  fileSection.classList.remove("hidden"); // Mostra seção de arquivo
-  simulateProgressBar();                  // Anima barra de progresso
+  dropSection.classList.add("hidden");
+  fileSection.classList.remove("hidden");
+  simulateProgressBar();
   removeFileButton.classList.remove("hidden");
 
   try {
-    await readCSVandConvertToJSON(file);
+    jsonDataFinal = await readCSVandConvertToJSON(file); // <<< Salva os dados válidos aqui
 
   } catch (error) {
     console.error("❌ Erro no processamento do CSV:", error.message);
   }
 }
 
+
 // Renderiza uma tabela editável com os dados JSON
 // Agora, esta função aceita um container como argumento para ser mais flexível
+function readCSVandConvertToJSON(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const lines = event.target.result.trim().split("\n");
+      const headers = lines[0].split(",").map(h => h.trim());
+      const required = ["nome_turma", "nome_disciplina", "nome_professor", "dia_semana", "horario"];
+      const missing = required.filter(r => !headers.includes(r));
+      if (missing.length) {
+        exibirMensagemDeErro(`❌ Colunas faltando: ${missing.join(", ")}`);
+        esconderResumoValidacao();
+        return reject(new Error("Cabeçalhos ausentes"));
+      }
+      esconderMensagemDeErro();
+
+      const jsonData = [];
+      const invalidRows = [];
+      const errosGerais = []; // Renomeado para evitar conflito com 'erros' de linha
+      let correcoes = 0;
+
+      lines.slice(1).forEach((line, idx) => {
+        const values = line.split(",").map(v => v.trim());
+        const registro = headers.reduce((o, h, i) => (o[h] = { value: values[i] || "", error: false }, o), {}); // Armazena como objeto { value, error }
+        const linhaErros = [];
+
+        // Nome da turma
+        const up = registro.nome_turma.value.toUpperCase();
+        if (!padraoTurma.test(up)) {
+          linhaErros.push(`• Linha ${idx + 2}: nome_turma inválido → "${registro.nome_turma.value}"`);
+          registro.nome_turma.error = true;
+        } else if (registro.nome_turma.value !== up) {
+          registro.nome_turma.value = up;
+          correcoes++;
+        }
+
+        // Capitalização
+        ["nome_disciplina", "nome_professor"].forEach(c => {
+          const cap = capitalizarNome(registro[c].value);
+          if (registro[c].value !== cap) {
+            registro[c].value = cap;
+            correcoes++;
+          }
+        });
+
+        // Correspondência aproximada
+        const bestD = getBestMatch(registro.nome_disciplina.value, disciplinasPermitidas, 0.6);
+        if (bestD) {
+          if (bestD !== registro.nome_disciplina.value) {
+            registro.nome_disciplina.value = bestD;
+            correcoes++;
+          }
+        } else {
+          linhaErros.push(`• Linha ${idx + 2}: disciplina inválida → "${registro.nome_disciplina.value}"`);
+          registro.nome_disciplina.error = true;
+        }
+
+        const bestP = getBestMatch(registro.nome_professor.value, professoresPermitidos, 0.3);
+        if (bestP) {
+          if (bestP !== registro.nome_professor.value) {
+            registro.nome_professor.value = bestP;
+            correcoes++;
+          }
+        } else {
+          linhaErros.push(`• Linha ${idx + 2}: professor inválido → "${registro.nome_professor.value}"`);
+          registro.nome_professor.error = true;
+        }
+
+        // Dia da semana
+        const dia = parseInt(registro.dia_semana.value, 10);
+        if (isNaN(dia) || dia < 1 || dia > 5) {
+          linhaErros.push(`• Linha ${idx + 2}: dia_semana inválido → "${registro.dia_semana.value}"`);
+          registro.dia_semana.error = true;
+        }
+
+        // Horário
+        const periodo = registro.nome_turma.value.slice(-1);
+        if (!validarHorario(periodo, registro.horario.value)) {
+          linhaErros.push(`• Linha ${idx + 2}: horário inválido → "${registro.horario.value}"`);
+          registro.horario.error = true;
+        }
+
+        // Campos obrigatórios
+        ["nome_turma", "nome_disciplina", "nome_professor"].forEach(c => {
+          if (!registro[c].value) {
+            linhaErros.push(`• Linha ${idx + 2}: campo '${c}' vazio`);
+            registro[c].error = true;
+          }
+        });
+
+        // Classifica registro
+        if (linhaErros.length) {
+          errosGerais.push(...linhaErros);
+          invalidRows.push({ ...registro, errors: linhaErros }); // Adiciona os erros da linha
+        } else {
+          // Converte de volta para o formato de valor puro para dados válidos
+          const validRegistro = {};
+          for (const key in registro) {
+            validRegistro[key] = registro[key].value;
+          }
+          jsonData.push(validRegistro);
+        }
+      });
+
+      exibirResumoValidacao(jsonData.length, errosGerais.length, errosGerais, correcoes);
+      dadosEditados = invalidRows;
+      resolve(jsonData);
+    };
+
+    reader.onerror = () => reject(new Error("Erro ao ler arquivo"));
+    reader.readAsText(file);
+  });
+}
+
+// Modifique a função renderEditableTable para usar a nova estrutura de dados
 function renderEditableTable(data, containerElement, showCheckButton = false) {
   containerElement.innerHTML = "";
 
   if (!data.length) {
-      containerElement.classList.add("hidden");
-      return;
+    containerElement.classList.add("hidden");
+    return;
   }
 
-  containerElement.classList.remove("hidden"); // <-- torna visível
+  containerElement.classList.remove("hidden");
 
-  // monta cabeçalho
   const headers = Object.keys(data[0]);
   let html = "<table><thead><tr>";
-  headers.forEach(h=> html+=`<th>${h}</th>`);
-  html+="</tr></thead><tbody>";
+  // Assegura que 'errors' não seja um cabeçalho de coluna da tabela
+  headers.filter(h => h !== 'errors').forEach(h => html += `<th>${h}</th>`);
+  html += "</tr></thead><tbody>";
 
-  // monta linhas
-  data.forEach((row,i)=>{
-    html+="<tr>";
-    headers.forEach(h=> html+=`<td contenteditable data-row="${i}" data-key="${h}">${row[h]}</td>`);
-    html+="</tr>";
+  data.forEach((row, i) => {
+    html += "<tr>";
+    headers.filter(h => h !== 'errors').forEach(h => {
+      // Adiciona a classe 'error-cell' se a propriedade 'error' for true
+      const cellClass = row[h] && row[h].error ? 'error-cell' : '';
+      html += `<td contenteditable class="${cellClass}" data-row="${i}" data-key="${h}">${row[h].value}</td>`;
+    });
+    html += "</tr>";
   });
-  html+="</tbody></table>";
+  html += "</tbody></table>";
   containerElement.innerHTML = html;
 
   // listener de edição
-  containerElement.querySelectorAll("td[contenteditable]").forEach(cell=>{
-    cell.addEventListener("input", ()=>{
-      const i   = +cell.dataset.row;
+  containerElement.querySelectorAll("td[contenteditable]").forEach(cell => {
+    cell.addEventListener("input", () => {
+      const i = +cell.dataset.row;
       const key = cell.dataset.key;
-      dadosEditados[i][key] = cell.textContent.trim();
+      // Atualiza o valor e remove a classe de erro ao editar
+      dadosEditados[i][key].value = cell.textContent.trim();
+      dadosEditados[i][key].error = false; // Remove a marcação de erro ao editar
+      cell.classList.remove('error-cell'); // Remove a classe visual de erro
     });
   });
 
-  // Condicionalmente adiciona o botão "Verificar Novamente"
   if (showCheckButton) {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.textContent = "Verificar Novamente";
-      btn.className = "insercao__button insercao__button-verifica";
-      btn.style.marginTop = "20px";
-      btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          checkTable();
-      });
-      containerElement.appendChild(btn);
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = "Verificar Novamente";
+    btn.className = "insercao__button insercao__button-verifica";
+    btn.style.marginTop = "20px";
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      checkTable();
+    });
+    containerElement.appendChild(btn);
   }
 }
 
-
+// Modifique a função checkTable para atualizar os estados de erro das células
 function checkTable() {
-  // limpa mensagens e resumo anteriores
   esconderMensagemDeErro();
   esconderResumoValidacao();
 
-  const erros = [];
+  const errosGerais = [];
   const validos = [];
   const invalidos = [];
   let correcoes = 0;
 
+  // Criar uma nova estrutura para os dados revalidados, mantendo o formato { value, error }
+  const revalidatedData = [];
+
   dadosEditados.forEach((registro, idx) => {
     const linhaErros = [];
-    const linhaNum = idx + 2; // considerar cabeçalho
+    const linhaNum = idx + 2;
+    const newRegistro = {}; // Novo objeto para a linha revalidada
 
-    // 1) Valida nome_turma
-    const turmaUp = registro.nome_turma.toUpperCase();
+    // Inicializa newRegistro com os valores atuais e sem erros (serão marcados se houver)
+    for (const key in registro) {
+      if (key !== 'errors') { // Não copie a propriedade 'errors' da linha
+        newRegistro[key] = { value: registro[key].value, error: false };
+      }
+    }
+
+    // Valida nome_turma
+    const turmaUp = newRegistro.nome_turma.value.toUpperCase();
     if (!padraoTurma.test(turmaUp)) {
-      linhaErros.push(`• Formato inválido em <strong>nome_turma</strong> → "${registro.nome_turma}"`);
-    } else if (registro.nome_turma !== turmaUp) {
-      registro.nome_turma = turmaUp;
+      linhaErros.push(`• Linha ${linhaNum}: formato inválido em 'nome_turma' → "${newRegistro.nome_turma.value}"`);
+      newRegistro.nome_turma.error = true;
+    } else if (newRegistro.nome_turma.value !== turmaUp) {
+      newRegistro.nome_turma.value = turmaUp;
       correcoes++;
     }
 
-    // 2) Capitalização de campos
-    ["nome_disciplina","nome_professor"].forEach(c => {
-      const cap = capitalizarNome(registro[c].trim());
-      if (registro[c] !== cap) {
-        registro[c] = cap;
+    // Capitalização de campos
+    ["nome_disciplina", "nome_professor"].forEach(c => {
+      const cap = capitalizarNome(newRegistro[c].value.trim());
+      if (newRegistro[c].value !== cap) {
+        newRegistro[c].value = cap;
         correcoes++;
       }
     });
 
-    // 3) Correspondência aproximada
-    const bestDisc = getBestMatch(registro.nome_disciplina, disciplinasPermitidas, 0.6);
+    // Correspondência aproximada
+    const bestDisc = getBestMatch(newRegistro.nome_disciplina.value, disciplinasPermitidas, 0.6);
     if (bestDisc) {
-      if (bestDisc !== registro.nome_disciplina) {
-        registro.nome_disciplina = bestDisc;
-        correcoes++; 
-      }
-    } else {
-      linhaErros.push(`• Formato inválido em <strong>nome_disciplina</strong> → "${registro.nome_disciplina}"`);
-    }
-    const bestProf = getBestMatch(registro.nome_professor, professoresPermitidos, 0.3);
-    if (bestProf) {
-      if (bestProf !== registro.nome_professor) {
-        registro.nome_professor = bestProf;
+      if (bestDisc !== newRegistro.nome_disciplina.value) {
+        newRegistro.nome_disciplina.value = bestDisc;
         correcoes++;
       }
     } else {
-      linhaErros.push(`• Formato inválido em <strong>nome_professor</strong> → "${registro.nome_professor}"`);
+      linhaErros.push(`• Linha ${linhaNum}: disciplina inválida → "${newRegistro.nome_disciplina.value}"`);
+      newRegistro.nome_disciplina.error = true;
+    }
+    const bestProf = getBestMatch(newRegistro.nome_professor.value, professoresPermitidos, 0.3);
+    if (bestProf) {
+      if (bestProf !== newRegistro.nome_professor.value) {
+        newRegistro.nome_professor.value = bestProf;
+        correcoes++;
+      }
+    } else {
+      linhaErros.push(`• Linha ${linhaNum}: professor inválido → "${newRegistro.nome_professor.value}"`);
+      newRegistro.nome_professor.error = true;
     }
 
-    // 4) Dia da semana
-    const dia = parseInt(registro.dia_semana,10);
-    if (isNaN(dia) || dia<1 || dia>5) {
-      linhaErros.push(`• Formato inválido em <strong>dia_semana</strong> → "${registro.dia_semana}"`);
+    // Dia da semana
+    const dia = parseInt(newRegistro.dia_semana.value, 10);
+    if (isNaN(dia) || dia < 1 || dia > 5) {
+      linhaErros.push(`• Linha ${linhaNum}: dia_semana inválido → "${newRegistro.dia_semana.value}"`);
+      newRegistro.dia_semana.error = true;
     }
 
-    // 5) Horário
-    const periodo = registro.nome_turma.slice(-1);
-    if (!validarHorario(periodo, registro.horario)) {
-      linhaErros.push(`• Formato inválido em <strong>horário</strong> → "${registro.horario}"`);
+    // Horário
+    const periodo = newRegistro.nome_turma.value.slice(-1);
+    if (!validarHorario(periodo, newRegistro.horario.value)) {
+      linhaErros.push(`• Linha ${linhaNum}: horário inválido → "${newRegistro.horario.value}"`);
+      newRegistro.horario.error = true;
     }
 
-    // 6) Campos obrigatórios
-    ["nome_turma","nome_disciplina","nome_professor"].forEach(c => {
-      if (!registro[c]) {
+    // Campos obrigatórios
+    ["nome_turma", "nome_disciplina", "nome_professor"].forEach(c => {
+      if (!newRegistro[c].value) {
         linhaErros.push(`• Linha ${linhaNum}: campo '${c}' vazio`);
+        newRegistro[c].error = true;
       }
     });
-
 
     if (linhaErros.length) {
-      erros.push(...linhaErros);
-      invalidos.push({ ...registro, erros: linhaErros });
+      errosGerais.push(...linhaErros);
+      invalidos.push({ ...newRegistro, errors: linhaErros });
     } else {
-      validos.push(registro);
+      const validRegistro = {};
+      for (const key in newRegistro) {
+        validRegistro[key] = newRegistro[key].value;
+      }
+      validos.push(validRegistro);
     }
+    revalidatedData.push(newRegistro); // Adiciona o registro revalidado (com flags de erro)
   });
 
-  // Atualiza a variável global com os registros inválidos para a próxima edição
-  dadosEditados = invalidos;
+  dadosEditados = invalidos; // dadosEditados agora armazena apenas as linhas que ainda têm erros
 
-  // Exibe novamente a tabela no modal se ele estiver aberto, senão na principal
-  if (!errorModal.classList.contains('hidden')) {
-      renderEditableTable(invalidos, modalErrorTable, true);
-  } else {
-      // Isso é para o caso de o checkTable ser chamado por outra razão que não o modal (talvez um futuro uso)
-      renderEditableTable(invalidos, document.getElementById("editable-table"));
-  }
+  // Atualiza a exibição da tabela no modal (sempre com o botão Verificar Novamente)
+  renderEditableTable(dadosEditados, modalErrorTable, true);
 
   // Mostra o resumo atualizado
-  exibirResumoValidacao(validos.length, erros.length, erros, correcoes);
+  exibirResumoValidacao(validos.length, errosGerais.length, errosGerais, correcoes);
 
-  console.log("✅ Revalidação completa. Válidos:", validos);
+  console.log("✅ Revalidação completa. Válidos:", validos.length, "Erros:", errosGerais.length);
 }
 
 // Restaura estado inicial da interface, limpando tudo
@@ -537,7 +672,7 @@ function resetToInitialState() {
   document.getElementById("editable-table").classList.add("hidden");
   document.getElementById("export-buttons").classList.add("hidden");
   document.getElementById("send-button").classList.add("hidden");
-  sendButton.classList.add("hidden");  
+  SendButton.classList.add("hidden");  
   hideErrorModal(); // Esconder o modal ao resetar
 }
 
@@ -659,4 +794,37 @@ closeErrorBtn.addEventListener("click", hideErrorModal);
 // Fecha modal ao clicar fora do conteúdo
 errorModal.addEventListener("click", (e) => {
   if (e.target === errorModal) hideErrorModal();
+});
+
+
+
+
+SendButton.addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  // Aqui você escolhe qual dado enviar:
+  // Se quiser enviar apenas os registros válidos, você precisa tornar jsonData acessível aqui.
+  // Para este exemplo, vamos considerar que `jsonData` é global — você pode adaptar conforme sua estrutura.
+
+  try {
+    const response = await fetch("http://localhost:3000/api/inserir-csv", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(jsonDataFinal), // <--- substitua aqui se necessário
+    });
+
+    const resultado = await response.json();
+
+    if (response.ok) {
+      alert("✅ Dados enviados com sucesso!");
+      resetToInitialState(); // limpa a interface
+    } else {
+      alert("❌ Erro ao enviar dados: " + resultado.erro);
+    }
+  } catch (error) {
+    console.error("❌ Erro na requisição:", error);
+    alert("❌ Erro na comunicação com o servidor.");
+  }
 });
