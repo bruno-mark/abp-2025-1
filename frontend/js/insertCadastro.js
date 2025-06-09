@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // Monta a URL da sua API
-            const url = `http://localhost:3010/scriptHorarios/${curso}/${periodo}/${semestre}`;
+            const url = `http://localhost:3010/scriptTabelaCadastro/${curso}/${periodo}/${semestre}`;
             const response = await fetch(url);
 
             if (!response.ok) {

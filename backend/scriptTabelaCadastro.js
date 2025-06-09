@@ -23,7 +23,7 @@ app.get('/scriptTabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
                 h.horario
             FROM horarios h
             JOIN turmas t ON h.id_turma = t.id_turma
-            JOIN disciplinas d ON h.id_disciplinas = d.id_disciplina
+            JOIN disciplinas d ON h.id_disciplina = d.id_disciplina
             JOIN professores p ON h.id_professor = p.id_professor
             WHERE t.nome = $1
             ORDER BY h.dia_semana, h.horario;
