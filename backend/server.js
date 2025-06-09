@@ -45,4 +45,5 @@ app.get('/', (req, res) => {
 require('./dataRecovery')(app, db);
 require('./rotasHorarios')(app, db);
 require('./csvUpload')(app, db);
-
+require('./mapa')(app, db);
+require('./scriptTabelaCadastro.js')(app, db);

@@ -3,14 +3,10 @@
 
 <head>
   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Horário</title>
+  <title>Tabela de Cadastro</title>
   <link rel="stylesheet" href="../css/reset.css">
-  <link rel="stylesheet" href="../css/horarios.css">
+  <link rel="stylesheet" href="../css/insertTabelaCadastro.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script defer src="../js/scriptHorarios.js"></script>
-  <script defer src="../js/scriptHorarios.js"></script>
 </head>
 
 <body>
@@ -26,7 +22,7 @@
     <div class="selects">
       <div class="select_group">
         <label for="curso">Curso</label>
-        <select id="curso">
+        <select class="select__filter" id="curso">
           <option value="DSM">Desenvolvimento de Software</option>
           <option value="MA">Meio Ambiente e Recursos Hídricos</option>
           <option value="GEO">Geoprocessamento</option>
@@ -35,7 +31,7 @@
 
       <div class="select_group">
         <label for="periodo">Período</label>
-        <select id="periodo">
+        <select class="select__filter" id="periodo">
           <option value="M">Matutino</option>
           <option value="N">Noturno</option>
         </select>
@@ -43,7 +39,7 @@
 
       <div class="select_group">
         <label for="semestre">Semestre</label>
-        <select id="semestre">
+        <select class="select__filter" id="semestre">
           <option value="1">1º</option>
           <option value="2">2º</option>
           <option value="3">3º</option>
@@ -70,34 +66,55 @@
       </thead>
       <tbody id= "corpoTabela">
         <tr>
-          <td><strong>18:45 às 19:35</strong></td>
-          <td></td><td></td><td></td><td></td><td></td>
+          <td>18:45 às 19:35</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
-          <td><strong>19:35 às 20:25</strong></td>
-          <td></td><td></td><td></td><td></td><td></td>
+          <td>19:35 às 20:25</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
-          <td><strong>20:25 às 21:15</strong></td>
-          <td></td><td></td><td></td><td></td><td></td>
+          <td>20:25 às 21:15</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
-          <td><strong>21:25 às 22:15</strong></td>
-          <td></td><td></td><td></td><td></td><td></td>
+          <td>21:25 às 22:15</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
-          <td><strong>22:15 às 23:05</strong></td>
-          <td></td><td></td><td></td><td></td><td></td>
+          <td>22:15 às 23:05</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
       </tbody>
     </table>
 
     <div class="docentes">
       <h3>Docentes:</h3>
-      <div id="docentes__ul"></div>
+      
     </div>
 
     <button class="exportar_btn">Exportar</button>
   </div>
+  <script defer src="../js/insertTabelaCadastro.js"></script>
 </body>
 </html>

@@ -1,42 +1,41 @@
-const botao = document.getElementById('btn-opcoes');
-const menu = document.getElementById('menu-opcoes');
-const opcoes = document.querySelectorAll('.mapa__menu-opcao');
-const andares = document.querySelectorAll('.mapa-andar');
+module.exports = (app, db) => {
+  //exporta o app, e o db
 
-botao.addEventListener('click', function (evento) {
-  evento.preventDefault();
-  menu.classList.toggle('show');
+  app.get("/mapa/:sala", async (req, res) => {
+  const { sala } = req.params;
+  
+
+  try {
+    const nomeSala = `${sala}`; //Sala
+    const resultado = await db.query(`
+      SELECT
+        h.id_horario,
+        t.nome AS nome_turma,
+        d.nome AS nome_disciplina,
+        p.nome AS nome_professor,
+        CASE h.dia_semana
+            WHEN 1 THEN 'Segunda'
+            WHEN 2 THEN 'Terça'
+            WHEN 3 THEN 'Quarta'
+            WHEN 4 THEN 'Quinta'
+            WHEN 5 THEN 'Sexta'
+            ELSE 'Desconhecido'
+        END AS dia_semana,
+        h.horario
+      FROM horarios h
+      JOIN turmas t ON h.id_turma = t.id_turma
+      JOIN disciplinas d ON h.id_disciplina = d.id_disciplina
+      JOIN professores p ON h.id_professor = p.id_professor
+      JOIN salas s ON s.id_turma = t.id_turma
+      WHERE s.nome_sala = $1
+      ORDER BY h.dia_semana, h.horario;
+    `, [nomeSala]);
+
+    res.json(resultado.rows);
+  } catch (err) {
+    console.error("Erro ao buscar dados ❌", err);
+    res.status(500).json({ Erro: "Erro interno no servidor" });
+  }
 });
 
-// Função genérica para carregar HTML do andar
-function carregarAndar(andarId) {
-  fetch(`./mapa/${andarId}.html`)
-    .then(response => response.text())
-    .then(html => {
-      const container = document.getElementById(andarId);
-      container.innerHTML = html;
-    })
-    .catch(error => {
-      console.error(`Erro ao carregar ${andarId}.html:`, error);
-    });
-}
-
-// Carrega o térreo ao iniciar
-carregarAndar('terreo');
-
-opcoes.forEach(function (opcao) {
-  opcao.addEventListener('click', function () {
-    // Atualiza botão ativo
-    opcoes.forEach(o => o.classList.remove('active'));
-    opcao.classList.add('active');
-
-    const andar = opcao.getAttribute('andar');
-
-    andares.forEach(function (el) {
-      el.style.display = (el.id === andar) ? 'block' : 'none';
-    });
-
-    // Carrega o conteúdo do andar selecionado
-    carregarAndar(andar);
-  });
-});
+};
