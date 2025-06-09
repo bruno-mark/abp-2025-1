@@ -66,6 +66,17 @@
 .insercao__button:hover {
   background-color: var(--color-5);
 }
+.insercao__button-verifica {
+  width: 250px;
+  color: yellow;
+}
+/* Estilo para células com erro */
+.error-cell {
+  background-color: #ffebeb; /* Um vermelho muito claro para o fundo */
+  border: 1px solid #ff0000 !important; /* Borda vermelha forte */
+  color: #c00000; /* Cor do texto mais escura para o erro */
+  font-weight: bold;
+}
 
 .insercao__file-list {
   color: white;
@@ -105,7 +116,7 @@
 .progress-fill {
   height: 100%;
   width: 0;
-  background-color: #4a8b92;
+  background-color: var(--color-4);
   transition: width 2s ease;
 }
 
@@ -139,42 +150,68 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-/* Overlay ocupa toda a tela */
+/* Overlay ocupa toda a tela e escurece o fundo */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
   display: flex;               /* centraliza o modal-content */
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
+/* Garante que o overlay fique escondido se tiver a classe .hidden */
+.modal-overlay.hidden {
+  display: none !important;
+}
+
 /* Caixa branca central */
 .modal-content {
   background: #fff;
-  width: 80vw;                 /* 80% da largura da viewport */
-  height: 80vh;                /* 80% da altura da viewport */
+  width: 80vw;    /* 80% da largura da viewport */
+  height: 80vh;   /* 80% da altura da viewport */
   display: flex;
   flex-direction: column;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   overflow: hidden;
+}
+
+.modal-header {
+  flex: 0 0 auto;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-header > h2 {
+  color: black;
+}
+
+.modal-body {
+  flex: 1 1 auto;
+  padding: 1rem;
+  overflow-y: auto;  /* Barra de rolagem vertical */
+  overflow-x: auto;
+}
+.modal-body td {
+  cursor: pointer;
+}
+
+.modal-body table {
+  width: max-content; /* Força rolagem horizontal se necessário */
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 /* Cabeçalho com título e botão de fechar */
@@ -205,4 +242,43 @@
 /* Opcional: ajuste a tabela para não ultrapassar */
 .modal-body table {
   width: max-content;          /* para forçar scroll quando muito larga */
+}
+
+
+/* Estilos para o container da tabela dentro do modal */
+#modal-error-table table {
+  width: 100%;
+  border-collapse: collapse; /* Para remover espaços entre as células */
+  background-color: #ffffff; /* Fundo branco para a tabela */
+  color: #000000; /* Cor do texto preto para toda a tabela */
+}
+
+/* Estilos para o cabeçalho da tabela */
+#modal-error-table th {
+  background-color: #f2f2f2; /* Fundo cinza claro para o cabeçalho */
+  color: #333333; /* Cor do texto mais escura para o cabeçalho */
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+/* Estilos para as células da tabela */
+#modal-error-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+/* Estilos para linhas alternadas (zebra-striping) */
+#modal-error-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Fundo cinza muito claro para linhas pares */
+}
+
+#modal-error-table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* Fundo branco para linhas ímpares */
+}
+
+/* Estilo para células editáveis (se necessário, para dar um feedback visual) */
+#modal-error-table td[contenteditable]:focus {
+  outline: 2px solid #5b9ea6; /* Borda ao focar em célula editável */
 }
