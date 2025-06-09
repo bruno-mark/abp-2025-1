@@ -42,8 +42,16 @@ app.post('/scriptTabelaCadastro/insert', async (req, res) => {
        const dados = req.body;
        for (const linha of dados) {
            await pool.query(
-            `UPDATE horarios SET nome_disciplina = $1 WHERE id_disciplina = $2`,
-            [nome__disciplina]
+            `INSERT INTO horarios (horario, dia_semana, id_turma, id_disciplina)
+                VALUES (
+                    $4,
+                    $3,
+                    (SELECT id_turma FROM turmas WHERE nome = $2),
+                    (SELECT id_disciplina FROM disciplinas WHERE nome = $1)
+                )
+                ON CONFLICT (horario, dia_semana, id_turma)
+                DO UPDATE SET id_disciplina = EXCLUDED.id_disciplina;`, 
+                [nomeDisciplina, nomeTurma, diaSemana, horario]
            );
        }
        res.send('Dados atualizados');
