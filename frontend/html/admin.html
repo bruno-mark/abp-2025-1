@@ -6,7 +6,7 @@
   <title>Home Page</title>
   <link rel="stylesheet" href="../css/reset.css">
   <link rel="stylesheet" href="../css/global.css">
-  <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
   <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
@@ -32,30 +32,16 @@
     </a>
   </header>
 
-  <main class="login">
-    <section class="login__container card-box">
-      <form class="login__form" onsubmit="realizarLogin(); return false;">
-        <div class="login__field">
-          <label for="username" class="login__label">Usuário:</label>
-          <input
-            type="text"
-            id="username"
-            class="login__input"
-            placeholder="Entrar com usuário"
-            required
-          />
+  <main class="admin">
+    <section class="admin__container card-box">
+        <div class="admin__field">
+            <h2>Por onde deseja editar os dados?</h2>
+            <a href="./csvInsertion.html" class="admin__button">CSV</a> 
         </div>
-        <div class="login__field">
-          <label for="password" class="login__label">Senha:</label>
-          <input
-            type="password"
-            id="password"
-            class="login__input"
-            placeholder="Entrar com senha"
-            required
-          />
+        <div class="admin__field">
+          <a href="./insertCadastro.html" class="admin__button">Tabela</a>
         </div>
-        <button type="submit" class="login__button">Entrar</button>
+        
       </form>
     </section>
   </main>
