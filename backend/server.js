@@ -13,6 +13,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 app.use(cors());
+app.use(express.json()); 
 
 // Coneta ao banco de dados PostgreSQL
 const db = new Client({
@@ -46,4 +47,5 @@ require('./dataRecovery')(app, db);
 require('./rotasHorarios')(app, db);
 require('./csvUpload')(app, db);
 require('./mapa')(app, db);
-require('./scriptTabelaCadastro.js')(app, db);
+require('./csvInsertion')(app, db);
+require('./scriptTabelaCadastro')(app, db);
