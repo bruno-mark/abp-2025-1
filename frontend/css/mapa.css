@@ -114,6 +114,12 @@ button.desativada {
   cursor: not-allowed;
 }
 
+.mapa-conteudo-escalonavel {
+  position: relative;
+  width: 1010px;
+  height: 460px;
+}
+
 
 /*Terreo */
 .piso-terreo
@@ -162,108 +168,126 @@ button.desativada {
 }
 
 .copa {
+  position: absolute;
   left: 147px;
   top: 11px;
   width: 123px;
   height: 180px;
 }
 .deposito {
+  position: absolute;
   left: 16px;
   top: 11px;
   width: 126px;
   height: 183px;
 }
 .direcao {
+  position: absolute;
   left: 155px;
   top: 280px;
   width: 56px;
   height: 164px;
 }
 .secretaria-adm {
+  position: absolute;
   left: 275px;
   top: 11px;
   width: 160px;
   height: 180px;
 }
 .escadas-emg1 {
+  position: absolute;
   left: 436px;
   top: 11px;
   width: 40px;
   height: 156px;
 }
 .escadas-emg2 {
+  position: absolute;
   left: 820px;
   top: 11px;
   width: 40px;
   height: 156px;
 }
 .servidor {
+  position: absolute;
   left: 16px;
   top: 206px;
   width: 74px;
   height: 70px;
 }
 .sala-professores {
+  position: absolute;
   left: 22px;
   top: 285px;
   width: 67px;
   height: 158px;
 }
 .coordenacoes-cursos {
+  position: absolute;
   left: 93px;
   top: 305px;
   width: 57px;
   height: 138px;
 }
 .piso-terreo {
+  position: absolute;
   left: 478px;
   top: 11px;
   width: 140px;
   height: 432px;
 }
 .sanitarios-servidores {
+  position: absolute;
   left: 215px;
   top: 261px;
   width: 120px;
   height: 182px;
 }
 .secretaria-acad {
+  position: absolute;
   left: 340px;
   top: 261px;
   width: 135px;
   height: 182px;
 }
 .lab02 {
+  position: absolute;
   left: 685px;
   top: 11px;
   width: 130px;
   height: 190px;
 }
 .lab04 {
+  position: absolute;
   left: 865px;
   top: 11px;
   width: 130px;
   height: 190px;
 }
 .escadas {
+  position: absolute;
   left: 620px;
   top: 280px;
   width: 55px;
   height: 163px;
 }
 .sanitarios {
+  position: absolute;
   left: 620px;
   top: 11px;
   width: 60px;
   height: 190px;
 }
 .lab01 {
+  position: absolute;
   left: 680px;
   top: 250px;
   width: 130px;
   height: 192px;
 }
 .lab03 {
+  position: absolute;
   left:860px;
   top: 250px;
   width: 130px;
@@ -271,6 +295,7 @@ button.desativada {
 }
 
 .apoio {
+  position: absolute;
     left: 815px;
   top: 250px;  
   width: 40px;
@@ -280,6 +305,7 @@ button.desativada {
 /* Primeiro andar */
 
 .piso-primeiro-andar {
+  position: absolute;
   left: 478px;
   top: 11px;
   width: 140px;
@@ -287,6 +313,7 @@ button.desativada {
 }
 
 .laboratorio-informatica101 {
+  position: absolute;
   left: 11px;
   top: 265px;
   width: 113px;
@@ -294,6 +321,7 @@ button.desativada {
 }
 
 .laboratorio-informatica103 {
+  position: absolute;
   left: 128px;
   top: 265px;
   width: 113px;
@@ -301,6 +329,7 @@ button.desativada {
 }
 
 .laboratorio-informatica105 {
+  position: absolute;
   left: 244px;
   top: 265px;
   width: 113px;
@@ -308,6 +337,7 @@ button.desativada {
 }
 
 .laboratorio-informatica107 {
+  position: absolute;
   left: 360px;
   top: 265px;
   width: 113px;
@@ -315,6 +345,7 @@ button.desativada {
 }
 
 .laboratorio-informatica108 {
+  position: absolute;
   left: 685px;
   top: 11px;
   width: 130px;
@@ -322,6 +353,7 @@ button.desativada {
 }
 
 .sala-de-aula102 {
+  position: absolute;
   left: 16px;
   top: 11px;
   width: 113px;
@@ -329,6 +361,7 @@ button.desativada {
 }
 
 .sala-de-aula104 {
+  position: absolute;
   left: 133px;
   top: 11px;
   width: 113px;
@@ -336,6 +369,7 @@ button.desativada {
 }
 
 .sala-de-aula106 {
+  position: absolute;
   left: 249px;
   top: 11px;
   width: 120px;
@@ -343,6 +377,7 @@ button.desativada {
 }
 
 .escadas-emg3 {
+  position: absolute;
   left: 818px;
   top: 11px;
   width: 40px;
@@ -350,6 +385,7 @@ button.desativada {
 }
 
 .escadas-emg4 {
+  position: absolute;
   left: 372px;
   top: 11px;
   width: 50px;
@@ -357,6 +393,7 @@ button.desativada {
 }
 
 .sala-maker {
+  position: absolute;
   left: 862px;
   top: 11px;
   width: 137px;
@@ -365,6 +402,7 @@ button.desativada {
 
 
 .elevador {
+  position: absolute;
   left: 425px;
   top: 125px;
   width: 50px;
@@ -373,6 +411,7 @@ button.desativada {
 }
 
 .univesp-coordenacao {
+  position: absolute;
   left: 425px;
   top: 11px;
   width: 50px;
@@ -380,6 +419,7 @@ button.desativada {
 }
 
 .biblioteca {
+  position: absolute;
   left: 678px;
   top: 345px;
   width: 200px;
@@ -387,6 +427,7 @@ button.desativada {
 }
 
 .atendimento-biblioteca {
+  position: absolute;
   left: 678px;
   top: 280px;
   width: 200px;
@@ -394,6 +435,7 @@ button.desativada {
 }
 
 .acervo-biblioteca {
+  position: absolute;
   left: 878px;
   top: 207px;
   width: 120px;
@@ -401,6 +443,7 @@ button.desativada {
 }
 
 .sala-de-estudos1 {
+  position: absolute;
   left: 878px;
   top: 327px;
   width: 120px;
@@ -408,6 +451,7 @@ button.desativada {
 }
 
 .sala-de-estudos2 {
+  position: absolute;
   left: 878px;
   top: 385px;
   width: 120px;
@@ -417,6 +461,7 @@ button.desativada {
 /* Segundo Andar */
 
 .piso-segundo-andar {
+  position: absolute;
   left: 478px;
   top: 11px;
   width: 140px;
@@ -425,6 +470,7 @@ button.desativada {
 
 
 .coordenacao-estagio {
+  position: absolute;
   left: 425px;
   top: 11px;
   width: 50px;
@@ -432,6 +478,7 @@ button.desativada {
 }
 
 .sala-de-aula202 {
+  position: absolute;
   left: 16px;
   top: 11px;
   width: 113px;
@@ -439,6 +486,7 @@ button.desativada {
 }
 
 .sala-de-aula204 {
+  position: absolute;
   left: 133px;
   top: 11px;
   width: 113px;
@@ -446,6 +494,7 @@ button.desativada {
 }
 
 .sala-de-aula206 {
+  position: absolute;
   left: 249px;
   top: 11px;
   width: 120px;
@@ -453,6 +502,7 @@ button.desativada {
 }
 
 .sala-maker1 {
+  position: absolute;
   left: 862px;
   top: 11px;
   width: 137px;
@@ -460,6 +510,7 @@ button.desativada {
 }
 
 .laboratorio-informatica201 {
+  position: absolute;
   left: 11px;
   top: 264px;
   width: 153px;
@@ -467,6 +518,7 @@ button.desativada {
 }
 
 .laboratorio-informatica203 {
+  position: absolute;
   left: 167px;
   top: 265px;
   width: 153px;
@@ -474,6 +526,7 @@ button.desativada {
 }
 
 .laboratorio-informatica205 {
+  position: absolute;
   left: 322px;
   top: 265px;
   width: 153px;
@@ -481,6 +534,7 @@ button.desativada {
 }
 
 .laboratorio-informatica208 {
+  position: absolute;
   left: 685px;
   top: 11px;
   width: 130px;
@@ -488,6 +542,7 @@ button.desativada {
 }
 
 .laboratorio-informatica207 {
+  position: absolute;
   left: 680px;
   top: 250px;
   width: 157px;
@@ -495,6 +550,7 @@ button.desativada {
 }
 
 .laboratorio-informatica209 {
+  position: absolute;
   left:840px;
   top: 250px;
   width: 157px;
@@ -528,7 +584,7 @@ button.desativada {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* fundo escuro */
+  background-color: rgba(0, 0, 0, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -560,7 +616,7 @@ button.desativada {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 80%; /* Aqui já deixa o botão redondo */
+  border-radius: 80%; 
   transition: background-color 0.2s, color 0.2s;
 }
 
@@ -571,74 +627,224 @@ button.desativada {
     }
 
 @media (max-width: 768px) {
+
+  body {
+    min-height: 100vh;
+  }
+
   .mapa__container {
-    padding: 20px;
-    width: 100%;
-    height: auto;
-    margin: 50px auto;
+    width: 95%;             
+    height: auto;               
+    min-height: 90vh;          
+    margin: 2.5vh auto;       
+    padding: 2vw;          
     flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
   }
 
   .mapa__titulo {
-    font-size: 28px;
+    font-size: 1.75rem; 
+    
   }
 
   .mapa__subtitulo {
-    font-size: 14px;
+    font-size: 1rem; 
   }
 
   .mapa__menu {
     flex-direction: column;
-    gap: 5px;
-    margin-top: 10px;
+    gap: 1.5vw; 
+    margin-top: 2vh;
   }
 
   .mapa__menu-botao {
-    width: 100%;
-    max-width: 200px;
+    display: flex;
+    align-items: center;
+    width: auto; 
+    padding: 1.5vh 3vw; 
+    max-width: 150px; 
   }
 
+  
   .mapa__menu-opcoes {
-    flex-wrap: wrap;
-    justify-content: center;
+    display: none; 
+    gap: 2vw;
+  }
+
+  .mapa__menu-opcoes.show {
+    display: flex;
   }
 
   .mapa__menu-opcao {
-    margin: 5px 2px;
-    padding: 5px 8px;
+    margin: 1vw 0.5vw;
+    padding: 1.5vw 2vw;
   }
 
   .mapa__imagem-container {
-    width: 100%;
-    height: auto;
-    overflow-x: auto;
-    margin-top: 15px;
+    background-color: #d9d9d9;
+    width: 100%;            
+    height: auto;              
+    aspect-ratio: 16 / 9;     
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
+  .mapa-conteudo-escalonavel {
+    transform: scale(0.677);
+    transform-origin: center left;
+  }
+
+  
   .sala {
-    font-size: 10px;
-    border-radius: 5px;
+    font-size: 0.9rem; 
+    border-radius: 5px; 
+  }
+
+  .elevador {
+    font-size: 0.6rem; 
+  }
+
+  .piso-terreo, .piso-primeiro-andar, .piso-segundo-andar {
+    font-size: 1.5rem; 
   }
 
   .status-sala {
-    font-size: 10px;
-    padding: 3px 8px;
+    font-size: 1rem;
+    padding: 0.5vh 1.5vw;
   }
 
+  
   .modal-content {
     width: 90%;
-    padding: 15px;
+    padding: 3vw;
   }
 
+ 
   .modal-close {
     font-size: 1.2rem;
     width: 20px;
     height: 20px;
   }
 
-  footer .container-footer {
-    font-size: 12px;
+  .container-footer {
+    font-size: 0.85rem; 
     text-align: center;
-    padding: 10px;
+    padding: 2vh 2vw;
+    height: auto;
   }
 }
+
+@media (max-width: 576px) {
+
+  body {
+    min-height: 100vh;
+  }
+
+  .mapa__container {
+    width: 100%;             
+    min-height: 100vh;         
+    margin: 0;                 
+    padding: 3vw;              
+    border-radius: 0;          
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .mapa__titulo {
+    font-size: 1.5rem;
+  }
+
+  .mapa__subtitulo {
+    font-size: 0.9rem; 
+  }
+
+  .mapa__menu {
+    flex-direction: column;
+    gap: 2vw;          
+    margin-top: 1.5vh;
+  }
+
+  .mapa__menu-botao {
+    display: flex;
+    align-items: center;
+    width: auto;
+    padding: 1.2vh 3.5vw; 
+    max-width: 150px;
+    font-size: 0.9rem; 
+  }
+  
+
+  .mapa__menu-opcoes {
+    display: none; 
+    gap: 2vw;
+  }
+
+  .mapa__menu-opcoes.show {
+    display: flex;
+  }
+
+  .mapa__menu-opcao {
+    margin: 1vw 0.5vw;
+    padding: 1.2vw 2.5vw; 
+    font-size: 0.85rem;
+  }
+
+  .mapa__imagem-container {
+    background-color: #d9d9d9;
+    width: 100%;
+    height: 300px;
+    aspect-ratio: 1 / 1; 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mapa-conteudo-escalonavel {
+    transform: scale(0.497); 
+    transform-origin: center left; 
+  }
+  
+  .sala {
+    font-size: 0.8rem;
+    border-radius: 4px;
+  }
+
+  .elevador {
+    font-size: 0.5rem;
+  }
+
+  .piso-terreo, .piso-primeiro-andar, .piso-segundo-andar {
+    font-size: 1.2rem;
+  }
+
+  .status-sala {
+    font-size: 0.85rem;
+    padding: 0.6vh 1.8vw;
+  }
+  
+  .modal-content {
+    width: 95%; 
+    padding: 4vw;
+  }
+  
+  .modal-close {
+    font-size: 1.2rem;
+    width: 25px; 
+    height: 25px;
+  }
+
+  .container-footer {
+    font-size: 0.75rem; 
+    padding: 1.5vh 2vw;
+    height: auto;
+  }
+}
+
+
+
+

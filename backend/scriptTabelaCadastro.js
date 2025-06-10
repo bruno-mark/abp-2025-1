@@ -1,7 +1,11 @@
 module.exports = (app, db) => {
 // Exporta o app e o bd
 
+<<<<<<< HEAD
 app.get('/scriptTabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
+=======
+app.get('/tabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
+>>>>>>> ce5bd5d5cb386efd9fbddc6bae99c8979323efc7
     const { curso, periodo, semestre } = req.params;
 
     try {
@@ -23,7 +27,11 @@ app.get('/scriptTabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
                 h.horario
             FROM horarios h
             JOIN turmas t ON h.id_turma = t.id_turma
+<<<<<<< HEAD
             JOIN disciplinas d ON h.id_disciplina = d.id_disciplina
+=======
+            JOIN disciplinas d ON h.id_disciplinas = d.id_disciplina
+>>>>>>> ce5bd5d5cb386efd9fbddc6bae99c8979323efc7
             JOIN professores p ON h.id_professor = p.id_professor
             WHERE t.nome = $1
             ORDER BY h.dia_semana, h.horario;
@@ -36,6 +44,7 @@ app.get('/scriptTabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
         }
     });
 
+<<<<<<< HEAD
   app.post('/scriptTabelaCadastro/insert', async (req, res) => {
     try {
         const dados = req.body;
@@ -97,4 +106,22 @@ app.get('/scriptTabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
       res.status(500).send('Erro ao inserir/atualizar dados');
     }
   });
+=======
+
+app.post('tabelaCadastro/insert', async (req, res) => {
+   try {
+       const dados = req.body;
+       for (const linha of dados) {
+           await pool.query(
+            `UPDATE horarios SET nome_disciplina = $1 WHERE id_disciplina = $2`,
+            [nome__disciplina]
+           );
+       }
+       res.send('Dados atualizados');
+   } catch (err) {
+        console.error('Erro atualizar dados', err);
+        res.status(500).send('Erro ao atualizar dados');
+   }
+});
+>>>>>>> ce5bd5d5cb386efd9fbddc6bae99c8979323efc7
 };
