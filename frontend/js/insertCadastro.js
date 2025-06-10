@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // Monta a URL da sua API
-            const url = `http://localhost:3010/scriptHorarios/${curso}/${periodo}/${semestre}`;
+            const url = `http://localhost:3010/scriptTabelaCadastro/${curso}/${periodo}/${semestre}`;
             const response = await fetch(url);
 
             if (!response.ok) {
@@ -175,15 +175,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Exemplo de como usar a função gerarJsonAtualizado e enviar para o backend ---
     const btnGerarJson = document.getElementById("gerarJsonBtn"); // ID CORRIGIDO!
-    const outputJson = document.getElementById("jsonOutput");
 
-    if (btnGerarJson && outputJson) {
+    if (btnGerarJson) {
         btnGerarJson.addEventListener("click", async () => {
             const jsonParaEnviar = gerarJsonAtualizado(); // Gera o JSON com as seleções atuais
 
             try {
                 // Envia os dados para a sua rota de INSERT/UPDATE no backend
-                const response = await fetch('/tabelaCadastro/insert', {
+                const response = await fetch('http://localhost:3010/scriptTabelaCadastro/insert', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -197,7 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const resultado = await response.text(); // Ou response.json() se o backend retornar JSON
                 alert("Horários salvos com sucesso! Mensagem do servidor: " + resultado);
-                outputJson.textContent = JSON.stringify(jsonParaEnviar, null, 2); // Exibe o JSON que foi enviado
                 console.log("JSON enviado para o backend:", jsonParaEnviar);
 
             } catch (error) {
