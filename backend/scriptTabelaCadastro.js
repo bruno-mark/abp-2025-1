@@ -44,7 +44,6 @@ app.get('/tabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
         }
     });
 
-<<<<<<< HEAD
   app.post('/scriptTabelaCadastro/insert', async (req, res) => {
     try {
         const dados = req.body;
@@ -106,22 +105,4 @@ app.get('/tabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
       res.status(500).send('Erro ao inserir/atualizar dados');
     }
   });
-=======
-
-app.post('tabelaCadastro/insert', async (req, res) => {
-   try {
-       const dados = req.body;
-       for (const linha of dados) {
-           await pool.query(
-            `UPDATE horarios SET nome_disciplina = $1 WHERE id_disciplina = $2`,
-            [nome__disciplina]
-           );
-       }
-       res.send('Dados atualizados');
-   } catch (err) {
-        console.error('Erro atualizar dados', err);
-        res.status(500).send('Erro ao atualizar dados');
-   }
-});
->>>>>>> ce5bd5d5cb386efd9fbddc6bae99c8979323efc7
 };
