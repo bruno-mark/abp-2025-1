@@ -47,5 +47,5 @@ require('./dataRecovery')(app, db);
 require('./rotasHorarios')(app, db);
 require('./csvUpload')(app, db);
 require('./mapa')(app, db);
-require('./csvInsertion')(app, db);
+//require('./csvInsertion')(app, db);
 require('./scriptTabelaCadastro')(app, db);

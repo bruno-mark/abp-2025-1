@@ -1,11 +1,7 @@
 module.exports = (app, db) => {
 // Exporta o app e o bd
 
-<<<<<<< HEAD
 app.get('/scriptTabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
-=======
-app.get('/tabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
->>>>>>> ce5bd5d5cb386efd9fbddc6bae99c8979323efc7
     const { curso, periodo, semestre } = req.params;
 
     try {
@@ -27,11 +23,7 @@ app.get('/tabelaCadastro/:curso/:periodo/:semestre', async (req, res) => {
                 h.horario
             FROM horarios h
             JOIN turmas t ON h.id_turma = t.id_turma
-<<<<<<< HEAD
             JOIN disciplinas d ON h.id_disciplina = d.id_disciplina
-=======
-            JOIN disciplinas d ON h.id_disciplinas = d.id_disciplina
->>>>>>> ce5bd5d5cb386efd9fbddc6bae99c8979323efc7
             JOIN professores p ON h.id_professor = p.id_professor
             WHERE t.nome = $1
             ORDER BY h.dia_semana, h.horario;
