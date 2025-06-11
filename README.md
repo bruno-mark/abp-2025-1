@@ -246,3 +246,7 @@ dificuldade de entender as US's e Taks definidas pelo P.O.</p>
 <p><strong>O QUE DEU ERRADO?:</strong> Durante a sprint vimos que algumas tarefas demandaram mais esforço e tempo que o esperado, sendo assim a distribuição dos pontos não foi acertiva. Outro ponto foi foi as daylis que realizamos, porém em algumas não tivemos um gerenciamento efetivo.</p>
 
 <p><strong>O QUE PODEMOS MELHORAR?:</strong> Distribuição dos pontos e efetividade das daylis.</p>
+
+<div align=center >
+ <img src=assets/QRCode.jpeg >
+</div>
