@@ -1,543 +1,195 @@
-// Seleciona a área onde o usuário pode arrastar arquivos
-const dropArea = document.getElementById("drop-area");
-// Seleciona o input de arquivos escondido
-const fileInput = document.getElementById("file-upload");
-// Seção que mostra instruções para arrastar
-const dropSection = document.getElementById("drop-section");
-// Seção que mostra informações do arquivo selecionado
-const fileSection = document.getElementById("file-section");
-// Elemento para exibir o nome do arquivo selecionado
-const fileNameDisplay = document.getElementById("selected-filename");
-// Barra de progresso
-const progressFill = document.getElementById("progress-fill");
-// Botão para remover o arquivo
-const removeFileButton = document.getElementById("remove-file");
-// Botão de envio que passa a permitir enviar após validação
-const removeSendButton = document.getElementById("send-button");
+/**
+ * Arquivo: backend/csvInsertion.js
+ * Descrição: Módulo Node.js com a lógica para validar e processar os dados do CSV
+ * recebidos do frontend. Este arquivo atua como a camada final de validação antes
+ * de interagir com o banco de dados.
+ */
 
+// --- CONSTANTES DE VALIDAÇÃO (Autoritativas para o servidor) ---
+const padraoTurma = /^(?:DSM-[1-5]-N|GEO-(?:1|3|5|6)-N|MA-(?:[1-3]-N|[5-6]-M))$/;
+const disciplinasPermitidas = [
+  "Engenharia de Software I", "Modelagem de Banco de Dados", "Algoritmo", "Sistemas Operacionais e Redes de Computadores",
+  "Desenvolvimento Web I", "Design Digital", "Técnicas de Programação I", "Desenvolvimento Web II", "Matemática para Computação",
+  "Estrutura de Dados", "Engenharia de Software II", "Banco de Dados Relacional", "Banco de Dados não Relacional",
+  "Gestão Ágil de Projetos de Software", "Álgebra Linear", "Técnicas de Programação II", "Desenvolvimento Web III",
+  "Interação Humano Computador", "Inglês I", "Programação para Dispositivos Móveis I", "Laboratório de Desenvolvimento Web",
+  "Internet das Coisas e Aplicações", "Estatística Aplicada", "Integração e Entrega Contínua", "Experiência do Usuário", "Inglês II",
+  "Segurança no Desenvolvimento de Aplicações", "Aprendizagem de Máquina", "Computação em Nuvem I",
+  "Laboratório de Desenvolvimento para Dispositivos Móveis", "Programação para Dispositivos Móveis II", "Fundamentos da Redação Técnica",
+  "Inglês III", "Introdução à Ciência da Geoinformação", "Desenho Técnico", "Algoritmos e Lógica de Programação", "Cálculo",
+  "Metodologia", "Comunicação", "Fundamentos de Física", "Estatística", "Topografia e Batimetria", "Geodésia", "Processamento Digital de Imagens",
+  "Linguagem de Programação II", "Análise Ambiental", "WebGIS", "Análise Espacial e Modelagem Territorial", "Infraestrutura Urbana",
+  "Fundamentos da Administração", "Projetos 1", "Legislação", "Inglês V", "Posicionamento por Satélite", "Cadastro Técnico Multifinalitário",
+  "Integração e Análise de Dados Territoriais", "Projetos 2", "Padrões Distribuídos de Dados em SIG", "Fotogrametria Analógica e Digital",
+  "Geomarketing", "Georreferenciamento de Imóveis Rurais", "Inglês VI", "Ciências Ambientais e das Águas", "Química Geral", "Biologia",
+  "Matemática Aplicada", "Fundamentos da Comunicação Empresarial", "Sociologia Ambiental", "Geociência Ambiental",
+  "Cartografia, Topografia e Batimetria", "Microbiologia", "Hidrologia e Recursos Hídricos", "SERE", "Físico-Química Ambiental",
+  "Ecologia", "Climatologia e Meteorologia", "Hidráulica Fluvial", "Gestão da Qualidade", "Saneamento Ambiental I",
+  "Planejamento e Conservação Ambiental", "IPDI", "Legislação Ambiental", "Planejamento e Gestão Urbana", "Projetos Ambientais 1",
+  "Gerenciamento de Resíduos", "Controle e Monitoramento da Poluição Atmosférica", "Ecotecnologia", "Águas Subterrâneas",
+  "Sistemas de Gestão e Auditoria Ambiental", "Revitalização de Rios e Recuperação de Nascentes", "Energias Alternativas", "Projetos Ambientais 2",
+  "Turismo e Meio Ambiente e Recursos Hídricos", "Planejamento de Bacias Hidrográficas"
+];
+const professoresPermitidos = [
+  "Prof. Me. Antonio Egydio São Thiago Graça", "Prof. Dr. Arley Ferreira de Souza", "Prof. Esp. Marcelo Augusto Sudo", "Prof. Esp. André Olímpio",
+  "Prof. Dr. Fabrício Galende Marques de Carvalho", "Prof. Esp. Henrique Duarte Borges Louro", "Profa. Esp. Lucineide Nunes Pimenta",
+  "Profa. Ma. Adriana Antividad López Valverde", "Profa. Dra. Rita de Cássia Silva Von Randow", "Prof. Me. Ronaldo Emerick Moreira",
+  "Prof. Esp. Neymar Siqueira Dellareti", "Profa. Esp. Maria Lucia de Oliveira", "Prof. Me. Rodrigo Monteiro de Barros Santana",
+  "Profa. Esp. Joanize Aparecida dos Santos Mohallem Paiva", "Prof. Me. Celso de Oliveira", "Profa. Dra. Karen Espinosa",
+  "Prof. Dr. Daniel José de Andrade", "Prof. Esp. Mariana Timponi Rodrigues", "Profa. Dra. Vivian Hyodo", "Prof. Me. Adilson Rodolfo Neves",
+  "Prof. Msc. Jane Delane Verona", "Profa. Ma. Yara da Cruz Ferreira", "Prof. Dr. Nilton de Jesus", "Profa. Msc. Risleide Lucia dos Santos",
+  "Prof. Esp. Matheus de Oliveira Lorena", "Prof. M.Sc. Mario Sérgio Soléo Scalambrino", "Prof. M.Sc. Luiz Gustavo Galhardo Mendes",
+  "Prof. M.Sc. Kenji Taniguchi", "Prof. M.Sc. Luiz Sérgio Gonçalves Aguiar", "Prof. M.Sc. Paulo José Maria Filho",
+  "Profa. M.Sc. Fernanda da Silveira Bueno", "Prof. Dr. Renato Mortin", "Prof. Me. Gerson Freitas Júnior", "Prof. Me. Wellington Rios",
+  "Prof. Dr. Érico Luciano Pagotto", "Prof. Dr. Jorge Tadao Matsushima", "Profa. Dra. Sanzara Nhiaia J.C. Hassmann",
+  "Profa. Dra. Selma Candelária Genari", "Profa. Dra. Rita de Cássia von Randow", "Profa. Dra. Nanci de Oliveira", "Prof. Dr. Daniel",
+  "A definir", "Sem professor", "Sem docente"
+];
+const horariosValidosMatutino = ["07:30-08:20", "08:20-09:10", "09:20-10:10", "10:10-11:00", "11:10-12:00", "12:00-12:50"];
+const horariosValidosNoturno = ["18:45-19:35", "19:35-20:25", "20:25-21:15", "21:25-22:15", "22:15-23:05"];
 
-// Lê o CSV e converte em JSON, retornando uma Promise
-function readCSVandConvertToJSON(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader(); 
-    // FileReader lê o conteúdo do arquivo de forma assíncrona
-
-    reader.onload = function (event) {
-      const text = event.target.result;
-      const lines = text.trim().split("\n");
-      // Separa em linhas, removendo espaços em branco extras
-
-      const headers = lines[0].split(",").map((h) => h.trim());
-      const requiredHeaders = [
-        "nome_turma",
-        "nome_disciplina",
-        "nome_professor",
-        "dia_semana",
-        "horario",
-      ];
-
-      // Verifica se há cabeçalhos obrigatórios
-      const missingHeaders = requiredHeaders.filter(
-        (req) => !headers.includes(req)
-      );
-
-      if (missingHeaders.length > 0) {
-        exibirMensagemDeErro(
-          `❌ O arquivo está com colunas faltando: ${missingHeaders.join(", ")}. Corrija antes de prosseguir.`
-        );
-        esconderResumoValidacao();
-        return reject(new Error("Cabeçalhos obrigatórios ausentes."));
-      }
-
-      esconderMensagemDeErro();
-
-      const jsonData = [];
-      const erros = [];
-      const invalidRows = []; // Linhas inválidas para tabela de edição
-      let correcoes = 0;
-
-      // Processa cada linha de dados (pulando o cabeçalho)
-      lines.slice(1).forEach((line, index) => {
-        const values = line.split(",").map((v) => v.trim());
-        // Monta um objeto com base nos headers
-        let registro = headers.reduce((obj, header, i) => {
-          obj[header] = values[i] || "";
-          return obj;
-        }, {});
-
-        // Faz capitalização automática nos campos de texto
-        ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
-          const original = registro[campo];
-          const corrigido = capitalizarNome(original.trim());
-          if (original !== corrigido) {
-            registro[campo] = corrigido;
-            correcoes++;
-          }
-        });
-
-        const linhaErros = []; 
-
-
-        // Quero melhorar a validação de turma da seguinte maneira: o sistema só aceitará e número do semestre (que vai de um a seis) de acordo com o curso (GEO|DSM|MA) e, também, com base no turno (matutino M ou noturno N);
-       
-        // Valida nome_turma
-        // Definição do regex:
-        const padrao = /^(?:DSM|GEO|MA)-[1-6]-(?:N|M)$/;
-        if (!padrao.test(registro["nome_turma"].toUpperCase())) {
-          linhaErros.push(
-            `• Linha ${index + 2}: formato inválido em 'nome_turma' → "${registro["nome_turma"]}". Ex.: DSM-3-N`
-          );
-        }
-
-        // Valida disciplina
-        // 1) Array com todas as disciplinas:
-        const disciplinasPermitidas = [
-          "ALGORITMOS E LÓGICA DE PROGRAMAÇÃO",
-          "DESENVOLVIMENTO WEB I",
-          "DESIGN DIGITAL",
-          "ENGENHARIA DE SOFTWARE I",
-          "MODELAGEM DE BANCO DE DADOS",
-          "SISTEMAS OPERACIONAIS E REDES DE COMPUTADORES",
-          "TÉCNICAS DE PROGRAMAÇÃO I",
-          "DESENVOLVIMENTO WEB II",
-          "MATEMÁTICA PARA COMPUTAÇÃO",
-          "ENGENHARIA DE SOFTWARE II",
-          "BANCO DE DADOS - RELACIONAL",
-          "ESTRUTURA DE DADOS",
-          "TÉCNICAS DE PROGRAMAÇÃO II",
-          "DESENVOLVIMENTO WEB III",
-          "ÁLGEBRA LINEAR",
-          "GESTÃO ÁGIL DE PROJETOS DE SOFTWARE",
-          "BANCO DE DADOS - NÃO RELACIONAL",
-          "INTERAÇÃO HUMANO COMPUTADOR",
-          "INGLÊS I",
-          "INTEGRAÇÃO E ENTREGA CONTÍNUA",
-          "LABORATÓRIO DE DESENVOLVIMENTO WEB",
-          "INTERNET DAS COISAS E APLICAÇÕES",
-          "PROGRAMAÇÃO PARA DISPOSITIVOS MÓVEIS I",
-          "ESTATÍSTICA APLICADA",
-          "EXPERIÊNCIA DO USUÁRIO",
-          "INGLÊS II",
-          "COMPUTAÇÃO EM NUVEM I",
-          "APRENDIZAGEM DE MÁQUINA",
-          "LABORATÓRIO DE DESENVOLVIMENTO PARA DISPOSITIVOS MÓVEIS",
-          "PROGRAMAÇÃO PARA DISPOSITIVOS MÓVEIS II",
-          "SEGURANÇA NO DESENVOLVIMENTO DE APLICAÇÕES",
-          "FUNDAMENTOS DA REDAÇÃO TÉCNICA",
-          "INGLÊS III",
-          "INTRODUÇÃO À CIÊNCIA DA GEOINFORMAÇÃO",
-          "DESENHO TÉCNICO",
-          "METODOLOGIA DA PESQUISA CIENTÍFICO-TECNOLÓGICA",
-          "FUNDAMENTOS DE FÍSICA",
-          "CÁLCULO",
-          "FUNDAMENTOS DA COMUNICAÇÃO EMPRESARIAL",
-          "TOPOGRAFIA E BATIMETRIA", 
-          "GEODÉSIA",
-          "LINGUAGEM DE PROGRAMAÇÃO II",
-          "MODELAGEM DE BANCO DE DADOS ESPACIAL",
-          "PROCESSAMENTO DIGITAL DE IMAGENS",
-          "PROJETOS EM GEOPROCESSAMENTO I",
-          "ANÁLISE AMBIENTAL POR GEOPROCESSAMENTO",
-          "GEOPROCESSAMENTO APLICADO À INFRAESTRUTURA URBANA",
-          "TECNOLOGIAS WEB APLICADAS A SISTEMAS DE INFORMAÇÃO GEOGRÁFICA",
-          "ANÁLISE ESPACIAL E MODELAGEM DE TERRENOS",
-          "FUNDAMENTOS DA ADMINISTRAÇÃO GERAL",
-          "LEGISLAÇÃO E NORMAS PARA GEOPROCESSAMENTO",
-          "INGLÊS V",
-          "PROJETOS EM GEOPROCESSAMENTO II",
-          "GEOMARKETING",
-          "FOTOGRAMETRIA ANALÓGICA E DIGITAL",
-          "INTEGRAÇÃO E ANÁLISE DE DADOS TERRITORIAIS",
-          "CADASTRO TÉCNICO MULTIFINALITÁRIO",
-          "POSICIONAMENTO POR SATÉLITE",
-          "PADRÕES DE DISTRIBUIÇÃO DE INFORMAÇÕES EM SIG",
-          "GEORREFERENCIAMENTO DE IMÓVEIS RURAIS",
-          "INGLÊS VI",
-          "CIÊNCIAS AMBIENTAIS E DAS ÁGUAS",
-          "BIOLOGIA",
-          "SOCIOLOGIA AMBIENTAL",
-          "MATEMÁTICA APLICADA",
-          "QUÍMICA GERAL",
-          "GEOCIÊNCIA AMBIENTAL",
-          "HIDROLOGIA E RECURSOS HÍDRICOS",
-          "ECOLOGIA",
-          "CARTOGRAFIA, TOPOGRAFIA E BATIMETRIA",
-          "SENSORIAMENTO REMOTO E GEOPROCESSAMENTO",
-          "CLIMATOLOGIA E METEOROLOGIA",
-          "MICROBIOLOGIA AMBIENTAL",
-          "FÍSICO-QUÍMICA APLICADA À GESTÃO AMBIENTAL", 
-          "HIDRÁULICA FLUVIAL",
-          "LIMNOLOGIA",
-          "PLANEJAMENTO E CONSERVAÇÃO AMBIENTAL",
-          "INTERPRETAÇÃO E PROCESSAMENTO DIGITAL DE IMAGENS",
-          "GESTÃO DA QUALIDADE",
-          "SANEAMENTO AMBIENTAL I"
-        ];
-        // 2) Função de validação:
-        function validarDisciplina(nome) {
-          return disciplinasPermitidas.includes(nome.trim().toUpperCase());
-        }
-        // 3) Exemplo de uso dentro do seu loop:
-        if (!validarDisciplina(registro.nome_disciplina)) {
-          linhaErros.push(
-            `• Linha ${index + 2}: disciplina inválida → "${registro.nome_disciplina}".`
-          );
-        }
-
-        // Valida nome_professor
-        // 1) Array com todos os nomes de professor em MAIÚSCULAS
-        const professoresPermitidos = [
-          "ADILSON NEVES",
-          "ADRIANA VALVERDE",
-          "ÁLVARO GONÇALVES",
-          "ANDRÉ OLÍMPIO",
-          "ANTONIO GRAÇA",
-          "ANTONIO RIOS",
-          "ARLEY SOUZA",
-          "CELSO OLIVEIRA",
-          "DANIEL ANDRADE",
-          "DANIELE TAVARES",
-          "FABRÍCIO CARVALHO",
-          "FERNANDA BUENO",
-          "GERSON JÚNIOR",
-          "HENRIQUE LOURO",
-          "JANE VERONA",
-          "JOANIZE PAIVA",
-          "JORGE MATSUSHIMA",
-          "KAREN SARMIENTO",
-          "LEANDRO HOFFMANN",
-          "LEONARDO VITTO",
-          "LUCINEIDE PIMENTA",
-          "LUIZ MENDES",
-          "LUIZ AGUIAR",
-          "MARCELO SUDO",
-          "MARIA OLIVEIRA",
-          "MARIANA RODRIGUES",
-          "MÁRIO SCALAMBRINO",
-          "MATHEUS LORENA",
-          "NANCI OLIVEIRA",
-          "NEYMAR DELLARETI",
-          "NILTON JESUS",
-          "PAULO FILHO",
-          "PEDRO SILVA",
-          "RENATO MORTIN",
-          "RITA RANDOW",
-          "RONALDO MOREIRA",
-          "SANZARA HASSMANN",
-          "SELMA GENARI",
-          "VIVIAN HYODO",
-          "YARA FERREIRA",
-          "MARCELO BANDORIA",
-          "ÉRICO PAGOTTO"
-        ];
-        // Função de validação
-        function validarProfessor(nome) {
-          return professoresPermitidos.includes(nome.trim().toUpperCase());
-        }
-        // Uso no loop
-        if (!validarProfessor(registro.nome_professor)) {
-          linhaErros.push(
-            `• Linha ${index + 2}: nome inválido de professor → "${registro.nome_professor}".`
-          );
-        } 
-
-        // Valida dia_semana (de 1 a 5)
-        const dia = parseInt(registro["dia_semana"], 10);
-        if (isNaN(dia) || dia < 1 || dia > 5) {
-          linhaErros.push(
-            `• Linha ${index + 2}: valor inválido em 'dia_semana' → "${registro["dia_semana"]}"`
-          );
-        }
-
-        // Valida horário HH:MM-HH:MM
-        const periodo = registro["nome_turma"][registro["nome_turma"].length - 1].toUpperCase();
-        
-        // Arrays com os horários válidos
-        const horariosValidosMatutino = [ 
-          "07:30-08:20",
-          "08:20-09:10",
-          "09:20-10:10",
-          "10:10-11:00",
-          "11:10-12:00",
-          "12:00-12:50"
-        ];
-        const horariosValidosNoturno = [
-          "18:45-19:35",
-          "19:35-20:25",
-          "20:25-21:15",
-          "21:25-22:15",
-          "22:15-23:05"
-        ];
-        // Função para verificar se os horários são válidos (incluindo verificação de periodo)
-        function validarHorario(p, horario) {
-          if(p == "M") {
-            return horariosValidosMatutino.includes(horario);
-          } else if (p == "N") {
-            return horariosValidosNoturno.includes(horario);
-          }
-        };
-
-        // Constante para 
-        const entrada = registro["horario"]; 
-        if (validarHorario(periodo, entrada)) {
-          
-        } else {
-          linhaErros.push(
-            `Linha ${index + 2}: horário inválido  → "${registro["horario"]}"`
-          );
-        }
-
-        // Verifica se campos obrigatórios não estão vazios
-        ["nome_turma", "nome_disciplina", "nome_professor"].forEach((campo) => {
-          if (!registro[campo]) {
-            linhaErros.push(`• Linha ${index + 2}: campo '${campo}' está vazio`);
-          }
-        });
-
-        // Se houver erros na linha, acumula; senão adiciona ao JSON limpo
-        // if (linhaErros.length > 0) {
-        //   erros.push(...linhaErros);
-        // } else {
-        //   jsonData.push(registro);
-        // }
-        if (linhaErros.length > 0) {
-            // Guarda as mensagens de erro gerais
-            erros.push(...linhaErros);
-            // Armazena o próprio registro + array de erros para exibir na tabela
-            invalidRows.push({
-              ...registro,
-              erros: [...linhaErros]
-          });
-        } else {
-          jsonData.push(registro);
-        }
-
-        // Exibe o resumo de validação com contagem de válidos, erros e correções
-        exibirResumoValidacao(jsonData.length, erros.length, erros, correcoes);
-        // agora mostre somente os inválidos:
-        renderEditableTable(invalidRows);
-
-      });
-
-      
-    };
-
-    reader.onerror = () => {
-      reject(new Error('Erro ao ler o arquivo.'));
-    };
-    reader.readAsText(file);
-    // Inicia a leitura do arquivo como texto
-  });
+// --- FUNÇÕES UTILITÁRIAS DE STRING E SIMILARIDADE ---
+function capitalizarNome(texto) {
+  const conectivos = ['de', 'do', 'da', 'dos', 'das', 'e', 'a', 'o', 'os', 'as', 'à', 'ao', 'aos', 'às', 'para', 'por', 'com', 'sem', 'sob', 'sobre', 'entre', 'contra', 'perante', 'segundo', 'conforme', 'via', 'até'];
+  const romanos = ['i', 'ii', 'iii', 'iv'];
+  const palavras = texto.trim().split(/\s+/).map((p) => p.toLowerCase());
+  return palavras.map((palavra, idx) => {
+    const isFirst = idx === 0;
+    const isLast = idx === palavras.length - 1;
+    if (isLast && romanos.includes(palavra)) return palavra.toUpperCase();
+    if (isFirst) return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+    if (conectivos.includes(palavra)) return palavra;
+    return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+  }).join(' ');
 }
 
-// Exibe no DOM o arquivo selecionado, executa leitura e renderiza tabela
-async function showSelectedFile(file) {
-  fileNameDisplay.textContent = `📄 ${file.name}`;
-  dropSection.classList.add("hidden");    // Esconde instruções de drop
-  fileSection.classList.remove("hidden"); // Mostra seção de arquivo
-  simulateProgressBar();                  // Anima barra de progresso
-  removeFileButton.classList.remove("hidden");
+function levenshtein(a, b) {
+  const dp = Array.from({ length: a.length + 1 }, () => []);
+  for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+  for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1].toLowerCase() === b[j - 1].toLowerCase() ? 0 : 1;
+      dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+function similarity(a, b) {
+  const dist = levenshtein(a.trim(), b.trim());
+  const maxLen = Math.max(a.length, b.length);
+  return maxLen === 0 ? 1 : 1 - dist / maxLen;
+}
+
+function getBestMatch(input, list, threshold = 0.6) {
+  let best = { item: null, score: 0 };
+  list.forEach((candidate) => {
+    const score = similarity(input, candidate);
+    if (score > best.score) best = { item: candidate, score };
+  });
+  return best.score >= threshold ? best.item : null;
+}
+
+function validarHorario(p, horario) {
+  return p === "M" ? horariosValidosMatutino.includes(horario) : horariosValidosNoturno.includes(horario);
+}
+
+// --- FUNÇÃO PRINCIPAL DO HANDLER DA ROTA ---
+const inserirDadosCSV = async (req, res) => {
+  const registros = req.body;
+  const requiredFields = ["nome_turma", "nome_disciplina", "nome_professor", "dia_semana", "horario"];
+
+  if (!Array.isArray(registros) || registros.length === 0) {
+    return res.status(400).json({ erro: "O corpo da requisição deve ser um array de registros não vazio." });
+  }
+
+  const errosDeValidacao = [];
+  const registrosValidados = [];
+
+  for (const [index, r] of registros.entries()) {
+    const linhaErros = [];
+    const registro = { ...r }; // Cria uma cópia para normalização
+
+    // 1. Verificar campos obrigatórios
+    for(const field of requiredFields){
+        if(!registro[field] || String(registro[field]).trim() === ''){
+            linhaErros.push(`Campo '${field}' é obrigatório.`);
+        }
+    }
+    
+    if(linhaErros.length > 0){
+        errosDeValidacao.push({ linha: index + 1, registroOriginal: r, erros: linhaErros });
+        continue; // Pula para o próximo registro
+    }
+
+    // 2. Normalização e Validação
+    registro.nome_turma = registro.nome_turma.toUpperCase();
+    if (!padraoTurma.test(registro.nome_turma)) {
+      linhaErros.push(`Formato de 'nome_turma' inválido: "${registro.nome_turma}"`);
+    }
+
+    registro.nome_disciplina = capitalizarNome(registro.nome_disciplina);
+    const disciplinaMatch = getBestMatch(registro.nome_disciplina, disciplinasPermitidas, 0.6);
+    if (!disciplinaMatch) {
+      linhaErros.push(`'nome_disciplina' não encontrado na lista de permitidos: "${registro.nome_disciplina}"`);
+    } else {
+      registro.nome_disciplina = disciplinaMatch; // Usa a versão corrigida
+    }
+
+    registro.nome_professor = capitalizarNome(registro.nome_professor);
+    const professorMatch = getBestMatch(registro.nome_professor, professoresPermitidos, 0.3);
+    if (!professorMatch) {
+      linhaErros.push(`'nome_professor' não encontrado na lista de permitidos: "${registro.nome_professor}"`);
+    } else {
+      registro.nome_professor = professorMatch; // Usa a versão corrigida
+    }
+
+    const dia = parseInt(registro.dia_semana, 10);
+    if (isNaN(dia) || dia < 1 || dia > 5) {
+      linhaErros.push(`'dia_semana' deve ser um número entre 1 e 5: "${registro.dia_semana}"`);
+    }
+
+    const periodo = registro.nome_turma.slice(-1);
+    if (!validarHorario(periodo, registro.horario)) {
+      linhaErros.push(`'horario' inválido para o período (${periodo}): "${registro.horario}"`);
+    }
+    
+    if (linhaErros.length > 0) {
+        errosDeValidacao.push({ linha: index + 1, registroOriginal: r, erros: linhaErros });
+    } else {
+        registrosValidados.push(registro);
+    }
+  }
+
+  // 3. Resposta
+  if (errosDeValidacao.length > 0) {
+    console.error("Validação falhou para um ou mais registros:", errosDeValidacao);
+    return res.status(400).json({
+      erro: "Foram encontrados dados inválidos que não puderam ser processados.",
+      detalhes: errosDeValidacao,
+    });
+  }
 
   try {
-    const jsonData = await readCSVandConvertToJSON(file);
-    console.log("✅ Dados válidos:", jsonData);
-    renderEditableTable(linhaErros);
-  } catch (error) {
-    console.error("❌ Erro no processamento do CSV:", error.message);
-  }
-}
-
-// Restaura estado inicial da interface, limpando tudo
-function resetToInitialState() {
-  fileInput.value = "";
-  dropSection.classList.remove("hidden");
-  fileSection.classList.add("hidden");
-  progressFill.style.width = "0%";
-  esconderMensagemDeErro();
-  esconderResumoValidacao();
-  removeFileButton.classList.add("hidden");
-  document.getElementById("editable-table").classList.add("hidden");
-  document.getElementById("export-buttons").classList.add("hidden");
-  document.getElementById("send-button").classList.add("hidden");
-}
-
-// Simula um carregamento rápido de progresso
-function simulateProgressBar() {
-  progressFill.style.width = "0%";
-  setTimeout(() => {
-    progressFill.style.width = "100%";
-  }, 100);
-}
-
-// Converte um nome em formato Capitalizado (Ex.: "joão silva" → "João Silva")
-function capitalizarNome(nome) {
-  return nome
-    .toLowerCase()
-    .split(" ")
-    .filter(Boolean)
-    .map((palavra) => palavra[0].toUpperCase() + palavra.slice(1))
-    .join(" ");
-}
-
-// Eventos para drag & drop e clique na área
-dropArea.addEventListener("click", () => fileInput.click()); // Clique abre seletor
-
-dropArea.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  dropArea.style.backgroundColor = "#4a8b92"; // Feedback visual ao arrastar
-});
-
-dropArea.addEventListener("dragleave", () => {
-  dropArea.style.backgroundColor = "#5B9EA6"; // Restaura cor ao sair
-});
-
-dropArea.addEventListener("drop", (e) => {
-  e.preventDefault();
-  dropArea.style.backgroundColor = "#5B9EA6";
-  const files = e.dataTransfer.files;
-  if (files.length > 0 && files[0].type === "text/csv") {
-    fileInput.files = files;
-    showSelectedFile(files[0]);
-  }
-});
-
-
-fileInput.addEventListener("change", () => {
-  if (fileInput.files.length > 0 && fileInput.files[0].type === "text/csv") {
-    showSelectedFile(fileInput.files[0]);
-  }
-});
-
-removeFileButton.addEventListener("click", resetToInitialState);
-
-// Exibe mensagem de erro na tela
-function exibirMensagemDeErro(mensagem) {
-  const errorDiv = document.getElementById("error-messages");
-  errorDiv.textContent = mensagem;
-  errorDiv.classList.remove("hidden");
-}
-
-// Esconde a área de mensagem de erro
-function esconderMensagemDeErro() {
-  const errorDiv = document.getElementById("error-messages");
-  errorDiv.textContent = "";
-  errorDiv.classList.add("hidden");
-}
-
-// Exibe resumo detalhado de quantos registros foram válidos, inválidos e correções automáticas
-function exibirResumoValidacao(validos, invalidos, erros, correcoes = 0) {
-  const summaryDiv = document.getElementById("validation-summary");
-  summaryDiv.innerHTML = `
-    <p><strong>✅ Registros válidos:</strong> ${validos}</p>
-    <p><strong>❌ Registros com erro:</strong> ${invalidos}</p>
-    ${
-      correcoes > 0
-        ? `<p><strong>🛠 Correções automáticas aplicadas:</strong> ${correcoes}</p>`
-        : ""
-    }
-    ${
-      erros.length > 0
-        ? `<p><strong>Detalhes:</strong></p><ul>${erros
-            .map((e) => `<li>${e}</li>`)
-            .join("")}</ul>`
-        : ""
-    }
-  `;
-  summaryDiv.classList.remove("hidden");
-  // Revome o "hidder" para mostrar o botão "Enviar" apenas quando não holver mais erros de validação
-  if(!invalidos) {
-    removeSendButton.classList.remove("hidden");
-  };
-}
-
-// Limpa o resumo de validação da interface
-function esconderResumoValidacao() {
-  const summaryDiv = document.getElementById("validation-summary");
-  summaryDiv.innerHTML = "";
-  summaryDiv.classList.add("hidden");
-}
-
-// Renderiza uma tabela editável com os dados JSON
-function renderEditableTable(data) {
-  const tableContainer = document.getElementById("editable-table");
-  tableContainer.innerHTML = "";
-
-  if (!data.length) return;
-
-  const headers = Object.keys(data[0]);
-  let tableHTML =
-    "<table border='1' style='width:100%; border-collapse: collapse;'>";
-
-  // Cabeçalho
-  tableHTML += "<thead><tr>";
-  headers.forEach((h) => {
-    tableHTML += `<th style="padding: 8px; background-color: #4a8b92; color: white;">${h}</th>`;
-  });
-  tableHTML += "</tr></thead><tbody>";
-
-  // Linhas de dados
-  data.forEach((row, rowIndex) => {
-    tableHTML += "<tr>";
-    headers.forEach((h) => {
-      tableHTML += `<td contenteditable="true" data-row="${rowIndex}" data-key="${h}" style="padding: 6px; background-color: white; color: black;">${row[h]}</td>`;
+    // --- PONTO DE INTEGRAÇÃO COM O BANCO DE DADOS ---
+    // Aqui você faria a lógica para inserir os `registrosValidados` no seu BD.
+    // Exemplo: await database.insertMany(registrosValidados);
+    
+    console.log(`Sucesso: ${registrosValidados.length} registros validados e prontos para inserção.`);
+    
+    res.status(200).json({ 
+        mensagem: `Dados recebidos com sucesso. ${registrosValidados.length} registros foram processados.`,
+        registrosProcessados: registrosValidados.length
     });
-    tableHTML += "</tr>";
-  });
 
-  tableHTML += "</tbody></table>";
-  tableContainer.innerHTML = tableHTML;
-  tableContainer.classList.remove("hidden");
-  document.getElementById("export-buttons").classList.remove("hidden");
+  } catch (dbError) {
+    console.error("Erro ao inserir dados no banco:", dbError);
+    res.status(500).json({ erro: "Ocorreu um erro interno no servidor ao salvar os dados." });
+  }
+};
 
-  // Define ações dos botões de exportação
-  document.getElementById("export-json").onclick = () => exportToJSON(data);
-  document.getElementById("export-csv").onclick = () => exportToCSV(data);
-
-  // Atualiza o objeto `data` ao editar células na tabela
-  tableContainer
-    .querySelectorAll("td[contenteditable=true]")
-    .forEach((cell) => {
-      cell.addEventListener("input", () => {
-        const row = parseInt(cell.dataset.row, 10);
-        const key = cell.dataset.key;
-        data[row][key] = cell.textContent.trim();
-        console.log("🔄 JSON atualizado:", data);
-      });
-    });
-}
-
-// Exporta os dados para um arquivo JSON e inicia download
-function exportToJSON(data) {
-  const jsonStr = JSON.stringify(data, null, 2);
-  const blob = new Blob([jsonStr], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "dados.json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-// Exporta os dados para CSV e inicia download
-function exportToCSV(data) {
-  if (!data.length) return;
-
-  const headers = Object.keys(data[0]);
-  const csvRows = [headers.join(",")];
-
-  data.forEach((row) => {
-    const values = headers.map(
-      (h) => `"${(row[h] || "").replace(/"/g, '""')}"`
-    );
-    csvRows.push(values.join(","));
-  });
-
-  const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "dados_editados.csv";
-  a.click();
-  URL.revokeObjectURL(url);
-}
+// Exporta a função para ser usada nas rotas do Express (ex: em rotasTabelaCadastro.js)
+module.exports = {
+  inserirDadosCSV,
+};

@@ -213,3 +213,40 @@ dificuldade de entender as US's e Taks definidas pelo P.O.</p>
 <p><strong>O QUE DEU ERRADO?:</strong> Durante a sprint vimos que algumas tarefas demandaram mais esforço e tempo que o esperado, sendo assim a distribuição dos pontos não foi acertiva. Outro ponto foi foi as daylis que realizamos, porém em algumas não tivemos um gerenciamento efetivo.</p>
 
 <p><strong>O QUE PODEMOS MELHORAR?:</strong> Distribuição dos pontos e efetividade das daylis.</p>
+
+## SPRINT 3 🔁
+
+<h3> SPRINT BACKLOG 📜</h3>
+
+<ul>
+ <li>
+  Concluir desenvolvimento do Back-End: Finalizar script das páginas restantes;
+ </li>
+ <li>
+  Revisar Front-End e torna-lo responsivo: Padronizar front-end e torna-lo utilizavél em dispositivos mobile; 
+ </li>
+ <li>
+  Disponibilizar aplicação online;
+ </li>
+ <li>
+  Monitorar aplicação e corrigir eventuais bugs e erros.
+ </li>
+</ul>
+
+
+<h3>BURNDOWN 🔥</h3>
+<div>
+  <img src= >
+</div>
+
+<h3>RETROSPECTIVA DE SPRINT 🗣️</h3>
+
+<p><strong>O QUE DEU CERTO?:</strong> Divisão e definição das tasks e US entregando objetivos claros facilitou a execução das atividades, além disso o trabalho em conjunto de todo o grupo onde o Dev. Team participava ativamente ajudando um ao outro no desenvolvimento foi um diferencial.</p>
+
+<p><strong>O QUE DEU ERRADO?:</strong> Durante a sprint vimos que algumas tarefas demandaram mais esforço e tempo que o esperado, sendo assim a distribuição dos pontos não foi acertiva. Outro ponto foi foi as daylis que realizamos, porém em algumas não tivemos um gerenciamento efetivo.</p>
+
+<p><strong>O QUE PODEMOS MELHORAR?:</strong> Distribuição dos pontos e efetividade das daylis.</p>
+
+<div align=center >
+ <img src=assets/QRCode.jpeg >
+</div>

@@ -1,6 +1,7 @@
 // Importa o framework Express para criar e gerenciar o servidor web
 const express = require("express");
 const dotenv = require("dotenv");
+
 const { Pool } = require("pg");
 const cors = require("cors");
 
@@ -10,6 +11,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 app.use(cors());
+app.use(express.json()); 
 
 // Coneta ao banco de dados PostgreSQL
 const pool = new Pool({
@@ -32,8 +34,8 @@ app.get('/', (req, res) => {
   res.send('🚀 API rodando com sucesso e com deploy automático! hahahahaha');
 });
 
-require('./dataRecovery')(app, pool);
-require('./rotasHorarios')(app, pool);
-require('./mapa')(app, pool);
-//require('./csvInsertion')(app, db);
-//require('./scriptTabelaCadastro.js')(app, bd);
+require('./dataRecovery')(app, db);
+require('./rotasHorarios')(app, db);
+require('./csvUpload')(app, db);
+require('./mapa')(app, db);
+require('./scriptTabelaCadastro')(app, db);

@@ -584,7 +584,7 @@ button.desativada {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* fundo escuro */
+  background-color: rgba(0, 0, 0, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -598,8 +598,7 @@ button.desativada {
 .modal-content {
   background-color: white;
   padding: 20px;
-  width: 400px;
-  max-width: 90%;
+  max-width: 75%;
   border-radius: 10px;
   text-align: center;
   position: relative;
@@ -616,7 +615,7 @@ button.desativada {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 80%; /* Aqui já deixa o botão redondo */
+  border-radius: 80%; 
   transition: background-color 0.2s, color 0.2s;
 }
 
@@ -629,65 +628,63 @@ button.desativada {
 @media (max-width: 768px) {
 
   body {
-    height: 768px;
+    min-height: 100vh;
   }
 
   .mapa__container {
-    padding: 10px;
-    width: 100%;
-    height: 535px;
-    margin: 50px auto;
+    width: 95%;             
+    height: auto;               
+    min-height: 90vh;          
+    margin: 2.5vh auto;       
+    padding: 2vw;          
     flex-direction: column;
     display: flex;
     justify-content: flex-start;
   }
 
   .mapa__titulo {
-    font-size: 28px;
+    font-size: 1.75rem; 
+    
   }
 
   .mapa__subtitulo {
-    font-size: 14px;
+    font-size: 1rem; 
   }
 
   .mapa__menu {
     flex-direction: column;
-    gap: 5px;
-    margin-top: 10px;
+    gap: 1.5vw; 
+    margin-top: 2vh;
   }
 
   .mapa__menu-botao {
-    width: 100px;
+    display: flex;
+    align-items: center;
+    width: auto; 
+    padding: 1.5vh 3vw; 
+    max-width: 150px; 
   }
 
+  
   .mapa__menu-opcoes {
+    display: none; 
+    gap: 2vw;
+  }
+
+  .mapa__menu-opcoes.show {
     display: flex;
-    flex: column;
-    justify-content: center;
-    width: 32.5px;
-    height: 43px;
-    
   }
 
   .mapa__menu-opcao {
-    margin: 5px 2px;
-    padding: 5px 8px;
+    margin: 1vw 0.5vw;
+    padding: 1.5vw 2vw;
   }
-
-  .mapa__menu-opcoes {
-    display: none; /* Utilizei para as opções ficarem escondidas */
-    gap: 10px;
-}
-
-.mapa__menu-opcoes.show {
-    display: flex;  /* Mostrar quando clicar  */
-}
 
   .mapa__imagem-container {
     background-color: #d9d9d9;
-    height: 330px;
-    width: 735px;
-    border-bottom: 5px;
+    width: 100%;            
+    height: auto;              
+    aspect-ratio: 16 / 9;     
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -695,43 +692,158 @@ button.desativada {
   }
 
   .mapa-conteudo-escalonavel {
-    transform: scale(0.73);
+    transform: scale(0.677);
     transform-origin: center left;
   }
 
+  
   .sala {
-    font-size: 15px;
-    border-radius: 5px;
+    font-size: 0.9rem; 
+    border-radius: 5px; 
   }
 
   .elevador {
-    font-size: 10px;
+    font-size: 0.6rem; 
   }
 
   .piso-terreo, .piso-primeiro-andar, .piso-segundo-andar {
-    font-size: 25px;
-}
-
+    font-size: 1.5rem; 
+  }
 
   .status-sala {
-    font-size: 15px;
-    padding: 3px 8px;
+    font-size: 1rem;
+    padding: 0.5vh 1.5vw;
   }
 
+  
   .modal-content {
     width: 90%;
-    padding: 15px;
+    padding: 3vw;
   }
 
+ 
   .modal-close {
     font-size: 1.2rem;
     width: 20px;
     height: 20px;
   }
 
-  footer .container-footer {
-    font-size: 12px;
+  .container-footer {
+    font-size: 0.85rem; 
     text-align: center;
-    padding: 30px;
+    padding: 2vh 2vw;
+    height: auto;
   }
 }
+
+@media (max-width: 576px) {
+
+  body {
+    min-height: 100vh;
+  }
+
+  .mapa__container {
+    width: 100%;             
+    min-height: 100vh;         
+    margin: 0;                 
+    padding: 3vw;              
+    border-radius: 0;          
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .mapa__titulo {
+    font-size: 1.5rem;
+  }
+
+  .mapa__subtitulo {
+    font-size: 0.9rem; 
+  }
+
+  .mapa__menu {
+    flex-direction: column;
+    gap: 2vw;          
+    margin-top: 1.5vh;
+  }
+
+  .mapa__menu-botao {
+    display: flex;
+    align-items: center;
+    width: auto;
+    padding: 1.2vh 3.5vw; 
+    max-width: 150px;
+    font-size: 0.9rem; 
+  }
+  
+
+  .mapa__menu-opcoes {
+    display: none; 
+    gap: 2vw;
+  }
+
+  .mapa__menu-opcoes.show {
+    display: flex;
+  }
+
+  .mapa__menu-opcao {
+    margin: 1vw 0.5vw;
+    padding: 1.2vw 2.5vw; 
+    font-size: 0.85rem;
+  }
+
+  .mapa__imagem-container {
+    background-color: #d9d9d9;
+    width: 100%;
+    height: 300px;
+    aspect-ratio: 1 / 1; 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mapa-conteudo-escalonavel {
+    transform: scale(0.515); 
+    transform-origin: center left; 
+  }
+  
+  .sala {
+    font-size: 0.8rem;
+    border-radius: 4px;
+  }
+
+  .elevador {
+    font-size: 0.5rem;
+  }
+
+  .piso-terreo, .piso-primeiro-andar, .piso-segundo-andar {
+    font-size: 1.2rem;
+  }
+
+  .status-sala {
+    font-size: 0.85rem;
+    padding: 0.6vh 1.8vw;
+  }
+  
+  .modal-content {
+    width: 95%; 
+    padding: 4vw;
+  }
+  
+  .modal-close {
+    font-size: 1.2rem;
+    width: 25px; 
+    height: 25px;
+  }
+
+  .container-footer {
+    font-size: 0.75rem; 
+    padding: 1.5vh 2vw;
+    height: auto;
+  }
+}
+
+
+
+

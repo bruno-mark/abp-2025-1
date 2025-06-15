@@ -1,19 +1,15 @@
-.login__container {
+.admin__container {
   padding: 40px;
   width: 500px;
   margin: 100px auto;
   text-align: center;
 }
 
-.login__form {
-  margin-top: 100px;
-}
-
-.login__field {
+.admin__field {
   margin-bottom: 20px;
 }
 
-.login__label {
+h2 {
   font-family: "Roboto Slab", serif;
   font-size: 24px;
   font-weight: 800;
@@ -22,28 +18,10 @@
   margin-bottom: 5px;
 }
 
-.login__input {
-  display: block;
-  background-color: white;
-  color: var(--color-1);
-  font-family: "Roboto Slab", serif;
-  width: 265px;
-  height: 60px;
-  border-radius: 15px;
-  padding: 15px;
-  margin: 0 auto;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
-}
-
-.login__input::placeholder {
-    color: var(--color-1);
-    font-weight: lighter;
-  }
-
-.login__button {
+.admin__button {
   background-color: var(--color-4);
-  width: 175px;
-  height: 45px;
+  width: 20rem;
+  height: 8rem;
   font-family: "Roboto Slab", serif;
   font-size: 24px;
   font-weight: 800;
@@ -53,7 +31,16 @@
   cursor: pointer;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
+  padding: 3rem;
+
+
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  line-height: 2rem; /* Para centralizar o texto verticalmente */
+  border: none;
 }
-.login__button:hover {
+
+.admin__button:hover {
     background-color: var(--color-5);
 }
