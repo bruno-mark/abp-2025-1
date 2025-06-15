@@ -2,10 +2,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
 
-const { Client } = require("pg");
+const { Pool } = require("pg");
 const cors = require("cors");
-
-
 
 dotenv.config();
 
@@ -16,22 +14,15 @@ app.use(cors());
 app.use(express.json()); 
 
 // Coneta ao banco de dados PostgreSQL
-const db = new Client({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
-db.connect()
-  .then(() => {
-    console.log('✅ Conectado ao PostgreSQL');
-    console.log(`📡 Host: ${process.env.DB_HOST}`);
-    console.log(`👤 User: ${process.env.DB_USER}`);
-    console.log(`🗄️  Database: ${process.env.DB_NAME}`);
-    console.log(`🔌 PostgreSQL Port: ${process.env.DB_PORT}`);
-  })
+pool.connect()
+  .then(() => console.log('✅ Conectado ao PostgreSQL'))
   .catch(err => console.error('❌ Erro ao conectar:', err));
 
 // Inicia o servidor na porta definida e exibe uma mensagem no console
@@ -47,5 +38,4 @@ require('./dataRecovery')(app, db);
 require('./rotasHorarios')(app, db);
 require('./csvUpload')(app, db);
 require('./mapa')(app, db);
-//require('./csvInsertion')(app, db);
 require('./scriptTabelaCadastro')(app, db);
